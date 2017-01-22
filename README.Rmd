@@ -1,0 +1,51 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "inst/img/"
+)
+```
+
+# mrmr: mark recapture miscellany in R :frog:
+
+This package automates common data processing steps for mark recapture data. 
+It makes some very specific assumptions about the structure of the data in order to construct observation and occurrence matrices. 
+This package is intended to be used along with something like [JAGS](http://mcmc-jags.sourceforge.net/) to fit hierarchical Bayesian mark recapture models. 
+
+(Not to be confused with the greatest musical group of the 20th century, Mister Mister)
+
+![](https://upload.wikimedia.org/wikipedia/en/2/2d/MrMister-BestOfMrMister.jpg)
+
+## Installation
+
+```{r, eval = FALSE}
+devtools::install_github("mbjoseph/mrmr")
+```
+
+## Usage
+
+```{r}
+library(mrmr)
+mr_data <- load_mr("tests/testthat/ex.xlsx")
+mr_data
+```
+
+We may want to create an observation matrix, augmented with M all zero encounter histories:
+
+```{r}
+Y <- getY(mr_data, M = 50)
+str(Y)
+plot(Y)
+```
+
+Or perhaps an incompletely observed occurrence matrix:
+
+```{r}
+Z <- getZ(Y)
+str(Z)
+plot(Z)
+```
