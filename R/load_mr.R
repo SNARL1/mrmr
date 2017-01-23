@@ -10,6 +10,7 @@
 load_mr <- function(path) {
   sheets <- readxl::excel_sheets(path)
   stopifnot("CaptureHistory" %in% sheets)
+  names(sheets) <- tolower(names(sheets))
 
   # load and validate survey data
   surveys <- readxl::read_excel(path, sheet = "CaptureHistory") %>%
