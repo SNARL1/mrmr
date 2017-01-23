@@ -10,11 +10,13 @@
 load_mr <- function(path) {
   sheets <- readxl::excel_sheets(path)
   stopifnot("CaptureHistory" %in% sheets)
-  names(sheets) <- tolower(names(sheets))
 
   # load and validate survey data
   surveys <- readxl::read_excel(path, sheet = "CaptureHistory") %>%
     mutate_(capture_date = ~as.Date(capture_date, origin = "1899-12-30"))
+
+  names(surveys) <- tolower(names(surveys))
+
   survey_columns <- c("basin",
                       "site_id",
                       "capture_date",
