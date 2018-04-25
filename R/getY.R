@@ -20,7 +20,7 @@ getY <- function(mr, M) {
 
   # generate columns for primary and secondary periods in survey data
   mr$surveys <- mr$surveys %>%
-    mutate_(datetime = ~lubridate::ymd(capture_date, tz = "PT"),
+    mutate_(datetime = ~lubridate::ymd(capture_date),
            yday = ~lubridate::yday(datetime)) %>%
     group_by_(~period_id) %>%
     mutate_(primary_period = ~get_period(period_id, 1),

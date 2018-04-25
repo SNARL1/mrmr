@@ -15,4 +15,3 @@ A data.frame
 \description{
 This function loads a mark recapture data set from an Excel file.
 }
-

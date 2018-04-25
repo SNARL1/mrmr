@@ -18,4 +18,3 @@ are represented by NA entries.
 \description{
 This function makes an occurrence matrix Z from an observation matrix.
 }
-

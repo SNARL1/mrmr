@@ -19,4 +19,3 @@ whether an individual was observed during a secondary period.
 \description{
 This function makes an observation matrix Y from a mark recapture dataset.
 }
-
