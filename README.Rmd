@@ -12,7 +12,9 @@ knitr::opts_chunk$set(
 
 # mrmr: mark recapture miscellany in R :frog:
 
-This package automates common data processing steps for mark recapture data. 
+[![Build Status](https://travis-ci.org/SNARL1/mrmr.svg?branch=master)](https://travis-ci.org/SNARL1/mrmr)
+
+This package automates common data processing steps for mark recapture data, with an emphasis on data collected by folks at the Sierra Nevada Aquatic Research Lab (SNARL). 
 It makes some very specific assumptions about the structure of the data in order to construct observation and occurrence matrices. 
 This package is intended to be used along with something like [JAGS](http://mcmc-jags.sourceforge.net/) to fit hierarchical Bayesian mark recapture models. 
 

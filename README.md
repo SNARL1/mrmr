@@ -2,7 +2,9 @@
 mrmr: mark recapture miscellany in R :frog:
 ===========================================
 
-This package automates common data processing steps for mark recapture data. It makes some very specific assumptions about the structure of the data in order to construct observation and occurrence matrices. This package is intended to be used along with something like [JAGS](http://mcmc-jags.sourceforge.net/) to fit hierarchical Bayesian mark recapture models.
+[![Build Status](https://travis-ci.org/SNARL1/mrmr.svg?branch=master)](https://travis-ci.org/SNARL1/mrmr)
+
+This package automates common data processing steps for mark recapture data, with an emphasis on data collected by folks at the Sierra Nevada Aquatic Research Lab (SNARL). It makes some very specific assumptions about the structure of the data in order to construct observation and occurrence matrices. This package is intended to be used along with something like [JAGS](http://mcmc-jags.sourceforge.net/) to fit hierarchical Bayesian mark recapture models.
 
 (Not to be confused with the greatest musical group of the 20th century, Mister Mister)
 
@@ -23,37 +25,37 @@ library(mrmr)
 mr_data <- load_mr("tests/testthat/ex.xlsx")
 mr_data
 #> $surveys
-#> # A tibble: 77 × 16
-#>      basin site_id capture_date survey_year period_id      pit_tag_id
-#>      <chr>   <dbl>       <date>       <dbl>     <chr>           <chr>
-#> 1  Bedrock   12345   2008-07-24        2008     1.1.1 985121011993027
-#> 2  Bedrock   12345   2008-07-24        2008     1.1.1 985121012022903
-#> 3  Bedrock   12345   2008-07-24        2008     1.1.1 985121012023064
-#> 4  Bedrock   12345   2008-07-24        2008     1.1.1 985121012024075
-#> 5  Bedrock   12345   2008-07-24        2008     1.1.1 985121012025789
-#> 6  Bedrock   12345   2008-07-24        2008     1.1.1 985121012025876
-#> 7  Bedrock   12345   2008-07-24        2008     1.1.1 985121012027934
-#> 8  Bedrock   12345   2008-07-24        2008     1.1.1 985121012029339
-#> 9  Bedrock   12345   2008-07-24        2008     1.1.1 985121012029379
-#> 10 Bedrock   12345   2008-07-24        2008     1.1.1 985121012029973
+#> # A tibble: 77 x 16
+#>    basin   site_id capture_date survey_year period_id pit_tag_id     
+#>    <chr>     <dbl> <date>             <dbl> <chr>     <chr>          
+#>  1 Bedrock   12345 2008-07-24          2008 1.1.1     985121011993027
+#>  2 Bedrock   12345 2008-07-24          2008 1.1.1     985121012022903
+#>  3 Bedrock   12345 2008-07-24          2008 1.1.1     985121012023064
+#>  4 Bedrock   12345 2008-07-24          2008 1.1.1     985121012024075
+#>  5 Bedrock   12345 2008-07-24          2008 1.1.1     985121012025789
+#>  6 Bedrock   12345 2008-07-24          2008 1.1.1     985121012025876
+#>  7 Bedrock   12345 2008-07-24          2008 1.1.1     985121012027934
+#>  8 Bedrock   12345 2008-07-24          2008 1.1.1     985121012029339
+#>  9 Bedrock   12345 2008-07-24          2008 1.1.1     985121012029379
+#> 10 Bedrock   12345 2008-07-24          2008 1.1.1     985121012029973
 #> # ... with 67 more rows, and 10 more variables: pit_tag_source <chr>,
-#> #   pit_tag_insert <dbl>, air_temp <dbl>, sun_conditions <chr>,
+#> #   pit_tag_insert <lgl>, air_temp <dbl>, sun_conditions <chr>,
 #> #   wind_conditions <chr>, survey_duration <dbl>, snow_wc <dbl>,
 #> #   frog_sex <chr>, frog_weight <dbl>, frog_svl <dbl>
 #> 
 #> $translocations
-#> # A tibble: 36 × 3
-#>    site_id       date      pit_tag_id
-#>      <dbl>     <date>           <chr>
-#> 1    12345 2008-07-15 985121011993027
-#> 2    12345 2008-07-15 985121012022903
-#> 3    12345 2008-07-15 985121012023064
-#> 4    12345 2008-07-15 985121012024075
-#> 5    12345 2008-07-15 985121012024446
-#> 6    12345 2008-07-15 985121012025789
-#> 7    12345 2008-07-15 985121012025876
-#> 8    12345 2008-07-15 985121012027934
-#> 9    12345 2008-07-15 985121012028875
+#> # A tibble: 36 x 3
+#>    site_id date       pit_tag_id     
+#>      <dbl> <date>     <chr>          
+#>  1   12345 2008-07-15 985121011993027
+#>  2   12345 2008-07-15 985121012022903
+#>  3   12345 2008-07-15 985121012023064
+#>  4   12345 2008-07-15 985121012024075
+#>  5   12345 2008-07-15 985121012024446
+#>  6   12345 2008-07-15 985121012025789
+#>  7   12345 2008-07-15 985121012025876
+#>  8   12345 2008-07-15 985121012027934
+#>  9   12345 2008-07-15 985121012028875
 #> 10   12345 2008-07-15 985121012029294
 #> # ... with 26 more rows
 #> 
@@ -86,7 +88,7 @@ str(Y)
 #>   .. ..$ period_id       : chr [1:77] "1.1.1" "1.1.1" "1.1.1" "1.1.1" ...
 #>   .. ..$ pit_tag_id      : chr [1:77] "985121011993027" "985121012022903" "985121012023064" "985121012024075" ...
 #>   .. ..$ pit_tag_source  : chr [1:77] "Translocation-2008" "Translocation-2008" "Translocation-2008" "Translocation-2008" ...
-#>   .. ..$ pit_tag_insert  : num [1:77] NA NA NA NA NA NA NA NA NA NA ...
+#>   .. ..$ pit_tag_insert  : logi [1:77] NA NA NA NA NA NA ...
 #>   .. ..$ air_temp        : num [1:77] 21 21 21 21 21 21 21 21 21 21 ...
 #>   .. ..$ sun_conditions  : chr [1:77] "1" "1" "1" "1" ...
 #>   .. ..$ wind_conditions : chr [1:77] "2" "2" "2" "2" ...
@@ -95,7 +97,7 @@ str(Y)
 #>   .. ..$ frog_sex        : chr [1:77] "M" "M" "F" "M" ...
 #>   .. ..$ frog_weight     : num [1:77] 12 16 10 14 9 12 12 13 16 8 ...
 #>   .. ..$ frog_svl        : num [1:77] 48 56 48 51 46 50 49 50 54 45 ...
-#>   .. ..$ datetime        : POSIXct[1:77], format: "2008-07-24" ...
+#>   .. ..$ datetime        : Date[1:77], format: "2008-07-24" ...
 #>   .. ..$ yday            : num [1:77] 206 206 206 206 206 206 206 206 206 206 ...
 #>   .. ..$ primary_period  : chr [1:77] "1" "1" "1" "1" ...
 #>   .. ..$ secondary_period: chr [1:77] "1" "1" "1" "1" ...
@@ -141,7 +143,7 @@ str(Z)
 #>   .. .. ..$ period_id       : chr [1:77] "1.1.1" "1.1.1" "1.1.1" "1.1.1" ...
 #>   .. .. ..$ pit_tag_id      : chr [1:77] "985121011993027" "985121012022903" "985121012023064" "985121012024075" ...
 #>   .. .. ..$ pit_tag_source  : chr [1:77] "Translocation-2008" "Translocation-2008" "Translocation-2008" "Translocation-2008" ...
-#>   .. .. ..$ pit_tag_insert  : num [1:77] NA NA NA NA NA NA NA NA NA NA ...
+#>   .. .. ..$ pit_tag_insert  : logi [1:77] NA NA NA NA NA NA ...
 #>   .. .. ..$ air_temp        : num [1:77] 21 21 21 21 21 21 21 21 21 21 ...
 #>   .. .. ..$ sun_conditions  : chr [1:77] "1" "1" "1" "1" ...
 #>   .. .. ..$ wind_conditions : chr [1:77] "2" "2" "2" "2" ...
@@ -150,7 +152,7 @@ str(Z)
 #>   .. .. ..$ frog_sex        : chr [1:77] "M" "M" "F" "M" ...
 #>   .. .. ..$ frog_weight     : num [1:77] 12 16 10 14 9 12 12 13 16 8 ...
 #>   .. .. ..$ frog_svl        : num [1:77] 48 56 48 51 46 50 49 50 54 45 ...
-#>   .. .. ..$ datetime        : POSIXct[1:77], format: "2008-07-24" ...
+#>   .. .. ..$ datetime        : Date[1:77], format: "2008-07-24" ...
 #>   .. .. ..$ yday            : num [1:77] 206 206 206 206 206 206 206 206 206 206 ...
 #>   .. .. ..$ primary_period  : chr [1:77] "1" "1" "1" "1" ...
 #>   .. .. ..$ secondary_period: chr [1:77] "1" "1" "1" "1" ...
