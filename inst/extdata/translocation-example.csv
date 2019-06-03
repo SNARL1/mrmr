@@ -1,0 +1,81 @@
+"swab_id","pit_tag_id","treatment","release_date","swabbing_date","pit_tag_status","frog_sex","frog_state","frog_location","frog_weight","frog_svl","swabber_name","frog_comments","quant_cycle","start_quant","standard_type","load"
+"RKS16752","900043000104512","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",11,46,"Kauffman","Treated, for translocation to 70449.",35.72,0.09,"genomic",432
+"RKS16755","900043000104531","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",13,51,"Kauffman","Treated, for translocation to 70449",26.4,51.65,"genomic",247920
+"RKS16756","900043000104540","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",12,44,"Kauffman","Treated, for translocation to 70449",28.51,12.33,"genomic",59184
+"RKS16757","900043000104552","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",10,42,"Kauffman","Treated, for translocation to 70449",34.27,0.25,"genomic",1200
+"RKS16759","900043000104522","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",10,44,"Kauffman","Treated, for translocation to 70449",36.12,0.07,"genomic",336
+"RKS16760","900043000104588","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",10,40,"Kauffman","Treated, for translocation to 70449",28.55,12.03,"genomic",57744
+"RKS16761","900043000104574","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",11,45,"Kauffman","Treated, for translocation to 70449",31.44,1.68,"genomic",8064
+"RKS16762","900043000104571","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",13,48,"Kauffman","Treated, for translocation to 70449",27.37,26.74,"genomic",128352
+"RKS16763","900043000104536","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",13,49,"Kauffman","Treated, for translocation to 70449",33.52,0.41,"genomic",1968
+"RKS16764","900043000104572","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",11,47,"Knapp","Treated, for translocation to 70449 ",27.52,24.17,"genomic",116016
+"RKS16766","900043000104590","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",10,48,"Knapp","Treated, for translocation to 70449 ",31.67,1.44,"genomic",6912
+"RKS16767","900043000104594","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",11,47,"Knapp","Treated, for translocation to 70449 ",31.39,1.75,"genomic",8400
+"RKS16770","900043000104542","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",11,46,"Knapp","Treated, for translocation to 70449 ",27.69,21.49,"genomic",103152
+"RKS16771","900043000104529","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",10,44,"Knapp","Treated, for translocation to 70449 ",28.54,12.05,"genomic",57840
+"RKS16772","900043000104567","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",10,46,"Knapp","Treated, for translocation to 70449 ",21.64,1309.42,"genomic",6285216
+"RKS16773","900043000104547","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",11,49,"Knapp","Treated, for translocation to 70449 ",27.33,27.42,"genomic",131616
+"RKS16774","900043000104561","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",10,44,"Knapp","Treated, for translocation to 70449 ",28.11,16.18,"genomic",77664
+"RKS16775","900043000104549","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",11,46,"Knapp","Treated, for translocation to 70449 ",25.99,68.1,"genomic",326880
+"RKS16777","900043000104584","exposed",2014-06-28,2014-06-23,"Y","M","Healthy","in lake",9,46,"Knapp","Treated, for translocation to 70449 ",26.85,38.19,"genomic",183312
+"RKS16778","900043000104530","exposed",2014-06-28,2014-06-23,"Y","F","Healthy","in lake",12,48,"Kauffman","Treated, for translocation to 70449",29.02,8.75,"genomic",42000
+"RKS16780","900118001027515","exposed",2014-06-28,2014-06-25,"Y","F","Healthy","in lake",14,50,"Kauffman","Treated, for translocation to 70449",26.1,63.25,"genomic",303600
+"RKS16782","900118001058387","exposed",2014-06-28,2014-06-25,"Y","F","Healthy","in lake",13,50,"Kauffman","Treated, for translocation to 70449",30.78,2.64,"genomic",12672
+"RKS16783","900118001029497","exposed",2014-06-28,2014-06-25,"Y","M","Healthy","in lake",15,52,"Kauffman","Treated, for translocation to 70449",32.42,0.87,"genomic",4176
+"RKS16784","900118001029229","exposed",2014-06-28,2014-06-25,"Y","F","Healthy","in lake",11,47,"Kauffman","Treated, for translocation to 70449",34.07,0.28,"genomic",1344
+"RKS16785","900118001027772","exposed",2014-06-28,2014-06-25,"Y","F","Healthy","in lake",11,43,"Kauffman","Treated, for translocation to 70449",34.16,0.27,"genomic",1296
+"RKS16803","900043000104599","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",12,44,"Atkinson","Control, for translocation to 70449",35.3,0.18,"genomic",864
+"RKS16804","900043000104554","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",12,43,"Atkinson","Control, for translocation to 70449",32.11,1.45,"genomic",6960
+"RKS16806","900043000104587","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",11,43,"Atkinson","Control, for translocation to 70449",30.18,5.03,"genomic",24144
+"RKS16808","900043000104591","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",14,49,"Atkinson","Control, for translocation to 70449",30.11,5.26,"genomic",25248
+"RKS16809","900043000104543","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",11,44,"Atkinson","Control, for translocation to 70449",32.77,0.95,"genomic",4560
+"RKS16810","900043000104505","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",11,46,"Atkinson","Control, for translocation to 70449",30.42,4.32,"genomic",20736
+"RKS16811","900043000104556","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",12,49,"Atkinson","Control, for translocation to 70449",34.52,0.31,"genomic",1488
+"RKS16946","900043000104520","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",12,45,"Atkinson","Control, for translocation to 70449",32.42,1.18,"genomic",5664
+"RKS16947","900043000104575","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",10,43,"Kauffman","Control, for translocation to 70449",25.3,118.15,"genomic",567120
+"RKS16948","900043000104555","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",18,52,"Kauffman","Control, for translocation to 70449",30.9,3.17,"genomic",15216
+"RKS16956","900043000104502","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",12,45,"Knapp","Control, for translocation to 70449",34.86,0.24,"genomic",1152
+"RKS16957","900043000104589","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",9,46,"Knapp","Control, for translocation to 70449",28.67,13.4,"genomic",64320
+"RKS16958","900043000104513","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",12,50,"Knapp","Control, for translocation to 70449",23.23,448.35,"genomic",2152080
+"RKS16959","900043000104526","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",11,48,"Knapp","Control, for translocation to 70449",32.57,1.08,"genomic",5184
+"RKS16960","900043000104553","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",8,44,"Knapp","Control, for translocation to 70449",34.63,0.28,"genomic",1344
+"RKS16961","900043000104510","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",9,44,"Knapp","Control, for translocation to 70449",39.76,0.01,"genomic",48
+"RKS16962","900043000104521","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",10,46,"Knapp","Control, for translocation to 70449",30.41,3.82,"genomic",18336
+"RKS16963","900043000104532","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",12,49,"Knapp","Control, for translocation to 70449",31.18,2.29,"genomic",10992
+"RKS16965","900043000104579","unexposed",2014-06-28,2014-06-27,"Y","M","Healthy","in lake",11,50,"Knapp","Control, for translocation to 70449",30.09,4.7,"genomic",22560
+"RKS16966","900043000104546","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",10,45,"Knapp","Control, for translocation to 70449",30.03,4.89,"genomic",23472
+"RKS16967","900043000104568","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",10,49,"Knapp","Control, for translocation to 70449",29.53,6.82,"genomic",32736
+"RKS16969","900043000104539","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",12,51,"Knapp","Control, for translocation to 70449",31.6,1.73,"genomic",8304
+"RKS16970","900043000104516","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",10,44,"Knapp","Control, for translocation to 70449",36.23,0.08,"genomic",384
+"RKS16971","900043000104524","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",10,44,"Knapp","Control, for translocation to 70449",29.6,6.52,"genomic",31296
+"RKS16972","900043000104562","unexposed",2014-06-28,2014-06-27,"Y","F","Healthy","in lake",9,43,"Knapp","Control, for translocation to 70449",28.59,12.72,"genomic",61056
+"RKS24145","900067000114018",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",10,48,"Beechan","Frog translocated to Upper Mattie 70449.",37.4629,21.1695,"plasmid",1693.56
+"RKS24146","900067000114138",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",15,54,"Beechan","Frog translocated to Upper Mattie 70449.",38.9597,7.7656,"plasmid",621.248
+"RKS24147","900067000114178",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",10,44,"Beechan","Frog translocated to Upper Mattie 70449.",31.366,1143.824,"plasmid",91505.92
+"RKS24148","900067000114099",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",9,46,"Beechan","Frog translocated to Upper Mattie 70449.",37.1651,22.1317,"plasmid",1770.536
+"RKS24149","900067000114108",NA,2017-08-09,2017-08-08,"Y","M","Healthy","fringing habitat",11,48,"Beechan","Frog translocated to Upper Mattie 70449.",29.7459,3443.614,"plasmid",275489.12
+"RKS24150","900067000114136",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",10,45,"Beechan","Frog translocated to Upper Mattie 70449, skin shedding.",30.7596,1727.827,"plasmid",138226.16
+"RKS24151","900067000117418",NA,2017-08-09,2017-08-08,"Y","M","Healthy","fringing habitat",10,46,"Beechan","Frog translocated to Upper Mattie 70449.",34.5125,134.5018,"plasmid",10760.144
+"RKS24152","900067000117394",NA,2017-08-09,2017-08-08,"Y","M","Healthy","fringing habitat",11,47,"Beechan","Frog translocated to Upper Mattie 70449.",36.084,46.1756,"plasmid",3694.048
+"RKS24153","900067000117412",NA,2017-08-09,2017-08-08,"Y","F","Healthy","in lake",9,46,"Beechan","Frog translocated to Upper Mattie 70449.",31.4794,1058.877,"plasmid",84710.16
+"RKS24154","900067000117453",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",12,47,"Beechan","Frog translocated to Upper Mattie 70449.",40.3773,2.4888,"plasmid",199.104
+"RKS24155","900067000117390",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",9,45,"Beechan","Frog translocated to Upper Mattie 70449.",41.3388,1.2939,"plasmid",103.512
+"RKS24156","900067000117476",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",14,51,"Beechan","Frog translocated to Upper Mattie 70449.",31.4156,1105.873,"plasmid",88469.84
+"RKS24157","900067000117416",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",10,48,"Beechan","Frog translocated to Upper Mattie 70449.",32.4525,546.2031,"plasmid",43696.248
+"RKS24158","900067000117458",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",12,49,"Beechan","Frog translocated to Upper Mattie 70449.",33.6355,244.2518,"plasmid",19540.144
+"RKS24159","900067000117459",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",14,50,"Beechan","Frog translocated to Upper Mattie 70449.",33.3195,302.8217,"plasmid",24225.736
+"RKS24160","900067000117449",NA,2017-08-09,2017-08-08,"Y","F","Healthy","inlet",11,47,"Beechan","Frog translocated to Upper Mattie 70449.",32.483,534.9828,"plasmid",42798.624
+"RKS24161","900067000117441",NA,2017-08-09,2017-08-08,"Y","M","Healthy","fringing habitat",9,48,"Beechan","Frog translocated to Upper Mattie 70449.",31.0912,1378.945,"plasmid",110315.6
+"RKS24162","900067000117471",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",9,48,"Beechan","Frog translocated to Upper Mattie 70449.",31.0375,1430.186,"plasmid",114414.88
+"RKS24163","900067000117446",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",9,45,"Beechan","Frog translocated to Upper Mattie 70449.",38.9225,6.6955,"plasmid",535.64
+"RKS24164","900067000117423",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",13,47,"Beechan","Frog translocated to Upper Mattie 70449.",32.0062,739.954,"plasmid",59196.32
+"RKS24165","900067000117465",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",16,54,"Beechan","Frog translocated to Upper Mattie 70449. PIT Tag used in 2018 Desolation translocation. Unclear which is wrong.",41.4154,1.2282,"plasmid",98.256
+"RKS24166","900067000117478",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",11,49,"Beechan","Frog translocated to Upper Mattie 70449.",34.5567,130.5186,"plasmid",10441.488
+"RKS24167","900067000117411",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",12,49,"Beechan","Frog translocated to Upper Mattie 70449.",36.8091,28.197,"plasmid",2255.76
+"RKS24168","900067000117438",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",14,51,"Beechan","Frog translocated to Upper Mattie 70449.",NA,0,"plasmid",0
+"RKS24169","900067000117466",NA,2017-08-09,2017-08-08,"Y","M","Healthy","in lake",10,45,"Beechan","Frog translocated to Upper Mattie 70449.",36.6201,32.0641,"plasmid",2565.128
+"RKS24170","900067000117387",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",11,51,"Beechan","Frog translocated to Upper Mattie 70449.",32.3619,580.9039,"plasmid",46472.312
+"RKS24171","900067000117475",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",15,54,"Beechan","Frog translocated to Upper Mattie 70449.",34.6806,119.9691,"plasmid",9597.528
+"RKS24172","900067000117406",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",10,48,"Beechan","Frog translocated to Upper Mattie 70449.",31.3802,1132.773,"plasmid",90621.84
+"RKS24173","900067000117444",NA,2017-08-09,2017-08-08,"Y","F","Healthy","outlet",12,51,"Beechan","Frog translocated to Upper Mattie 70449.",35.5997,64.1961,"plasmid",5135.688
+"RKS24174","900067000117432",NA,2017-08-09,2017-08-08,"Y","F","Healthy","fringing habitat",10,48,"Beechan","Frog translocated to Upper Mattie 70449.",36.7417,29.5199,"plasmid",2361.592
