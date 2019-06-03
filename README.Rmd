@@ -10,44 +10,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-# mrmr: mark recapture miscellany in R :frog:
+# mrmr: mark recapture miscellany in R
 
 [![Build Status](https://travis-ci.org/SNARL1/mrmr.svg?branch=master)](https://travis-ci.org/SNARL1/mrmr)
 
-This package automates common data processing steps for mark recapture data, with an emphasis on data collected by folks at the Sierra Nevada Aquatic Research Lab (SNARL). 
-It makes some very specific assumptions about the structure of the data in order to construct observation and occurrence matrices. 
-This package is intended to be used along with something like [JAGS](http://mcmc-jags.sourceforge.net/) to fit hierarchical Bayesian mark recapture models. 
-
-(Not to be confused with the greatest musical group of the 20th century, Mister Mister)
-
-![](https://upload.wikimedia.org/wikipedia/en/2/2d/MrMister-BestOfMrMister.jpg)
+This package automates common data processing steps for mark recapture data, 
+with an emphasis on data collected by folks at the Sierra Nevada Aquatic 
+Research Lab (SNARL). 
 
 ## Installation
 
 ```{r, eval = FALSE}
-devtools::install_github("mbjoseph/mrmr")
+remotes::install_github("SNARL1/mrmr")
 ```
 
 ## Usage
 
-```{r}
-library(mrmr)
-mr_data <- load_mr("tests/testthat/ex.xlsx")
-mr_data
-```
-
-We may want to create an observation matrix, augmented with M all zero encounter histories:
-
-```{r}
-Y <- getY(mr_data, M = 50)
-str(Y)
-plot(Y)
-```
-
-Or perhaps an incompletely observed occurrence matrix:
-
-```{r}
-Z <- getZ(Y)
-str(Z)
-plot(Z)
-```
+See the vignette 
+[An Introduction to the mrmr package](vignettes/intro-to-mrmr.Rmd).

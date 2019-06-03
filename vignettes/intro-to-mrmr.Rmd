@@ -1,0 +1,137 @@
+---
+title: "An introduction to mrmr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro-to-mrmr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  fig.width = 7, 
+  fig.height = 3.5
+)
+```
+
+The `mrmr` package is designed to simplify and expedite mark recapture data 
+processing, parameter estimation, and visualization for a narrow class of 
+mark recapture data (namely, those collected by the Sierra Nevada Amphibian 
+Research Group).
+
+# Workflow overview
+
+The typical workflow involves three steps:
+
+1. Cleaning mark recapture data with `mrmr::clean_data()`
+2. Fitting a mark recapture model with `mrmr::fit_model()`
+3. Visualizing results with `mrmr::plot_model()`
+
+## Data specifications
+
+The package comes with example data that illustrate the expected format. 
+Three files are needed. 
+
+The first file specifies capture data:
+
+```{r setup}
+library(dplyr)
+library(readr)
+library(tibble)
+library(rstan)
+library(mrmr)
+```
+
+```{r show-capture-data}
+capture_filepath <- system.file("extdata", 
+                                "capture-example.csv", 
+                                package = "mrmr")
+read_csv(capture_filepath) %>%
+  glimpse
+```
+
+Note that the `system.file` function generates a path to the 
+`capture-example.csv` file, but in a real application, you would likely use a 
+path to a local file (real data, not the example data included in the package).
+The files must be formatted with the same columns and conventions uesd in the 
+example data. 
+Each row in this file represents a capture or recapture event.
+
+The second file specifies translocation data: 
+
+```{r show-trans-data}
+translocation_filepath <- system.file("extdata", 
+                                      "translocation-example.csv", 
+                                      package = "mrmr")
+read_csv(translocation_filepath) %>%
+  glimpse
+```
+
+Each row corresponds to a translocation event of one unique individual. 
+
+The third file specifies survey-level data:
+
+```{r show-survey-data}
+survey_filepath <- system.file("extdata", 
+                               "survey-example.csv", 
+                                package = "mrmr")
+read_csv(survey_filepath) %>%
+  glimpse
+```
+
+Here, each row is a unique survey.
+
+## Data processing
+
+To load and process the data, provide paths to the data files as 
+arguments to the `mrmr::clean_data()` function:
+
+```{r clean-data, message=FALSE}
+data <- clean_data(captures = capture_filepath, 
+                   translocations = translocation_filepath, 
+                   surveys = survey_filepath)
+glimpse(data)
+```
+
+Note the output provides data frames as list elements, and a list element called
+`stan_d`, which contains data that has been pre-processed for model fitting. 
+
+## Model fitting
+
+To fit a mark-recapture model, use `mrmr::fit_model()`. 
+This model accounts for known introductions into the population, and has 
+random effects to account for variation in survival and recruitment through time. 
+
+```{r fit-model}
+mod <- fit_model(data, cores = parallel::detectCores(), 
+                 chains = 2, iter = 200)
+```
+
+## Built-in visualizations
+
+Time series of abundance, recruitment, and survival of introduced cohorts are
+available through the `mrmr::plot_model()` function. 
+
+```{r plot-abundance}
+plot_model(mod, what = 'abundance')
+```
+
+```{r plot-recruitment}
+plot_model(mod, what = 'recruitment')
+```
+
+```{r plot-survival}
+plot_model(mod, what = 'survival')
+```
+
+## Custom visualizations
+
+Any of the plotting functionality that you would expect from a `stanfit` model
+is available as well, by accessing the `m_fit` list element from a model object. 
+For example, we could assess the posterior for the superpopulation size:
+
+```{r}
+traceplot(mod$m_fit, pars = "Nsuper")
+```
