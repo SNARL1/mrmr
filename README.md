@@ -17,4 +17,4 @@ remotes::install_github("SNARL1/mrmr")
 ## Usage
 
 See the vignette [An Introduction to the mrmr
-package](vignettes/intro-to-mrmr.Rmd).
+package](https://snarl1.github.io/mrmr/articles/intro-to-mrmr.html).
