@@ -4,20 +4,30 @@
 \alias{clean_data}
 \title{Load a mark-recapture data set}
 \usage{
-clean_data(captures, translocations, surveys)
+clean_data(captures, translocations, surveys, capture_formula = ~1)
 }
 \arguments{
-\item{captures}{Character string path to a capture-recapture detection
-data csv file.}
+\item{captures}{Data frame containing capture-recapture data. Necessary
+columns include `pit_tag_id` and `survey_date`.}
 
-\item{translocations}{Character string path to translocation data csv file.}
+\item{translocations}{Data frame containing translocation data. Necessary
+columns include `pit_tag_id` and `release_date`.}
 
-\item{surveys}{Character string path to survey data csv file.}
+\item{surveys}{Data frame containing survey data. Necessary columns include
+`survey_date`, `primary_period`, and `secondary_period`.}
+
+\item{capture_formula}{An optional formula specifying the structure of
+survey-level capture probability covariates. Any variables in this formula
+must be columns in the `surveys` data frame. The formula must start with
+`~` and can be provided unquoted, e.g., `capture_formula = ~ temperature`.
+It is advisable to ensure that any continuous covariates provided in this
+formula are appropriately scaled (ideally, with mean = 0, and standard
+deviation = 1).}
 }
 \value{
 A list containing the data frames resulting from the capture,
 translocation, and survey data, along with a list of data formatted for
-use in a mark recapture model (with name "stan_d").
+use in a mark recapture model (with name 'stan_d').
 }
 \description{
 This function loads and parses a mark recapture data set. It assumes that
@@ -25,9 +35,23 @@ three files are available, specifying capture, translocation, and survey
 data.
 }
 \examples{
-captures <- system.file("extdata", "capture-example.csv", package = "mrmr")
-translocations <- system.file("extdata", "translocation-example.csv",
-                              package = "mrmr")
-surveys <- system.file("extdata", "survey-example.csv", package = "mrmr")
-clean_data(captures, translocations, surveys)
+library(mrmr)
+library(readr)
+library(dplyr)
+
+captures <- system.file('extdata', 'capture-example.csv',
+    package = 'mrmr') \%>\%
+  read_csv
+translocations <- system.file('extdata', 'translocation-example.csv',
+    package = 'mrmr') \%>\%
+  read_csv
+surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') \%>\%
+  read_csv
+
+# read and clean the data using defaults
+out <- clean_data(captures, translocations, surveys)
+
+# (optional) specify a formula for detection probabilities
+out_w_covs <- clean_data(captures, translocations, surveys,
+   capture_formula = ~ person_hours)
 }

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrmr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -123,263 +123,186 @@
 <a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; To avoid recompilation of unchanged Stan programs, we recommend calling</span></a>
 <a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; rstan_options(auto_write = TRUE)</span></a>
 <a class="sourceLine" id="cb1-25" title="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mrmr)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">capture_filepath &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">captures &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb2-2" title="2">                                <span class="st">"capture-example.csv"</span>, </a>
-<a class="sourceLine" id="cb2-3" title="3">                                <span class="dt">package =</span> <span class="st">"mrmr"</span>)</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(capture_filepath) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span>glimpse</a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; Parsed with column specification:</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; cols(</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;   swab_id = col_character(),</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;   pit_tag_id = col_double(),</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;   site_id = col_double(),</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;   survey_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;   surveyor1 = col_character(),</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;   pit_tag_status = col_character(),</span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;   frog_sex = col_character(),</span></a>
-<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;   frog_state = col_character(),</span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;   frog_weight = col_double(),</span></a>
-<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;   frog_svl = col_double(),</span></a>
-<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt;   swabber_name = col_character(),</span></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt;   treatment = col_character(),</span></a>
-<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt;   collection_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt;   collection_location = col_double(),</span></a>
-<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt;   release_location = col_double(),</span></a>
-<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt;   release_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt;   standard_type = col_character(),</span></a>
-<a class="sourceLine" id="cb2-25" title="25"><span class="co">#&gt;   load = col_double(),</span></a>
-<a class="sourceLine" id="cb2-26" title="26"><span class="co">#&gt;   category = col_character()</span></a>
-<a class="sourceLine" id="cb2-27" title="27"><span class="co">#&gt; )</span></a>
-<a class="sourceLine" id="cb2-28" title="28"><span class="co">#&gt; Observations: 466</span></a>
-<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt; Variables: 19</span></a>
-<a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt; $ swab_id             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt; $ pit_tag_id          &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.000…</span></a>
-<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt; $ site_id             &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70…</span></a>
-<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt; $ survey_date         &lt;date&gt; 2014-08-07, 2015-08-16, 2014-07-11, 2015-08…</span></a>
-<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt; $ surveyor1           &lt;chr&gt; "Killion", "Killion", "Demaranville", "Linda…</span></a>
-<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt; $ pit_tag_status      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt; $ frog_sex            &lt;chr&gt; "M", "F", "M", "M", "F", "F", "M", "M", "F",…</span></a>
-<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt; $ frog_state          &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", …</span></a>
-<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; $ frog_weight         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt; $ frog_svl            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt; $ swabber_name        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt; $ treatment           &lt;chr&gt; "unexposed", "exposed", "unexposed", "unexpo…</span></a>
-<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; $ collection_date     &lt;date&gt; 2014-06-27, 2014-06-23, 2014-06-27, 2014-06…</span></a>
-<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; $ collection_location &lt;dbl&gt; 72996, 72996, 72996, 72996, 72996, 72996, 72…</span></a>
-<a class="sourceLine" id="cb2-44" title="44"><span class="co">#&gt; $ release_location    &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70…</span></a>
-<a class="sourceLine" id="cb2-45" title="45"><span class="co">#&gt; $ release_date        &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06…</span></a>
-<a class="sourceLine" id="cb2-46" title="46"><span class="co">#&gt; $ standard_type       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-47" title="47"><span class="co">#&gt; $ load                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-48" title="48"><span class="co">#&gt; $ category            &lt;chr&gt; "translocated", "translocated", "translocate…</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" title="3">                                <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span>read_csv</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt;   swab_id = col_character(),</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;   pit_tag_id = col_double(),</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;   site_id = col_double(),</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;   survey_date = col_date(format = ""),</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;   surveyor1 = col_character(),</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;   pit_tag_status = col_character(),</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;   frog_sex = col_character(),</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;   frog_state = col_character(),</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;   frog_weight = col_double(),</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;   frog_svl = col_double(),</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;   swabber_name = col_character(),</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt;   treatment = col_character(),</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt;   collection_date = col_date(format = ""),</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt;   collection_location = col_double(),</span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt;   release_location = col_double(),</span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt;   release_date = col_date(format = ""),</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt;   standard_type = col_character(),</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt;   load = col_double(),</span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="co">#&gt;   category = col_character()</span></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb2-27" title="27"></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(captures)</a>
+<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt; Observations: 466</span></a>
+<a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt; Variables: 19</span></a>
+<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt; $ swab_id             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt; $ pit_tag_id          &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.000…</span></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt; $ site_id             &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70…</span></a>
+<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt; $ survey_date         &lt;date&gt; 2014-08-07, 2015-08-16, 2014-07-11, 2015-08…</span></a>
+<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt; $ surveyor1           &lt;chr&gt; "Killion", "Killion", "Demaranville", "Linda…</span></a>
+<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt; $ pit_tag_status      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt; $ frog_sex            &lt;chr&gt; "M", "F", "M", "M", "F", "F", "M", "M", "F",…</span></a>
+<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; $ frog_state          &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", …</span></a>
+<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt; $ frog_weight         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt; $ frog_svl            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt; $ swabber_name        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; $ treatment           &lt;chr&gt; "unexposed", "exposed", "unexposed", "unexpo…</span></a>
+<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; $ collection_date     &lt;date&gt; 2014-06-27, 2014-06-23, 2014-06-27, 2014-06…</span></a>
+<a class="sourceLine" id="cb2-44" title="44"><span class="co">#&gt; $ collection_location &lt;dbl&gt; 72996, 72996, 72996, 72996, 72996, 72996, 72…</span></a>
+<a class="sourceLine" id="cb2-45" title="45"><span class="co">#&gt; $ release_location    &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70…</span></a>
+<a class="sourceLine" id="cb2-46" title="46"><span class="co">#&gt; $ release_date        &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06…</span></a>
+<a class="sourceLine" id="cb2-47" title="47"><span class="co">#&gt; $ standard_type       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-48" title="48"><span class="co">#&gt; $ load                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
+<a class="sourceLine" id="cb2-49" title="49"><span class="co">#&gt; $ category            &lt;chr&gt; "translocated", "translocated", "translocate…</span></a></code></pre></div>
 <p>Note that the <code>system.file</code> function generates a path to the <code>capture-example.csv</code> file, but in a real application, you would likely use a path to a local file (real data, not the example data included in the package). The files must be formatted with the same columns and conventions uesd in the example data. Each row in this file represents a capture or recapture event.</p>
 <p>The second file specifies translocation data:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">translocation_filepath &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">translocations &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb3-2" title="2">                                      <span class="st">"translocation-example.csv"</span>, </a>
-<a class="sourceLine" id="cb3-3" title="3">                                      <span class="dt">package =</span> <span class="st">"mrmr"</span>)</a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(translocation_filepath) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span>glimpse</a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; Parsed with column specification:</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; cols(</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;   swab_id = col_character(),</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   pit_tag_id = col_double(),</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   treatment = col_character(),</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   release_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;   swabbing_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   pit_tag_status = col_character(),</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   frog_sex = col_character(),</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;   frog_state = col_character(),</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt;   frog_location = col_character(),</span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt;   frog_weight = col_double(),</span></a>
-<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt;   frog_svl = col_double(),</span></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt;   swabber_name = col_character(),</span></a>
-<a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt;   frog_comments = col_character(),</span></a>
-<a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt;   quant_cycle = col_double(),</span></a>
-<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt;   start_quant = col_double(),</span></a>
-<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt;   standard_type = col_character(),</span></a>
-<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt;   load = col_double()</span></a>
-<a class="sourceLine" id="cb3-25" title="25"><span class="co">#&gt; )</span></a>
-<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt; Observations: 80</span></a>
-<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt; Variables: 17</span></a>
-<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt; $ swab_id        &lt;chr&gt; "RKS16752", "RKS16755", "RKS16756", "RKS16757", "…</span></a>
-<a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt; $ pit_tag_id     &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+1…</span></a>
-<a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt; $ treatment      &lt;chr&gt; "exposed", "exposed", "exposed", "exposed", "expo…</span></a>
-<a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; $ release_date   &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, …</span></a>
-<a class="sourceLine" id="cb3-32" title="32"><span class="co">#&gt; $ swabbing_date  &lt;date&gt; 2014-06-23, 2014-06-23, 2014-06-23, 2014-06-23, …</span></a>
-<a class="sourceLine" id="cb3-33" title="33"><span class="co">#&gt; $ pit_tag_status &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y",…</span></a>
-<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; $ frog_sex       &lt;chr&gt; "F", "F", "M", "M", "M", "F", "F", "F", "M", "F",…</span></a>
-<a class="sourceLine" id="cb3-35" title="35"><span class="co">#&gt; $ frog_state     &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Heal…</span></a>
-<a class="sourceLine" id="cb3-36" title="36"><span class="co">#&gt; $ frog_location  &lt;chr&gt; "in lake", "in lake", "in lake", "in lake", "in l…</span></a>
-<a class="sourceLine" id="cb3-37" title="37"><span class="co">#&gt; $ frog_weight    &lt;dbl&gt; 11, 13, 12, 10, 10, 10, 11, 13, 13, 11, 10, 11, 1…</span></a>
-<a class="sourceLine" id="cb3-38" title="38"><span class="co">#&gt; $ frog_svl       &lt;dbl&gt; 46, 51, 44, 42, 44, 40, 45, 48, 49, 47, 48, 47, 4…</span></a>
-<a class="sourceLine" id="cb3-39" title="39"><span class="co">#&gt; $ swabber_name   &lt;chr&gt; "Kauffman", "Kauffman", "Kauffman", "Kauffman", "…</span></a>
-<a class="sourceLine" id="cb3-40" title="40"><span class="co">#&gt; $ frog_comments  &lt;chr&gt; "Treated, for translocation to 70449.", "Treated,…</span></a>
-<a class="sourceLine" id="cb3-41" title="41"><span class="co">#&gt; $ quant_cycle    &lt;dbl&gt; 35.72, 26.40, 28.51, 34.27, 36.12, 28.55, 31.44, …</span></a>
-<a class="sourceLine" id="cb3-42" title="42"><span class="co">#&gt; $ start_quant    &lt;dbl&gt; 0.09, 51.65, 12.33, 0.25, 0.07, 12.03, 1.68, 26.7…</span></a>
-<a class="sourceLine" id="cb3-43" title="43"><span class="co">#&gt; $ standard_type  &lt;chr&gt; "genomic", "genomic", "genomic", "genomic", "geno…</span></a>
-<a class="sourceLine" id="cb3-44" title="44"><span class="co">#&gt; $ load           &lt;dbl&gt; 432, 247920, 59184, 1200, 336, 57744, 8064, 12835…</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-3" title="3">                                      <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span>read_csv</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt;   swab_id = col_character(),</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;   pit_tag_id = col_double(),</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   treatment = col_character(),</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   release_date = col_date(format = ""),</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   swabbing_date = col_date(format = ""),</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;   pit_tag_status = col_character(),</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   frog_sex = col_character(),</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   frog_state = col_character(),</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;   frog_location = col_character(),</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt;   frog_weight = col_double(),</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt;   frog_svl = col_double(),</span></a>
+<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt;   swabber_name = col_character(),</span></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt;   frog_comments = col_character(),</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt;   quant_cycle = col_double(),</span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt;   start_quant = col_double(),</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt;   standard_type = col_character(),</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt;   load = col_double()</span></a>
+<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb3-25" title="25"></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(translocations)</a>
+<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt; Observations: 80</span></a>
+<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt; Variables: 17</span></a>
+<a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt; $ swab_id        &lt;chr&gt; "RKS16752", "RKS16755", "RKS16756", "RKS16757", "…</span></a>
+<a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt; $ pit_tag_id     &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+1…</span></a>
+<a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; $ treatment      &lt;chr&gt; "exposed", "exposed", "exposed", "exposed", "expo…</span></a>
+<a class="sourceLine" id="cb3-32" title="32"><span class="co">#&gt; $ release_date   &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, …</span></a>
+<a class="sourceLine" id="cb3-33" title="33"><span class="co">#&gt; $ swabbing_date  &lt;date&gt; 2014-06-23, 2014-06-23, 2014-06-23, 2014-06-23, …</span></a>
+<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; $ pit_tag_status &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y",…</span></a>
+<a class="sourceLine" id="cb3-35" title="35"><span class="co">#&gt; $ frog_sex       &lt;chr&gt; "F", "F", "M", "M", "M", "F", "F", "F", "M", "F",…</span></a>
+<a class="sourceLine" id="cb3-36" title="36"><span class="co">#&gt; $ frog_state     &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Heal…</span></a>
+<a class="sourceLine" id="cb3-37" title="37"><span class="co">#&gt; $ frog_location  &lt;chr&gt; "in lake", "in lake", "in lake", "in lake", "in l…</span></a>
+<a class="sourceLine" id="cb3-38" title="38"><span class="co">#&gt; $ frog_weight    &lt;dbl&gt; 11, 13, 12, 10, 10, 10, 11, 13, 13, 11, 10, 11, 1…</span></a>
+<a class="sourceLine" id="cb3-39" title="39"><span class="co">#&gt; $ frog_svl       &lt;dbl&gt; 46, 51, 44, 42, 44, 40, 45, 48, 49, 47, 48, 47, 4…</span></a>
+<a class="sourceLine" id="cb3-40" title="40"><span class="co">#&gt; $ swabber_name   &lt;chr&gt; "Kauffman", "Kauffman", "Kauffman", "Kauffman", "…</span></a>
+<a class="sourceLine" id="cb3-41" title="41"><span class="co">#&gt; $ frog_comments  &lt;chr&gt; "Treated, for translocation to 70449.", "Treated,…</span></a>
+<a class="sourceLine" id="cb3-42" title="42"><span class="co">#&gt; $ quant_cycle    &lt;dbl&gt; 35.72, 26.40, 28.51, 34.27, 36.12, 28.55, 31.44, …</span></a>
+<a class="sourceLine" id="cb3-43" title="43"><span class="co">#&gt; $ start_quant    &lt;dbl&gt; 0.09, 51.65, 12.33, 0.25, 0.07, 12.03, 1.68, 26.7…</span></a>
+<a class="sourceLine" id="cb3-44" title="44"><span class="co">#&gt; $ standard_type  &lt;chr&gt; "genomic", "genomic", "genomic", "genomic", "geno…</span></a>
+<a class="sourceLine" id="cb3-45" title="45"><span class="co">#&gt; $ load           &lt;dbl&gt; 432, 247920, 59184, 1200, 336, 57744, 8064, 12835…</span></a></code></pre></div>
 <p>Each row corresponds to a translocation event of one unique individual.</p>
 <p>The third file specifies survey-level data:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">survey_filepath &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">surveys &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb4-2" title="2">                               <span class="st">"survey-example.csv"</span>, </a>
-<a class="sourceLine" id="cb4-3" title="3">                                <span class="dt">package =</span> <span class="st">"mrmr"</span>)</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(survey_filepath) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span>glimpse</a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; Parsed with column specification:</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; cols(</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;   survey_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;   site_id = col_double(),</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;   survey_duration = col_double(),</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;   primary_period = col_double(),</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;   secondary_period = col_double(),</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;   people = col_double(),</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;   person_hours = col_double()</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; )</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; Observations: 63</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; Variables: 7</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; $ survey_date      &lt;date&gt; 2014-06-28, 2014-07-10, 2014-07-11, 2014-07-12…</span></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; $ site_id          &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449…</span></a>
-<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; $ survey_duration  &lt;dbl&gt; NA, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7…</span></a>
-<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; $ primary_period   &lt;dbl&gt; 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6,…</span></a>
-<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; $ secondary_period &lt;dbl&gt; 1, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 1, 2, 3, 1, 2,…</span></a>
-<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; $ people           &lt;dbl&gt; 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 2, 2,…</span></a>
-<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; $ person_hours     &lt;dbl&gt; NA, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7…</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-3" title="3">                                <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span>read_csv</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;   survey_date = col_date(format = ""),</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;   site_id = col_double(),</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;   survey_duration = col_double(),</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;   primary_period = col_double(),</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;   secondary_period = col_double(),</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;   people = col_double(),</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;   person_hours = col_double()</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb4-15" title="15"></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(surveys)</a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; Observations: 63</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; Variables: 7</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; $ survey_date      &lt;date&gt; 2014-06-28, 2014-07-10, 2014-07-11, 2014-07-12…</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; $ site_id          &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449…</span></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; $ survey_duration  &lt;dbl&gt; NA, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7…</span></a>
+<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; $ primary_period   &lt;dbl&gt; 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6,…</span></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; $ secondary_period &lt;dbl&gt; 1, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 1, 2, 3, 1, 2,…</span></a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; $ people           &lt;dbl&gt; 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 2, 2,…</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; $ person_hours     &lt;dbl&gt; NA, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7…</span></a></code></pre></div>
 <p>Here, each row is a unique survey.</p>
 </div>
 <div id="data-processing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-processing" class="anchor"></a>Data processing</h2>
 <p>To load and process the data, provide paths to the data files as arguments to the <code><a href="../reference/clean_data.html">mrmr::clean_data()</a></code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(<span class="dt">captures =</span> capture_filepath, </a>
-<a class="sourceLine" id="cb5-2" title="2">                   <span class="dt">translocations =</span> translocation_filepath, </a>
-<a class="sourceLine" id="cb5-3" title="3">                   <span class="dt">surveys =</span> survey_filepath)</a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(data)</a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; List of 4</span></a>
-<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt;  $ stan_d        :List of 13</span></a>
-<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt;   ..$ M          : num 336</span></a>
-<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt;   ..$ T          : num 17</span></a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;   ..$ maxJ       : num 7</span></a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;   ..$ J          : Named num [1:17] 0 0 3 3 3 3 3 3 5 7 ...</span></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt;   .. ..- attr(*, "names")= chr [1:17] "n_sec_periods1" "n_sec_periods2" "n_sec_periods3" "n_sec_periods4" ...</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt;   ..$ Jtot       : num 49</span></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;   ..$ Y          : num [1:336, 1:17, 1:7] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 3</span></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;   ..$ introduced : logi [1:336] TRUE TRUE TRUE TRUE TRUE TRUE ...</span></a>
-<a class="sourceLine" id="cb5-16" title="16"><span class="co">#&gt;   ..$ t_intro    : num [1:336] 2 2 2 2 2 2 2 2 2 2 ...</span></a>
-<a class="sourceLine" id="cb5-17" title="17"><span class="co">#&gt;   ..$ X_detect   : num [1:49, 1] 1 1 1 1 1 1 1 1 1 1 ...</span></a>
-<a class="sourceLine" id="cb5-18" title="18"><span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span></a>
-<a class="sourceLine" id="cb5-19" title="19"><span class="co">#&gt;   .. ..- attr(*, "assign")= int 0</span></a>
-<a class="sourceLine" id="cb5-20" title="20"><span class="co">#&gt;   ..$ m_detect   : int 1</span></a>
-<a class="sourceLine" id="cb5-21" title="21"><span class="co">#&gt;   ..$ j_idx      : num [1:17, 1:7] 0 0 1 4 7 10 13 16 19 24 ...</span></a>
-<a class="sourceLine" id="cb5-22" title="22"><span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span></a>
-<a class="sourceLine" id="cb5-23" title="23"><span class="co">#&gt;   ..$ any_surveys: Named num [1:17] 0 0 1 1 1 1 1 1 1 1 ...</span></a>
-<a class="sourceLine" id="cb5-24" title="24"><span class="co">#&gt;   .. ..- attr(*, "names")= chr [1:17] "n_sec_periods1" "n_sec_periods2" "n_sec_periods3" "n_sec_periods4" ...</span></a>
-<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt;   ..$ prim_idx   : int [1:49] 3 3 3 4 4 4 5 5 5 6 ...</span></a>
-<a class="sourceLine" id="cb5-26" title="26"><span class="co">#&gt;  $ captures      :Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':   466 obs. of  19 variables:</span></a>
-<a class="sourceLine" id="cb5-27" title="27"><span class="co">#&gt;   ..$ swab_id            : chr [1:466] NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-28" title="28"><span class="co">#&gt;   ..$ pit_tag_id         : num [1:466] 9e+14 9e+14 9e+14 9e+14 9e+14 ...</span></a>
-<a class="sourceLine" id="cb5-29" title="29"><span class="co">#&gt;   ..$ site_id            : num [1:466] 70449 70449 70449 70449 70449 ...</span></a>
-<a class="sourceLine" id="cb5-30" title="30"><span class="co">#&gt;   ..$ survey_date        : Date[1:466], format: "2014-08-07" ...</span></a>
-<a class="sourceLine" id="cb5-31" title="31"><span class="co">#&gt;   ..$ surveyor1          : chr [1:466] "Killion" "Killion" "Demaranville" "Lindauer" ...</span></a>
-<a class="sourceLine" id="cb5-32" title="32"><span class="co">#&gt;   ..$ pit_tag_status     : chr [1:466] NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-33" title="33"><span class="co">#&gt;   ..$ frog_sex           : chr [1:466] "M" "F" "M" "M" ...</span></a>
-<a class="sourceLine" id="cb5-34" title="34"><span class="co">#&gt;   ..$ frog_state         : chr [1:466] "Healthy" "Healthy" "Healthy" "Healthy" ...</span></a>
-<a class="sourceLine" id="cb5-35" title="35"><span class="co">#&gt;   ..$ frog_weight        : num [1:466] NA NA NA NA NA NA NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-36" title="36"><span class="co">#&gt;   ..$ frog_svl           : num [1:466] NA NA NA NA NA NA NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-37" title="37"><span class="co">#&gt;   ..$ swabber_name       : chr [1:466] NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-38" title="38"><span class="co">#&gt;   ..$ treatment          : chr [1:466] "unexposed" "exposed" "unexposed" "unexposed" ...</span></a>
-<a class="sourceLine" id="cb5-39" title="39"><span class="co">#&gt;   ..$ collection_date    : Date[1:466], format: "2014-06-27" ...</span></a>
-<a class="sourceLine" id="cb5-40" title="40"><span class="co">#&gt;   ..$ collection_location: num [1:466] 72996 72996 72996 72996 72996 ...</span></a>
-<a class="sourceLine" id="cb5-41" title="41"><span class="co">#&gt;   ..$ release_location   : num [1:466] 70449 70449 70449 70449 70449 ...</span></a>
-<a class="sourceLine" id="cb5-42" title="42"><span class="co">#&gt;   ..$ release_date       : Date[1:466], format: "2014-06-28" ...</span></a>
-<a class="sourceLine" id="cb5-43" title="43"><span class="co">#&gt;   ..$ standard_type      : chr [1:466] NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-44" title="44"><span class="co">#&gt;   ..$ load               : num [1:466] NA NA NA NA NA NA NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-45" title="45"><span class="co">#&gt;   ..$ category           : chr [1:466] "translocated" "translocated" "translocated" "translocated" ...</span></a>
-<a class="sourceLine" id="cb5-46" title="46"><span class="co">#&gt;   ..- attr(*, "spec")=</span></a>
-<a class="sourceLine" id="cb5-47" title="47"><span class="co">#&gt;   .. .. cols(</span></a>
-<a class="sourceLine" id="cb5-48" title="48"><span class="co">#&gt;   .. ..   swab_id = col_character(),</span></a>
-<a class="sourceLine" id="cb5-49" title="49"><span class="co">#&gt;   .. ..   pit_tag_id = col_double(),</span></a>
-<a class="sourceLine" id="cb5-50" title="50"><span class="co">#&gt;   .. ..   site_id = col_double(),</span></a>
-<a class="sourceLine" id="cb5-51" title="51"><span class="co">#&gt;   .. ..   survey_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb5-52" title="52"><span class="co">#&gt;   .. ..   surveyor1 = col_character(),</span></a>
-<a class="sourceLine" id="cb5-53" title="53"><span class="co">#&gt;   .. ..   pit_tag_status = col_character(),</span></a>
-<a class="sourceLine" id="cb5-54" title="54"><span class="co">#&gt;   .. ..   frog_sex = col_character(),</span></a>
-<a class="sourceLine" id="cb5-55" title="55"><span class="co">#&gt;   .. ..   frog_state = col_character(),</span></a>
-<a class="sourceLine" id="cb5-56" title="56"><span class="co">#&gt;   .. ..   frog_weight = col_double(),</span></a>
-<a class="sourceLine" id="cb5-57" title="57"><span class="co">#&gt;   .. ..   frog_svl = col_double(),</span></a>
-<a class="sourceLine" id="cb5-58" title="58"><span class="co">#&gt;   .. ..   swabber_name = col_character(),</span></a>
-<a class="sourceLine" id="cb5-59" title="59"><span class="co">#&gt;   .. ..   treatment = col_character(),</span></a>
-<a class="sourceLine" id="cb5-60" title="60"><span class="co">#&gt;   .. ..   collection_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb5-61" title="61"><span class="co">#&gt;   .. ..   collection_location = col_double(),</span></a>
-<a class="sourceLine" id="cb5-62" title="62"><span class="co">#&gt;   .. ..   release_location = col_double(),</span></a>
-<a class="sourceLine" id="cb5-63" title="63"><span class="co">#&gt;   .. ..   release_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb5-64" title="64"><span class="co">#&gt;   .. ..   standard_type = col_character(),</span></a>
-<a class="sourceLine" id="cb5-65" title="65"><span class="co">#&gt;   .. ..   load = col_double(),</span></a>
-<a class="sourceLine" id="cb5-66" title="66"><span class="co">#&gt;   .. ..   category = col_character()</span></a>
-<a class="sourceLine" id="cb5-67" title="67"><span class="co">#&gt;   .. .. )</span></a>
-<a class="sourceLine" id="cb5-68" title="68"><span class="co">#&gt;  $ translocations:Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':   80 obs. of  24 variables:</span></a>
-<a class="sourceLine" id="cb5-69" title="69"><span class="co">#&gt;   ..$ swab_id         : chr [1:80] "RKS16752" "RKS16755" "RKS16756" "RKS16757" ...</span></a>
-<a class="sourceLine" id="cb5-70" title="70"><span class="co">#&gt;   ..$ pit_tag_id      : chr [1:80] "900043000104512" "900043000104531" "900043000104540" "900043000104552" ...</span></a>
-<a class="sourceLine" id="cb5-71" title="71"><span class="co">#&gt;   ..$ treatment       : chr [1:80] "exposed" "exposed" "exposed" "exposed" ...</span></a>
-<a class="sourceLine" id="cb5-72" title="72"><span class="co">#&gt;   ..$ release_date    : Date[1:80], format: "2014-06-28" ...</span></a>
-<a class="sourceLine" id="cb5-73" title="73"><span class="co">#&gt;   ..$ swabbing_date   : Date[1:80], format: "2014-06-23" ...</span></a>
-<a class="sourceLine" id="cb5-74" title="74"><span class="co">#&gt;   ..$ pit_tag_status  : chr [1:80] "Y" "Y" "Y" "Y" ...</span></a>
-<a class="sourceLine" id="cb5-75" title="75"><span class="co">#&gt;   ..$ frog_sex        : chr [1:80] "F" "F" "M" "M" ...</span></a>
-<a class="sourceLine" id="cb5-76" title="76"><span class="co">#&gt;   ..$ frog_state      : chr [1:80] "Healthy" "Healthy" "Healthy" "Healthy" ...</span></a>
-<a class="sourceLine" id="cb5-77" title="77"><span class="co">#&gt;   ..$ frog_location   : chr [1:80] "in lake" "in lake" "in lake" "in lake" ...</span></a>
-<a class="sourceLine" id="cb5-78" title="78"><span class="co">#&gt;   ..$ frog_weight     : num [1:80] 11 13 12 10 10 10 11 13 13 11 ...</span></a>
-<a class="sourceLine" id="cb5-79" title="79"><span class="co">#&gt;   ..$ frog_svl        : num [1:80] 46 51 44 42 44 40 45 48 49 47 ...</span></a>
-<a class="sourceLine" id="cb5-80" title="80"><span class="co">#&gt;   ..$ swabber_name    : chr [1:80] "Kauffman" "Kauffman" "Kauffman" "Kauffman" ...</span></a>
-<a class="sourceLine" id="cb5-81" title="81"><span class="co">#&gt;   ..$ frog_comments   : chr [1:80] "Treated, for translocation to 70449." "Treated, for translocation to 70449" "Treated, for translocation to 70449" "Treated, for translocation to 70449" ...</span></a>
-<a class="sourceLine" id="cb5-82" title="82"><span class="co">#&gt;   ..$ quant_cycle     : num [1:80] 35.7 26.4 28.5 34.3 36.1 ...</span></a>
-<a class="sourceLine" id="cb5-83" title="83"><span class="co">#&gt;   ..$ start_quant     : num [1:80] 0.09 51.65 12.33 0.25 0.07 ...</span></a>
-<a class="sourceLine" id="cb5-84" title="84"><span class="co">#&gt;   ..$ standard_type   : chr [1:80] "genomic" "genomic" "genomic" "genomic" ...</span></a>
-<a class="sourceLine" id="cb5-85" title="85"><span class="co">#&gt;   ..$ load            : num [1:80] 432 247920 59184 1200 336 ...</span></a>
-<a class="sourceLine" id="cb5-86" title="86"><span class="co">#&gt;   ..$ survey_date     : Date[1:80], format: "2014-06-28" ...</span></a>
-<a class="sourceLine" id="cb5-87" title="87"><span class="co">#&gt;   ..$ primary_period  : num [1:80] 2 2 2 2 2 2 2 2 2 2 ...</span></a>
-<a class="sourceLine" id="cb5-88" title="88"><span class="co">#&gt;   ..$ secondary_period: num [1:80] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
-<a class="sourceLine" id="cb5-89" title="89"><span class="co">#&gt;   ..$ duration        : num [1:80] NA NA NA NA NA NA NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-90" title="90"><span class="co">#&gt;   ..$ person_hours    : num [1:80] NA NA NA NA NA NA NA NA NA NA ...</span></a>
-<a class="sourceLine" id="cb5-91" title="91"><span class="co">#&gt;   ..$ year            : num [1:80] 2014 2014 2014 2014 2014 ...</span></a>
-<a class="sourceLine" id="cb5-92" title="92"><span class="co">#&gt;   ..$ is_overwinter   : logi [1:80] FALSE FALSE FALSE FALSE FALSE FALSE ...</span></a>
-<a class="sourceLine" id="cb5-93" title="93"><span class="co">#&gt;  $ surveys       :Classes 'tbl_df', 'tbl' and 'data.frame':  52 obs. of  7 variables:</span></a>
-<a class="sourceLine" id="cb5-94" title="94"><span class="co">#&gt;   ..$ primary_period  : num [1:52] 1 2 3 3 3 4 4 4 5 5 ...</span></a>
-<a class="sourceLine" id="cb5-95" title="95"><span class="co">#&gt;   ..$ secondary_period: num [1:52] 0 0 1 2 3 1 2 3 1 2 ...</span></a>
-<a class="sourceLine" id="cb5-96" title="96"><span class="co">#&gt;   ..$ survey_date     : Date[1:52], format: "2014-06-14" ...</span></a>
-<a class="sourceLine" id="cb5-97" title="97"><span class="co">#&gt;   ..$ duration        : num [1:52] NA NA 7.61 7 5.35 7.33 7.58 8.16 7.58 7.85 ...</span></a>
-<a class="sourceLine" id="cb5-98" title="98"><span class="co">#&gt;   ..$ person_hours    : num [1:52] NA NA 7.61 7 5.35 7.33 7.58 8.16 7.58 7.85 ...</span></a>
-<a class="sourceLine" id="cb5-99" title="99"><span class="co">#&gt;   ..$ year            : num [1:52] 2014 2014 2014 2014 2014 ...</span></a>
-<a class="sourceLine" id="cb5-100" title="100"><span class="co">#&gt;   ..$ is_overwinter   : logi [1:52] FALSE FALSE FALSE FALSE FALSE FALSE ...</span></a></code></pre></div>
-<p>Note the output provides data frames as list elements, and a list element called <code>stan_d</code>, which contains data that has been pre-processed for model fitting.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(captures, translocations, surveys)</a></code></pre></div>
+<p>The output provides data frames as list elements, and a list element called <code>stan_d</code>, which contains data that has been pre-processed for model fitting.</p>
+<div id="including-detectionnon-detection-covariates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#including-detectionnon-detection-covariates" class="anchor"></a>Including detection/non-detection covariates</h3>
+<p>Survey-level covariates that might affect the probability of detection can be included via the <code>capture_formula</code> argument to <code>clean_data</code>. <strong>Note:</strong> it is a good idea to ensure that any continuous covariates are rescaled prior to using them as covariates to have mean = 0 and unit standard deviation. This can be acheived by adding a column to the <code>captures</code> data Using a covariate value like <code>year</code>, which typically has a mean in the thousands and a standard deviation far from one will almost assurredly result in numerical issues when fitting a model.</p>
+<p>Assuming we wanted to include a covariate for detection like <code>person_hours</code>, we can do so as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># center and scale the covariate</span></a>
+<a class="sourceLine" id="cb6-2" title="2">captures &lt;-<span class="st"> </span>captures <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">c_person_hours =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/scale">scale</a></span>(person_hours)))</a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co"># specify the formula</span></a>
+<a class="sourceLine" id="cb6-6" title="6">data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(captures, translocations, surveys,</a>
+<a class="sourceLine" id="cb6-7" title="7">                   <span class="dt">capture_formula =</span> <span class="op">~</span><span class="st"> </span>c_person_hours)</a></code></pre></div>
+</div>
+</div>
+<div id="model-structure" class="section level2">
+<h2 class="hasAnchor">
+<a href="#model-structure" class="anchor"></a>Model structure</h2>
+<p>The <code>mrmr</code> package implements a Bayesian open-population Jolly-Seber mark recapture model with known additions to the population (introduced adults). The model tracks the states of <span class="math inline">\(M\)</span> individuals that comprise a superpopulation made up of real and pseudo-individuals (see Joseph and Knapp 2018, <em>Ecosphere</em> for details).</p>
+<p>We assume a robust sampling design where the states of individuals are constant within primary periods, which have repeat secondary periods within them (during which observations are made). The possible states of individuals include “not recruited”, “alive”, and “dead”. The possible observations of individuals include “detected” and “not detected”. We assume that individuals that are in the “not recruited” or “dead” states are never detected (i.e., there are no mistakes in the individual PIT tag ID records).</p>
 </div>
 <div id="model-fitting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-fitting" class="anchor"></a>Model fitting</h2>
 <p>To fit a mark-recapture model, use <code><a href="../reference/fit_model.html">mrmr::fit_model()</a></code>. This model accounts for known introductions into the population, and has random effects to account for variation in survival and recruitment through time.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">mod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data, <span class="dt">cores =</span> parallel<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/parallel/topics/detectCores">detectCores</a></span>(), </a>
-<a class="sourceLine" id="cb6-2" title="2">                 <span class="dt">chains =</span> <span class="dv">2</span>, <span class="dt">iter =</span> <span class="dv">200</span>)</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; Compiling Stan model...</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">mod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data, <span class="dt">cores =</span> parallel<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/parallel/topics/detectCores">detectCores</a></span>(), </a>
+<a class="sourceLine" id="cb7-2" title="2">                 <span class="dt">chains =</span> <span class="dv">2</span>, <span class="dt">iter =</span> <span class="dv">200</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; Compiling Stan model...</span></a></code></pre></div>
 </div>
 <div id="built-in-visualizations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-in-visualizations" class="anchor"></a>Built-in visualizations</h2>
 <p>Time series of abundance, recruitment, and survival of introduced cohorts are available through the <code><a href="../reference/plot_model.html">mrmr::plot_model()</a></code> function.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'abundance'</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
-<p><img src="intro-to-mrmr_files/figure-html/plot-abundance-1.png" width="672"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'recruitment'</span>)</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'abundance'</span>)</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
+<p><img src="intro-to-mrmr_files/figure-html/plot-abundance-1.png" width="672"></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'recruitment'</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/plot-recruitment-1.png" width="672"></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'survival'</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; Joining, by = "pit_tag_id"</span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'survival'</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Joining, by = "pit_tag_id"</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/plot-survival-1.png" width="672"></p>
 </div>
 <div id="custom-visualizations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-visualizations" class="anchor"></a>Custom visualizations</h2>
 <p>Any of the plotting functionality that you would expect from a <code>stanfit</code> model is available as well, by accessing the <code>m_fit</code> list element from a model object. For example, we could assess the posterior for the superpopulation size:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> <span class="st">"Nsuper"</span>)</a></code></pre></div>
-<p><img src="intro-to-mrmr_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> <span class="st">"Nsuper"</span>)</a></code></pre></div>
+<p><img src="intro-to-mrmr_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 </div>
   </div>
@@ -393,6 +316,7 @@
 <a href="#workflow-overview">Workflow overview</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#data-specifications">Data specifications</a></li>
       <li><a href="#data-processing">Data processing</a></li>
+      <li><a href="#model-structure">Model structure</a></li>
       <li><a href="#model-fitting">Model fitting</a></li>
       <li><a href="#built-in-visualizations">Built-in visualizations</a></li>
       <li><a href="#custom-visualizations">Custom visualizations</a></li>

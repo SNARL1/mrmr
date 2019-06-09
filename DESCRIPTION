@@ -1,9 +1,13 @@
 Package: mrmr
 Type: Package
 Title: Mark recapture miscellany in R
-Version: 0.1.0
-Author: Max Joseph
-Maintainer: Max Joseph <maxwellbjoseph@gmail.com>
+Version: 0.1.1
+Authors@R: 
+    person(given = "Max",
+           family = "Joseph",
+           role = c("aut", "cre"),
+           email = "maxwellbjoseph@gmail.com",
+           comment = c(ORCID = "0000-0002-7745-9990"))
 Description: Automates some data processing steps for mark recapture analysis. 
 License: MIT + file LICENSE
 Encoding: UTF-8

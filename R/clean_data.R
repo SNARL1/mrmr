@@ -4,22 +4,45 @@
 #' three files are available, specifying capture, translocation, and survey
 #' data.
 #'
-#' @param captures Character string path to a capture-recapture detection
-#' data csv file.
-#' @param translocations Character string path to translocation data csv file.
-#' @param surveys Character string path to survey data csv file.
+#' @param captures Data frame containing capture-recapture data. Necessary
+#' columns include `pit_tag_id` and `survey_date`.
+#' @param translocations Data frame containing translocation data. Necessary
+#' columns include `pit_tag_id` and `release_date`.
+#' @param surveys Data frame containing survey data. Necessary columns include
+#' `survey_date`, `primary_period`, and `secondary_period`.
+#' @param capture_formula An optional formula specifying the structure of
+#' survey-level capture probability covariates. Any variables in this formula
+#' must be columns in the `surveys` data frame. The formula must start with
+#' `~` and can be provided unquoted, e.g., `capture_formula = ~ temperature`.
+#' It is advisable to ensure that any continuous covariates provided in this
+#' formula are appropriately scaled (ideally, with mean = 0, and standard
+#' deviation = 1).
 #' @return A list containing the data frames resulting from the capture,
 #' translocation, and survey data, along with a list of data formatted for
-#' use in a mark recapture model (with name "stan_d").
+#' use in a mark recapture model (with name 'stan_d').
 #' @examples
-#' captures <- system.file("extdata", "capture-example.csv", package = "mrmr")
-#' translocations <- system.file("extdata", "translocation-example.csv",
-#'                               package = "mrmr")
-#' surveys <- system.file("extdata", "survey-example.csv", package = "mrmr")
-#' clean_data(captures, translocations, surveys)
+#' library(mrmr)
+#' library(readr)
+#' library(dplyr)
+#'
+#' captures <- system.file('extdata', 'capture-example.csv',
+#'     package = 'mrmr') %>%
+#'   read_csv
+#' translocations <- system.file('extdata', 'translocation-example.csv',
+#'     package = 'mrmr') %>%
+#'   read_csv
+#' surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') %>%
+#'   read_csv
+#'
+#' # read and clean the data using defaults
+#' out <- clean_data(captures, translocations, surveys)
+#'
+#' # (optional) specify a formula for detection probabilities
+#' out_w_covs <- clean_data(captures, translocations, surveys,
+#'    capture_formula = ~ person_hours)
 #' @export
 #' @importFrom readr read_csv parse_number
-#' @importFrom dplyr %>% mutate group_by summarize ungroup if_else full_join
+#' @importFrom dplyr %>% mutate group_by summarize ungroup full_join
 #' arrange left_join select filter distinct anti_join lead n
 #' @importFrom tibble tibble
 #' @importFrom tidyr complete separate unite
@@ -28,13 +51,13 @@
 #' @importFrom lubridate year
 #' @importFrom stats model.matrix
 
-clean_data <- function(captures, translocations, surveys) {
-  translocations <- read_csv(translocations) %>%
+clean_data <- function(captures, translocations, surveys,
+                       capture_formula = ~ 1) {
+  translocations <- translocations %>%
     mutate(pit_tag_id = as.character(.data$pit_tag_id))
-  captures <- read_csv(captures)
-  surveys <- read_csv(surveys) %>%
-    mutate(secondary_period = if_else(.data$people == 0,
-                                      0, .data$secondary_period),
+  surveys <- surveys %>%
+    mutate(secondary_period = ifelse(.data$people == 0,
+                                     0, .data$secondary_period),
            primary_period = .data$primary_period + 1) %>%
     group_by(.data$primary_period, .data$secondary_period) %>%
     summarize(survey_date = min(.data$survey_date),
@@ -211,8 +234,8 @@ clean_data <- function(captures, translocations, surveys) {
 
 
   # generate detection design matrix
-  X_detect <- model.matrix(~ 1, data = filter(surveys,
-                                              .data$secondary_period > 0))
+  X_detect <- model.matrix(capture_formula,
+                           data = filter(surveys, .data$secondary_period > 0))
   stopifnot(nrow(X_detect) == Jtot)
 
   # verify that the primary periods with no surveys have all zeros in j_idx

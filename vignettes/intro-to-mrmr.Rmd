@@ -45,11 +45,12 @@ library(mrmr)
 ```
 
 ```{r show-capture-data}
-capture_filepath <- system.file("extdata", 
+captures <- system.file("extdata", 
                                 "capture-example.csv", 
-                                package = "mrmr")
-read_csv(capture_filepath) %>%
-  glimpse
+                                package = "mrmr") %>%
+  read_csv
+
+glimpse(captures)
 ```
 
 Note that the `system.file` function generates a path to the 
@@ -62,11 +63,12 @@ Each row in this file represents a capture or recapture event.
 The second file specifies translocation data: 
 
 ```{r show-trans-data}
-translocation_filepath <- system.file("extdata", 
+translocations <- system.file("extdata", 
                                       "translocation-example.csv", 
-                                      package = "mrmr")
-read_csv(translocation_filepath) %>%
-  glimpse
+                                      package = "mrmr") %>%
+  read_csv
+
+glimpse(translocations)
 ```
 
 Each row corresponds to a translocation event of one unique individual. 
@@ -74,11 +76,12 @@ Each row corresponds to a translocation event of one unique individual.
 The third file specifies survey-level data:
 
 ```{r show-survey-data}
-survey_filepath <- system.file("extdata", 
+surveys <- system.file("extdata", 
                                "survey-example.csv", 
-                                package = "mrmr")
-read_csv(survey_filepath) %>%
-  glimpse
+                                package = "mrmr") %>%
+  read_csv
+
+glimpse(surveys)
 ```
 
 Here, each row is a unique survey.
@@ -89,14 +92,47 @@ To load and process the data, provide paths to the data files as
 arguments to the `mrmr::clean_data()` function:
 
 ```{r clean-data, message=FALSE}
-data <- clean_data(captures = capture_filepath, 
-                   translocations = translocation_filepath, 
-                   surveys = survey_filepath)
-glimpse(data)
+data <- clean_data(captures, translocations, surveys)
 ```
 
-Note the output provides data frames as list elements, and a list element called
+The output provides data frames as list elements, and a list element called
 `stan_d`, which contains data that has been pre-processed for model fitting. 
+
+### Including detection/non-detection covariates
+
+Survey-level covariates that might affect the probability of detection can 
+be included via the `capture_formula` argument to `clean_data`. 
+**Note:** it is a good idea to ensure that any continuous covariates are 
+rescaled prior to using them as covariates to have mean = 0 and unit standard 
+deviation. 
+This can be acheived by adding a column to the `captures` data
+Using a covariate value like `year`, which typically has a mean in the thousands
+and a standard deviation far from one will almost assurredly result in 
+numerical issues when fitting a model. 
+
+Assuming we wanted to include a covariate for detection like `person_hours`, 
+we can do so as follows:
+
+```{r, message=FALSE, eval=FALSE}
+# center and scale the covariate
+captures <- captures %>%
+  mutate(c_person_hours = c(scale(person_hours)))
+
+# specify the formula
+data <- clean_data(captures, translocations, surveys,
+                   capture_formula = ~ c_person_hours)
+```
+
+
+## Model structure
+
+The `mrmr` package implements a Bayesian open-population Jolly-Seber mark recapture model with known additions to the population (introduced adults).
+The model tracks the states of $M$ individuals that comprise a superpopulation made up of real and pseudo-individuals (see Joseph and Knapp 2018, *Ecosphere* for details).
+
+We assume a robust sampling design where the states of individuals are constant within primary periods, which have repeat secondary periods within them (during which observations are made). 
+The possible states of individuals include "not recruited", "alive", and "dead". 
+The possible observations of individuals include "detected" and "not detected". 
+We assume that individuals that are in the "not recruited" or "dead" states are never detected (i.e., there are no mistakes in the individual PIT tag ID records).
 
 ## Model fitting
 
