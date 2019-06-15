@@ -1,15 +1,17 @@
 #' Load a mark-recapture data set
 #'
 #' This function loads and parses a mark recapture data set. It assumes that
-#' three files are available, specifying capture, translocation, and survey
-#' data.
+#' three files are available, specifying capture, survey, and (optional)
+#' translocation data.
 #'
 #' @param captures Data frame containing capture-recapture data. Necessary
 #' columns include `pit_tag_id` and `survey_date`.
-#' @param translocations Data frame containing translocation data. Necessary
-#' columns include `pit_tag_id` and `release_date`.
 #' @param surveys Data frame containing survey data. Necessary columns include
 #' `survey_date`, `primary_period`, and `secondary_period`.
+#' @param translocations Optional data frame with translocation data. Necessary
+#' columns include `pit_tag_id` and `release_date`. If nothing is provided
+#' to this argument, the `clean_data` function assumes that there are no
+#' translocations of individuals into the population.
 #' @param capture_formula An optional formula specifying the structure of
 #' survey-level capture probability covariates. Any variables in this formula
 #' must be columns in the `surveys` data frame. The formula must start with
@@ -35,11 +37,11 @@
 #'   read_csv
 #'
 #' # read and clean the data using defaults
-#' out <- clean_data(captures, translocations, surveys)
+#' data <- clean_data(captures, surveys, translocations)
 #'
 #' # (optional) specify a formula for detection probabilities
-#' out_w_covs <- clean_data(captures, translocations, surveys,
-#'    capture_formula = ~ person_hours)
+#' data <- clean_data(captures, surveys, translocations,
+#'                    capture_formula = ~ person_hours)
 #' @export
 #' @importFrom readr read_csv parse_number
 #' @importFrom dplyr %>% mutate group_by summarize ungroup full_join
@@ -51,10 +53,19 @@
 #' @importFrom lubridate year
 #' @importFrom stats model.matrix
 
-clean_data <- function(captures, translocations, surveys,
-                       capture_formula = ~ 1) {
-  translocations <- translocations %>%
-    mutate(pit_tag_id = as.character(.data$pit_tag_id))
+clean_data <- function(captures, surveys,
+                       translocations = NA, capture_formula = ~ 1) {
+
+  # ---------------
+  # captures <- system.file('extdata', 'capture-example.csv',
+  #     package = 'mrmr') %>%
+  #   read_csv
+  # translocations <- NA
+  # surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') %>%
+  #   read_csv
+  # capture_formula = ~ 1
+  # ----------------
+
   surveys <- surveys %>%
     mutate(secondary_period = ifelse(.data$people == 0,
                                      0, .data$secondary_period),
@@ -78,8 +89,19 @@ clean_data <- function(captures, translocations, surveys,
     arrange(.data$primary_period, .data$secondary_period)
 
 
+  any_translocations <- 'data.frame' %in% class(translocations)
+  if (any_translocations) {
+    translocations <- translocations %>%
+      mutate(pit_tag_id = as.character(.data$pit_tag_id),
+             survey_date = as.Date(.data$release_date)) %>%
+      left_join(surveys)
+    transloc_tags <- translocations$pit_tag_id
+  } else {
+    transloc_tags <- c()
+  }
+
   # find M, the superpopulation size
-  n_obs <- length(unique(c(translocations$pit_tag_id, captures$pit_tag_id)))
+  n_obs <- length(unique(c(transloc_tags, captures$pit_tag_id)))
   n_aug <- n_obs * 2
   M <- n_obs + n_aug
 
@@ -90,8 +112,8 @@ clean_data <- function(captures, translocations, surveys,
     select(.data$n_sec_periods) %>%
     unlist
 
-  ever_detected <- translocations$pit_tag_id %in% captures$pit_tag_id
-  introduced_but_never_detected <- translocations$pit_tag_id[!ever_detected]
+  ever_detected <- transloc_tags %in% captures$pit_tag_id
+  introduced_but_never_detected <- transloc_tags[!ever_detected]
 
   y_aug <- tibble(pit_tag_id = c(introduced_but_never_detected,
                                  paste0('aug', 1:n_aug)),
@@ -188,22 +210,18 @@ clean_data <- function(captures, translocations, surveys,
 
 
   # Process data for introductions ------------------------------------------
-  n_intro <- length(unique(translocations$pit_tag_id))
-  stopifnot(all(translocations$pit_tag_id %in% dimnames(Y)[[1]]))
-  introduced <- dimnames(Y)[[1]] %in% translocations$pit_tag_id
-  translocations <- translocations %>%
-    mutate(survey_date = as.Date(.data$release_date)) %>%
-    left_join(surveys)
+  n_intro <- length(unique(transloc_tags))
+  stopifnot(all(transloc_tags %in% dimnames(Y)[[1]]))
+  introduced <- dimnames(Y)[[1]] %in% transloc_tags
   t_intro <- rep(0, M) # primary period index when the animal was introduced
   # 0 acts as an NA value
   for (i in 1:M) {
     if (introduced[i]) {
-      translocate_df_row <- which(translocations$pit_tag_id == dimnames(Y)[[1]][i])
+      translocate_df_row <- which(transloc_tags == dimnames(Y)[[1]][i])
       t_intro[i] <- translocations$primary_period[translocate_df_row]
     }
   }
   stopifnot(mean(t_intro > 0) == mean(introduced))
-
 
 
   # Deal with detection data ------------------------------------------------
