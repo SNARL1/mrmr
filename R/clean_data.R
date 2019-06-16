@@ -55,17 +55,6 @@
 
 clean_data <- function(captures, surveys,
                        translocations = NA, capture_formula = ~ 1) {
-
-  # ---------------
-  # captures <- system.file('extdata', 'capture-example.csv',
-  #     package = 'mrmr') %>%
-  #   read_csv
-  # translocations <- NA
-  # surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') %>%
-  #   read_csv
-  # capture_formula = ~ 1
-  # ----------------
-
   surveys <- surveys %>%
     mutate(secondary_period = ifelse(.data$people == 0,
                                      0, .data$secondary_period),
