@@ -4,17 +4,20 @@
 \alias{clean_data}
 \title{Load a mark-recapture data set}
 \usage{
-clean_data(captures, translocations, surveys, capture_formula = ~1)
+clean_data(captures, surveys, translocations = NA,
+  capture_formula = ~1)
 }
 \arguments{
 \item{captures}{Data frame containing capture-recapture data. Necessary
 columns include `pit_tag_id` and `survey_date`.}
 
-\item{translocations}{Data frame containing translocation data. Necessary
-columns include `pit_tag_id` and `release_date`.}
-
 \item{surveys}{Data frame containing survey data. Necessary columns include
 `survey_date`, `primary_period`, and `secondary_period`.}
+
+\item{translocations}{Optional data frame with translocation data. Necessary
+columns include `pit_tag_id` and `release_date`. If nothing is provided
+to this argument, the `clean_data` function assumes that there are no
+translocations of individuals into the population.}
 
 \item{capture_formula}{An optional formula specifying the structure of
 survey-level capture probability covariates. Any variables in this formula
@@ -31,8 +34,8 @@ use in a mark recapture model (with name 'stan_d').
 }
 \description{
 This function loads and parses a mark recapture data set. It assumes that
-three files are available, specifying capture, translocation, and survey
-data.
+three files are available, specifying capture, survey, and (optional)
+translocation data.
 }
 \examples{
 library(mrmr)
@@ -49,9 +52,9 @@ surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') \%>\%
   read_csv
 
 # read and clean the data using defaults
-out <- clean_data(captures, translocations, surveys)
+data <- clean_data(captures, surveys, translocations)
 
 # (optional) specify a formula for detection probabilities
-out_w_covs <- clean_data(captures, translocations, surveys,
-   capture_formula = ~ person_hours)
+data <- clean_data(captures, surveys, translocations,
+                   capture_formula = ~ person_hours)
 }

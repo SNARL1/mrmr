@@ -92,7 +92,7 @@ To load and process the data, provide paths to the data files as
 arguments to the `mrmr::clean_data()` function:
 
 ```{r clean-data, message=FALSE}
-data <- clean_data(captures, translocations, surveys)
+data <- clean_data(captures, surveys, translocations)
 ```
 
 The output provides data frames as list elements, and a list element called
@@ -119,7 +119,7 @@ captures <- captures %>%
   mutate(c_person_hours = c(scale(person_hours)))
 
 # specify the formula
-data <- clean_data(captures, translocations, surveys,
+data <- clean_data(captures, surveys, translocations,
                    capture_formula = ~ c_person_hours)
 ```
 
@@ -142,7 +142,7 @@ random effects to account for variation in survival and recruitment through time
 
 ```{r fit-model}
 mod <- fit_model(data, cores = parallel::detectCores(), 
-                 chains = 2, iter = 200)
+                 chains = 2, iter = 400)
 ```
 
 ## Built-in visualizations
@@ -170,4 +170,15 @@ For example, we could assess the posterior for the superpopulation size:
 
 ```{r}
 traceplot(mod$m_fit, pars = "Nsuper")
+```
+
+## Cases with no translocations
+
+In some cases, there may not be any introductions of animals into a population. 
+The only difference in implementation in such cases is that the `translocations` 
+argument to `clean_data()` can be omitted:
+
+```{r no-trans, message = FALSE, eval = FALSE}
+data_no_trans <- clean_data(captures, surveys)
+mod_no_trans <- fit_model(data_no_trans)
 ```
