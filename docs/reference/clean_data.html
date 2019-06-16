@@ -33,8 +33,8 @@
 <meta property="og:title" content="Load a mark-recapture data set — clean_data" />
 
 <meta property="og:description" content="This function loads and parses a mark recapture data set. It assumes that
-three files are available, specifying capture, translocation, and survey
-data." />
+three files are available, specifying capture, survey, and (optional)
+translocation data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,12 +116,13 @@ data." />
     <div class="ref-description">
     
     <p>This function loads and parses a mark recapture data set. It assumes that
-three files are available, specifying capture, translocation, and survey
-data.</p>
+three files are available, specifying capture, survey, and (optional)
+translocation data.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>translocations</span>, <span class='no'>surveys</span>, <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='kw'>translocations</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,14 +133,16 @@ data.</p>
 columns include `pit_tag_id` and `survey_date`.</p></td>
     </tr>
     <tr>
-      <th>translocations</th>
-      <td><p>Data frame containing translocation data. Necessary
-columns include `pit_tag_id` and `release_date`.</p></td>
-    </tr>
-    <tr>
       <th>surveys</th>
       <td><p>Data frame containing survey data. Necessary columns include
 `survey_date`, `primary_period`, and `secondary_period`.</p></td>
+    </tr>
+    <tr>
+      <th>translocations</th>
+      <td><p>Optional data frame with translocation data. Necessary
+columns include `pit_tag_id` and `release_date`. If nothing is provided
+to this argument, the `clean_data` function assumes that there are no
+translocations of individuals into the population.</p></td>
     </tr>
     <tr>
       <th>capture_formula</th>
@@ -227,10 +230,10 @@ use in a mark recapture model (with name 'stan_d').</p>
 #&gt; <span class='message'>  person_hours = </span><span style='color: #00BB00;'>col_double()</span><span></span>
 #&gt; <span class='message'>)</span></div><div class='input'>
 <span class='co'># read and clean the data using defaults</span>
-<span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>translocations</span>, <span class='no'>surveys</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div><div class='input'>
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='no'>translocations</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div><div class='input'>
 <span class='co'># (optional) specify a formula for detection probabilities</span>
-<span class='no'>out_w_covs</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>translocations</span>, <span class='no'>surveys</span>,
-   <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~ <span class='no'>person_hours</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div></span></pre>
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='no'>translocations</span>,
+                   <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~ <span class='no'>person_hours</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
