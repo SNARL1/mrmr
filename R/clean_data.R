@@ -61,7 +61,6 @@ clean_data <- function(captures, surveys,
            primary_period = .data$primary_period + 1) %>%
     group_by(.data$primary_period, .data$secondary_period) %>%
     summarize(survey_date = min(.data$survey_date),
-              duration = sum(.data$survey_duration),
               person_hours = sum(.data$person_hours)) %>%
     ungroup %>%
     mutate(year = year(.data$survey_date),
