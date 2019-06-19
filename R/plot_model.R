@@ -30,6 +30,7 @@ plot_model <- function(model, what) {
     p <- model$post$N %>%
       melt(varnames = c('iter', 'primary_period')) %>%
       as_tibble %>%
+      mutate(primary_period = .data$primary_period + 1) %>%
       group_by(.data$primary_period) %>%
       summarize(lo = quantile(.data$value, .025),
                 med = median(.data$value),
