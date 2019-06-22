@@ -39,9 +39,12 @@
 #' # read and clean the data using defaults
 #' data <- clean_data(captures, surveys, translocations)
 #'
-#' # (optional) specify a formula for detection probabilities
+#'\dontrun{
+#' # (optional) specify a formula for detection probabilities, assuming
+#' there is a column called "person_hours"
 #' data <- clean_data(captures, surveys, translocations,
 #'                    capture_formula = ~ person_hours)
+#'}
 #' @export
 #' @importFrom readr read_csv parse_number
 #' @importFrom dplyr %>% mutate group_by summarize ungroup full_join
@@ -60,8 +63,7 @@ clean_data <- function(captures, surveys,
                                      0, .data$secondary_period),
            primary_period = .data$primary_period + 1) %>%
     group_by(.data$primary_period, .data$secondary_period) %>%
-    summarize(survey_date = min(.data$survey_date),
-              person_hours = sum(.data$person_hours)) %>%
+    summarize(survey_date = min(.data$survey_date)) %>%
     ungroup %>%
     mutate(year = year(.data$survey_date),
            is_overwinter = lead(.data$year) - .data$year == 1,

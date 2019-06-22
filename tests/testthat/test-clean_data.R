@@ -19,7 +19,7 @@ test_that("formula specification results in the correct design matrix", {
   surveys <- read_csv(system.file("extdata", "survey-example.csv",
                                   package = "mrmr"))
   out <- clean_data(captures, surveys,
-                    capture_formula = ~ person_hours)
-  expected_names <- c('(Intercept)', 'person_hours')
+                    capture_formula = ~ primary_period)
+  expected_names <- c('(Intercept)', 'primary_period')
   expect_true(all(expected_names %in% colnames(out$stan_d$X_detect)))
 })

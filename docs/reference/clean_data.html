@@ -231,9 +231,13 @@ use in a mark recapture model (with name 'stan_d').</p>
 #&gt; <span class='message'>)</span></div><div class='input'>
 <span class='co'># read and clean the data using defaults</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='no'>translocations</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div><div class='input'>
-<span class='co'># (optional) specify a formula for detection probabilities</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='no'>translocations</span>,
-                   <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~ <span class='no'>person_hours</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div></span></pre>
+</div></span># NOT RUN {
+# (optional) specify a formula for detection probabilities, assuming
+there is a column called "person_hours"
+data <- clean_data(captures, surveys, translocations,
+                   capture_formula = ~ person_hours)
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

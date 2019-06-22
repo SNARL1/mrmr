@@ -54,7 +54,10 @@ surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') \%>\%
 # read and clean the data using defaults
 data <- clean_data(captures, surveys, translocations)
 
-# (optional) specify a formula for detection probabilities
+\dontrun{
+# (optional) specify a formula for detection probabilities, assuming
+there is a column called "person_hours"
 data <- clean_data(captures, surveys, translocations,
                    capture_formula = ~ person_hours)
+}
 }
