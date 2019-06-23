@@ -58,6 +58,8 @@
 
 clean_data <- function(captures, surveys,
                        translocations = NA, capture_formula = ~ 1) {
+  surveys$survey_date <- parse_date(surveys$survey_date)
+  captures$survey_date <- parse_date(captures$survey_date)
   surveys <- surveys %>%
     mutate(secondary_period = ifelse(.data$people == 0,
                                      0, .data$secondary_period),
@@ -81,6 +83,7 @@ clean_data <- function(captures, surveys,
 
   any_translocations <- 'data.frame' %in% class(translocations)
   if (any_translocations) {
+    translocations$release_date <- parse_date(translocations$release_date)
     translocations <- translocations %>%
       mutate(pit_tag_id = as.character(.data$pit_tag_id),
              survey_date = as.Date(.data$release_date)) %>%
@@ -268,4 +271,24 @@ clean_data <- function(captures, surveys,
        captures = captures,
        translocations = translocations,
        surveys = surveys)
+}
+
+
+
+parse_date <- function(date) {
+  if (class(date) != "Date") {
+    tryCatch(date <- as.Date(date),
+             error = function(c) {
+               stop(paste("Couldn't coerce date(s) to a Date object.",
+                          "Try formatting date(s) as: %Y-%m-%d,",
+                          "or convert all dates to the Date class",
+                          "(see ?Date)."))
+             }
+    )
+  }
+  todays_date <- format(Sys.time(), "%Y-%m-%d")
+  if (any(date > todays_date)) {
+    stop("All provided dates must be <= the current date.")
+  }
+  date
 }
