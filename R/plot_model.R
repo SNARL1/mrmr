@@ -64,6 +64,13 @@ plot_model <- function(model, what) {
   }
 
   if (what == "survival") {
+
+    if (is.na(model$data$translocations)) {
+      stop(paste("No translocation data are present, so a cohort survival",
+                 "plot cannot be generated. Using what='survival' requires",
+                 "translocation data."))
+    }
+
     primary_period_dates <- model$data$surveys %>%
       group_by(.data$primary_period) %>%
       summarize(date = min(.data$survey_date),
