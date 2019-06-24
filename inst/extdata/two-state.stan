@@ -19,6 +19,8 @@ data {
   // fixed effects design matrices
   int<lower = 1> m_detect;
   matrix[Jtot, m_detect] X_detect;
+  int<lower = 1> m_surv;
+  matrix[M, m_surv] X_surv;
 }
 
 transformed data {
@@ -32,7 +34,7 @@ parameters {
   vector[T - 1] eps_lambda;
 
   // survival
-  real alpha_phi;
+  vector[m_surv] beta_phi;
   real<lower = 0> sigma_phi;
   vector[T] eps_phi;
 
@@ -43,10 +45,15 @@ parameters {
 transformed parameters {
   vector[Jtot] logit_detect;
   vector<lower = 0, upper = 1>[Tm1] lambda;
-  vector<lower = 0, upper = 1>[T] phi;
+  matrix<lower = 0, upper = 1>[M, T] phi;
   vector[M] log_lik;
 
-  phi = inv_logit(alpha_phi + eps_phi * sigma_phi);
+  {
+    vector[M] phi_fixef = X_surv * beta_phi;
+    for (t in 1:T) {
+      phi[, t] = inv_logit(phi_fixef + eps_phi[t] * sigma_phi);
+    }
+  }
 
   // probability of entering population
   lambda = inv_logit(alpha_lambda + eps_lambda * sigma_lambda);
@@ -64,7 +71,7 @@ transformed parameters {
     // s = 1 :: not recruited
     // s = 2 :: alive
     // s = 3 :: dead
-    
+
     // define probs of state S(t+1) | S(t)
     // first index: S(t)
     // second index: individual
@@ -76,8 +83,8 @@ transformed parameters {
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
         ps[3, t, 1] = 0;
-        ps[2, t, 2] = phi[t];     // survive
-        ps[2, t, 3] = 1 - phi[t]; // death
+        ps[2, t, 2] = phi[i, t];     // survive
+        ps[2, t, 3] = 1 - phi[i, t]; // death
         ps[3, t, 2] = 0; // cannot un-die
         ps[3, t, 3] = 1; // dead stay dead
       }
@@ -111,7 +118,7 @@ transformed parameters {
           ps[1, t, 3] = 0;
         }
       }
-  
+
       // observation probabilities
       for (j in 1:Jtot) {
         p = inv_logit(logit_detect[j]);
@@ -124,7 +131,7 @@ transformed parameters {
         po[3, j, 1] = 1;
         po[3, j, 2] = 0;
       }
-      
+
       // all individuals are in state 1 in first primary period
       gam[1, 1] = 1;
       gam[1, 2] = 0;
@@ -154,13 +161,13 @@ transformed parameters {
 
 model {
   // priors
-  alpha_lambda ~ normal(0, 1);
-  sigma_lambda ~ normal(0, 1);
-  eps_lambda ~ normal(0, 1);
-  beta_detect ~ normal(0, 1);
-  alpha_phi ~ normal(0, 1);
-  sigma_phi ~ normal(0, 1);
-  eps_phi ~ normal(0, 1);
+  alpha_lambda ~ std_normal();
+  sigma_lambda ~ std_normal();
+  eps_lambda ~ std_normal();
+  beta_detect ~ std_normal();
+  beta_phi ~ std_normal();
+  sigma_phi ~ std_normal();
+  eps_phi ~ std_normal();
 
   target += sum(log_lik);
 }
@@ -176,7 +183,7 @@ generated quantities {
     // s = 1 :: not recruited
     // s = 2 :: alive
     // s = 3 :: dead
-    
+
     // define probs of state S(t+1) | S(t)
     // first index: S(t)
     // second index: individual
@@ -187,8 +194,8 @@ generated quantities {
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
         ps[3, t, 1] = 0;
-        ps[2, t, 2] = phi[t];     // survive
-        ps[2, t, 3] = 1 - phi[t]; // death
+        ps[2, t, 2] = phi[i, t];     // survive
+        ps[2, t, 3] = 1 - phi[i, t]; // death
         ps[3, t, 2] = 0; // cannot un-die
         ps[3, t, 3] = 1; // dead stay dead
       }
@@ -222,7 +229,7 @@ generated quantities {
           ps[1, t, 3] = 0;
         }
       }
-      
+
     // simulate discrete state values
     s[i, 1] = 1;
       for (t in 2:T) {

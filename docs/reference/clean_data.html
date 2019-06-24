@@ -122,7 +122,8 @@ translocation data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='kw'>translocations</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>)</pre>
+  <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>survival_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>,
+  <span class='kw'>survival_fill_value</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +154,23 @@ must be columns in the `surveys` data frame. The formula must start with
 It is advisable to ensure that any continuous covariates provided in this
 formula are appropriately scaled (ideally, with mean = 0, and standard
 deviation = 1).</p></td>
+    </tr>
+    <tr>
+      <th>survival_formula</th>
+      <td><p>An optional formula specifying the structure of
+individual-level survival covariates. Any variables in this formula
+must be columns in the `translocations` and/or `captures` data frames.
+The formula must start with `~` and can be provided unquoted.
+It is advisable to ensure that any continuous covariates provided in this
+formula are appropriately scaled (ideally, with mean = 0, and standard
+deviation = 1). Variables specified in this formula cannot be time-varying.
+They must be fixed for each individual over the entire study.</p></td>
+    </tr>
+    <tr>
+      <th>survival_fill_value</th>
+      <td><p>A fill value to use for individual-level
+covariates. This argument is only required when using the
+`survival_formula` argument`.</p></td>
     </tr>
     </table>
     

@@ -19,6 +19,17 @@
 #' It is advisable to ensure that any continuous covariates provided in this
 #' formula are appropriately scaled (ideally, with mean = 0, and standard
 #' deviation = 1).
+#' @param survival_formula An optional formula specifying the structure of
+#' individual-level survival covariates. Any variables in this formula
+#' must be columns in the `translocations` and/or `captures` data frames.
+#' The formula must start with `~` and can be provided unquoted.
+#' It is advisable to ensure that any continuous covariates provided in this
+#' formula are appropriately scaled (ideally, with mean = 0, and standard
+#' deviation = 1). Variables specified in this formula cannot be time-varying.
+#' They must be fixed for each individual over the entire study.
+#' @param survival_fill_value A fill value to use for individual-level
+#' covariates. This argument is only required when using the
+#' `survival_formula` argument`.
 #' @return A list containing the data frames resulting from the capture,
 #' translocation, and survey data, along with a list of data formatted for
 #' use in a mark recapture model (with name 'stan_d').
@@ -57,9 +68,66 @@
 #' @importFrom stats model.matrix
 
 clean_data <- function(captures, surveys,
-                       translocations = NA, capture_formula = ~ 1) {
-  surveys$survey_date <- parse_date(surveys$survey_date)
-  captures$survey_date <- parse_date(captures$survey_date)
+                       translocations = NA,
+                       capture_formula = ~ 1,
+                       survival_formula = ~ 1,
+                       survival_fill_value = NA) {
+
+  # ---------------------------------
+  # captures <- system.file('extdata', 'capture-example.csv',
+  #     package = 'mrmr') %>%
+  #   read_csv
+  # translocations <- system.file('extdata', 'translocation-example.csv',
+  #     package = 'mrmr') %>%
+  #   read_csv
+  # surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') %>%
+  #   read_csv
+  # capture_formula = ~ 1
+  # survival_formula = ~treatment
+  # survival_fill_value = c(treatment = 'control')
+  # ---------------------------------
+
+
+  any_translocations <- 'data.frame' %in% class(translocations)
+
+  survival_formula_specified <- !identical(survival_formula, ~1)
+  survival_fill_named <- !is.null(names(survival_fill_value))
+  if (!identical(survival_fill_value, NA) & !survival_formula_specified) {
+    stop(paste("A survival fill value was provided, but no survival formula",
+               "was specified. The survival_fill_value argument will only",
+               "work when a survival formula is specified."))
+  }
+  if (survival_formula_specified) {
+    # use fill values
+    if (is.null(names(survival_fill_value))) {
+      stop("The survival_fill_value argument must be a named vector, ",
+           "e.g., survival_fill_value = c(treatment = 'control').")
+    }
+    for (n in names(survival_fill_value)) {
+
+      name_in_captures <- n %in% names(captures)
+      if (name_in_captures) {
+        captures[[n]] <- ifelse(is.na(captures[[n]]),
+                                survival_fill_value[n], captures[[n]])
+      }
+
+      name_in_translocations <- any_translocations & n %in% names(translocations)
+      if (name_in_translocations) {
+        translocations[[n]] <- ifelse(is.na(translocations[[n]]),
+                                      survival_fill_value[n], translocations[[n]])
+      }
+
+      if (!name_in_captures & !name_in_translocations) {
+        stop(paste("Named elements in the survival_fill_value argument",
+                   "must also be columns in the capture and/or translocation",
+                   "data, but", n, "was not found in either."))
+      }
+    }
+  }
+
+  # check that date columns can be parsed as Date objects
+  surveys$survey_date <- parse_as_date(surveys$survey_date)
+  captures$survey_date <- parse_as_date(captures$survey_date)
   surveys <- surveys %>%
     mutate(secondary_period = ifelse(.data$people == 0,
                                      0, .data$secondary_period),
@@ -72,6 +140,7 @@ clean_data <- function(captures, surveys,
            is_overwinter = ifelse(is.na(.data$is_overwinter),
                                   FALSE, .data$is_overwinter))
 
+
   dummy_primary_period <- tibble(primary_period = 1,
                                  secondary_period = 0,
                                  survey_date = min(surveys$survey_date) - 14,
@@ -81,9 +150,9 @@ clean_data <- function(captures, surveys,
     arrange(.data$primary_period, .data$secondary_period)
 
 
-  any_translocations <- 'data.frame' %in% class(translocations)
+
   if (any_translocations) {
-    translocations$release_date <- parse_date(translocations$release_date)
+    translocations$release_date <- parse_as_date(translocations$release_date)
     translocations <- translocations %>%
       mutate(pit_tag_id = as.character(.data$pit_tag_id),
              survey_date = as.Date(.data$release_date)) %>%
@@ -112,6 +181,7 @@ clean_data <- function(captures, surveys,
                                  paste0('aug', 1:n_aug)),
                   y = 1)
 
+  captures$pit_tag_id <- as.character(captures$pit_tag_id)
   y_df <- captures %>%
     mutate(y = 2) %>%
     left_join(surveys) %>%
@@ -179,6 +249,32 @@ clean_data <- function(captures, surveys,
     arrange(.data$pit_tag_id, .data$primary_period, .data$secondary_period) %>%
     filter(!is.na(.data$pit_tag_id))
 
+  if (survival_formula_specified) {
+    join_cols <- c('pit_tag_id', names(survival_fill_value))
+    y_df <- y_df %>%
+      left_join(distinct(captures[, join_cols]))
+
+    if (any_translocations) {
+      y_df <- y_df %>%
+        left_join(distinct(translocations[, join_cols]))
+    }
+
+    # for each survival covariate, fill in missing values
+    for (i in seq_along(survival_fill_value)) {
+      nam <- names(survival_fill_value)[i]
+      y_df[[nam]] <- ifelse(is.na(y_df[[nam]]),
+                                  survival_fill_value[i],
+                                  y_df[[nam]])
+      # make sure there are no NA values after filling
+      stopifnot(!any(is.na(y_df[[nam]])))
+      # make sure each individual gets just one unique value
+      i_counts <- y_df %>%
+        group_by(.data$pit_tag_id) %>%
+        summarize(nt = length(unique(!!nam)))
+      stopifnot(all(i_counts$nt == 1))
+    }
+  }
+
   # assert that the only surveys where y = 0 correspond to primary periods with
   # no surveys
   stopifnot(
@@ -192,11 +288,12 @@ clean_data <- function(captures, surveys,
   )
 
 
-  Y <- acast(y_df, pit_tag_id ~ primary_period ~ secondary_period,
-             fill = 0,
-             value.var = "y")
+  Y <- acast(y_df[, !names(y_df) %in% names(survival_fill_value)],
+          pit_tag_id ~ primary_period ~ secondary_period,
+          fill = 0, value.var = "y")
 
   stopifnot(dim(Y)[1] == M)
+  stopifnot(all(dimnames(Y)[[1]] == sort(dimnames(Y)[[1]])))
   stopifnot(dim(Y)[2] == max(surveys$primary_period))
   stopifnot(dim(Y)[3] == max(y_df$secondary_period))
 
@@ -215,7 +312,6 @@ clean_data <- function(captures, surveys,
     }
   }
   stopifnot(mean(t_intro > 0) == mean(introduced))
-
 
   # Deal with detection data ------------------------------------------------
   Jtot <- sum(J)
@@ -249,6 +345,12 @@ clean_data <- function(captures, surveys,
                            data = filter(surveys, .data$secondary_period > 0))
   stopifnot(nrow(X_detect) == Jtot)
 
+  X_surv_df <- y_df[, c('pit_tag_id', names(survival_fill_value))] %>%
+    distinct %>%
+    arrange(.data$pit_tag_id)
+  X_surv <- model.matrix(survival_formula, data = X_surv_df)
+  stopifnot(nrow(X_surv) == M)
+
   # verify that the primary periods with no surveys have all zeros in j_idx
   stopifnot(identical(names(which(rowSums(j_idx) == 0)),
                         which(J == 0) %>% as.character))
@@ -265,7 +367,9 @@ clean_data <- function(captures, surveys,
                  m_detect = ncol(X_detect),
                  j_idx = j_idx,
                  any_surveys = ifelse(J > 0, 1, 0),
-                 prim_idx = rep(1:max(surveys$primary_period), J))
+                 prim_idx = rep(1:max(surveys$primary_period), J),
+                 m_surv = ncol(X_surv),
+                 X_surv = X_surv)
 
   list(stan_d = stan_d,
        captures = captures,
@@ -275,7 +379,7 @@ clean_data <- function(captures, surveys,
 
 
 
-parse_date <- function(date) {
+parse_as_date <- function(date) {
   if (class(date) != "Date") {
     tryCatch(date <- as.Date(date),
              error = function(c) {

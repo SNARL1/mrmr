@@ -113,7 +113,7 @@ numerical issues when fitting a model.
 Assuming we wanted to include a covariate for detection like `person_hours`, 
 we can do so as follows:
 
-```{r, message=FALSE, eval=FALSE}
+```{r detection-covariate, message=FALSE, eval=FALSE}
 # center and scale the covariate
 captures <- captures %>%
   mutate(c_person_hours = c(scale(person_hours)))
@@ -121,6 +121,24 @@ captures <- captures %>%
 # specify the formula
 data <- clean_data(captures, surveys, translocations,
                    capture_formula = ~ c_person_hours)
+```
+
+### Including survival covariates
+
+Individual-level survival covariates can be included optionally via the 
+`survival_formula` and `survival_fill_value` arguments. 
+Both of these must be specified, because covariate values for pseudo-individuals 
+must be filled in (they are never observed).
+So, for example, to evaluate the effect of an experimental treatment, if some 
+individuals belong to a "treatment" group and others belong to an "control" 
+group, then a group must be specified as a fill value (e.g., "wild-caught" or 
+"control", depending on the experiment):
+
+```{r survival-covariate, message=FALSE, eval=FALSE}
+# specify the formula
+data <- clean_data(captures, surveys, translocations,
+                   survival_formula = ~ treatment, 
+                   survival_fill_value = c(treatment = "wild-caught"))
 ```
 
 

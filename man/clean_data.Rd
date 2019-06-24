@@ -5,7 +5,8 @@
 \title{Load a mark-recapture data set}
 \usage{
 clean_data(captures, surveys, translocations = NA,
-  capture_formula = ~1)
+  capture_formula = ~1, survival_formula = ~1,
+  survival_fill_value = NA)
 }
 \arguments{
 \item{captures}{Data frame containing capture-recapture data. Necessary
@@ -26,6 +27,19 @@ must be columns in the `surveys` data frame. The formula must start with
 It is advisable to ensure that any continuous covariates provided in this
 formula are appropriately scaled (ideally, with mean = 0, and standard
 deviation = 1).}
+
+\item{survival_formula}{An optional formula specifying the structure of
+individual-level survival covariates. Any variables in this formula
+must be columns in the `translocations` and/or `captures` data frames.
+The formula must start with `~` and can be provided unquoted.
+It is advisable to ensure that any continuous covariates provided in this
+formula are appropriately scaled (ideally, with mean = 0, and standard
+deviation = 1). Variables specified in this formula cannot be time-varying.
+They must be fixed for each individual over the entire study.}
+
+\item{survival_fill_value}{A fill value to use for individual-level
+covariates. This argument is only required when using the
+`survival_formula` argument`.}
 }
 \value{
 A list containing the data frames resulting from the capture,
