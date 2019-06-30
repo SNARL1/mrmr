@@ -73,21 +73,6 @@ clean_data <- function(captures, surveys,
                        survival_formula = ~ 1,
                        survival_fill_value = NA) {
 
-  # ---------------------------------
-  # captures <- system.file('extdata', 'capture-example.csv',
-  #     package = 'mrmr') %>%
-  #   read_csv
-  # translocations <- system.file('extdata', 'translocation-example.csv',
-  #     package = 'mrmr') %>%
-  #   read_csv
-  # surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') %>%
-  #   read_csv
-  # capture_formula = ~ 1
-  # survival_formula = ~treatment
-  # survival_fill_value = c(treatment = 'control')
-  # ---------------------------------
-
-
   any_translocations <- 'data.frame' %in% class(translocations)
 
   survival_formula_specified <- !identical(survival_formula, ~1)
@@ -156,7 +141,7 @@ clean_data <- function(captures, surveys,
     translocations <- translocations %>%
       mutate(pit_tag_id = as.character(.data$pit_tag_id),
              survey_date = as.Date(.data$release_date)) %>%
-      left_join(surveys)
+      left_join(filter(surveys, .data$secondary_period == 0))
     transloc_tags <- translocations$pit_tag_id
   } else {
     transloc_tags <- c()
@@ -287,16 +272,15 @@ clean_data <- function(captures, surveys,
     )
   )
 
-
-  Y <- acast(y_df[, !names(y_df) %in% names(survival_fill_value)],
-          pit_tag_id ~ primary_period ~ secondary_period,
+  Y <- y_df[, !names(y_df) %in% names(survival_fill_value)] %>%
+    filter(.data$secondary_period > 0) %>%
+    acast(formula = pit_tag_id ~ primary_period ~ secondary_period,
           fill = 0, value.var = "y")
 
   stopifnot(dim(Y)[1] == M)
   stopifnot(all(dimnames(Y)[[1]] == sort(dimnames(Y)[[1]])))
   stopifnot(dim(Y)[2] == max(surveys$primary_period))
   stopifnot(dim(Y)[3] == max(y_df$secondary_period))
-
 
 
   # Process data for introductions ------------------------------------------

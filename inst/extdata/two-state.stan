@@ -106,8 +106,8 @@ transformed parameters {
         // to avoid NA values, fill in remaining recruitment probs (though they
         // are irrelevant for the likelihood)
         for (t in t_intro[i]:Tm1) {
-          ps[1, t, 1] = 1 - lambda[t];
-          ps[1, t, 2] = lambda[t];
+          ps[1, t, 1] = 1;
+          ps[1, t, 2] = 0;
           ps[1, t, 3] = 0;
         }
 
@@ -125,9 +125,16 @@ transformed parameters {
         po[1, j, 1] = 1;
         po[1, j, 2] = 0;
 
-        po[2, j, 1] = 1 - p;
-        po[2, j, 2] = p;
-
+        if (prim_idx[j] == t_intro[i]) {
+          // introductions always happen after surveys, so if an individual is
+          // released on primary period t, it has a zero probability of
+          // detection
+          po[2, j, 1] = 1;
+          po[2, j, 2] = 0;
+        } else {
+          po[2, j, 1] = 1 - p;
+          po[2, j, 2] = p;
+        }
         po[3, j, 1] = 1;
         po[3, j, 2] = 0;
       }
