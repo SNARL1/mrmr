@@ -64,8 +64,8 @@ plot_model <- function(model, what) {
   }
 
   if (what == "survival") {
-
-    if (is.na(model$data$translocations)) {
+    any_translocations <- 'data.frame' %in% class(model$data$translocations)
+    if (!any_translocations) {
       stop(paste("No translocation data are present, so a cohort survival",
                  "plot cannot be generated. Using what='survival' requires",
                  "translocation data."))
