@@ -281,41 +281,64 @@
 <div id="model-fitting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-fitting" class="anchor"></a>Model fitting</h2>
-<p>To fit a mark-recapture model, use <code><a href="../reference/fit_model.html">mrmr::fit_model()</a></code>. This model accounts for known introductions into the population, and has random effects to account for variation in survival and recruitment through time.</p>
+<p>To fit a mark-recapture model, use <code><a href="../reference/fit_model.html">mrmr::fit_model()</a></code>. This model accounts for known introductions into the population, and has random effects to account for variation in survival and recruitment through time. The example below uses two chains and relatively few iterations for speed, but it is a good idea to run 3+ chains, and at least 1000 iterations.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data, <span class="dt">cores =</span> parallel<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/parallel/topics/detectCores">detectCores</a></span>(), </a>
-<a class="sourceLine" id="cb8-2" title="2">                 <span class="dt">chains =</span> <span class="dv">2</span>, <span class="dt">iter =</span> <span class="dv">400</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">                 <span class="dt">chains =</span> <span class="dv">2</span>, <span class="dt">iter =</span> <span class="dv">500</span>)</a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; Compiling Stan model...</span></a></code></pre></div>
+<p>To diagnose potential non-convergence of the MCMC algorithm, inspect traceplots:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">pars_to_plot &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'alpha_lambda'</span>, </a>
+<a class="sourceLine" id="cb9-2" title="2">                  <span class="st">'sigma_lambda'</span>, </a>
+<a class="sourceLine" id="cb9-3" title="3">                  <span class="st">'beta_phi'</span>, </a>
+<a class="sourceLine" id="cb9-4" title="4">                  <span class="st">'sigma_phi'</span>, </a>
+<a class="sourceLine" id="cb9-5" title="5">                  <span class="st">'beta_detect'</span>)</a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> pars_to_plot)</a></code></pre></div>
+<p><img src="intro-to-mrmr_files/figure-html/plot-traceplots-1.png" width="672"></p>
+<p>It is also a good idea to look at Rhat estimates to see whether they indicate of a lack of convergence (Rhat values <span class="math inline">\(\geq\)</span> 1.01):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> pars_to_plot)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Inference for Stan model: two-state.</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; 2 chains, each with iter=500; warmup=250; thin=1; </span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; post-warmup draws per chain=250, total post-warmup draws=500.</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt;                 mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; alpha_lambda   -4.65    0.04 0.61 -5.67 -5.08 -4.72 -4.30 -3.34   206 1.00</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt; sigma_lambda    2.08    0.04 0.61  1.13  1.67  2.00  2.44  3.46   185 1.00</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt; beta_phi[1]     1.79    0.03 0.35  1.11  1.55  1.75  2.01  2.50   161 1.02</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt; sigma_phi       1.20    0.03 0.43  0.52  0.93  1.14  1.42  2.22   178 1.02</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; beta_detect[1] -0.39    0.00 0.07 -0.54 -0.45 -0.39 -0.34 -0.25   923 1.00</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Sat Jul  6 10:38:57 2019.</span></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
 </div>
 <div id="built-in-visualizations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-in-visualizations" class="anchor"></a>Built-in visualizations</h2>
 <p>Time series of abundance, recruitment, and survival of introduced cohorts are available through the <code><a href="../reference/plot_model.html">mrmr::plot_model()</a></code> function.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'abundance'</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'abundance'</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/plot-abundance-1.png" width="672"></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'recruitment'</span>)</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'recruitment'</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/plot-recruitment-1.png" width="672"></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'survival'</span>)</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; Warning in if (is.na(model$data$translocations)) {: the condition has</span></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; Joining, by = "pit_tag_id"</span></a>
-<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mod, <span class="dt">what =</span> <span class="st">'survival'</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; Joining, by = "pit_tag_id"</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt; Joining, by = "primary_period"</span></a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/plot-survival-1.png" width="672"></p>
 </div>
 <div id="custom-visualizations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-visualizations" class="anchor"></a>Custom visualizations</h2>
 <p>Any of the plotting functionality that you would expect from a <code>stanfit</code> model is available as well, by accessing the <code>m_fit</code> list element from a model object. For example, we could assess the posterior for the superpopulation size:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> <span class="st">"Nsuper"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> <span class="st">"Nsuper"</span>)</a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="cases-with-no-translocations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cases-with-no-translocations" class="anchor"></a>Cases with no translocations</h2>
 <p>In some cases, there may not be any introductions of animals into a population. The only difference in implementation in such cases is that the <code>translocations</code> argument to <code><a href="../reference/clean_data.html">clean_data()</a></code> can be omitted:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">data_no_trans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(captures, surveys)</a>
-<a class="sourceLine" id="cb13-2" title="2">mod_no_trans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data_no_trans)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">data_no_trans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(captures, surveys)</a>
+<a class="sourceLine" id="cb15-2" title="2">mod_no_trans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data_no_trans)</a></code></pre></div>
 </div>
 </div>
   </div>

@@ -136,7 +136,10 @@ columns include `pit_tag_id` and `survey_date`.</p></td>
     <tr>
       <th>surveys</th>
       <td><p>Data frame containing survey data. Necessary columns include
-`survey_date`, `primary_period`, and `secondary_period`.</p></td>
+`survey_date`, `primary_period`, and `secondary_period`. Secondary periods
+for which individuals are added or removed from a population should be set
+to zero, and must occur on their own primary period (because of the
+assumption that individuals cannot change states within primary periods).</p></td>
     </tr>
     <tr>
       <th>translocations</th>
@@ -243,9 +246,7 @@ use in a mark recapture model (with name 'stan_d').</p>
 #&gt; <span class='message'>  site_id = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  survey_duration = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  primary_period = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  secondary_period = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  people = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  person_hours = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  secondary_period = </span><span style='color: #00BB00;'>col_double()</span><span></span>
 #&gt; <span class='message'>)</span></div><div class='input'>
 <span class='co'># read and clean the data using defaults</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='no'>translocations</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div><div class='input'>
