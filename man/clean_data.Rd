@@ -13,7 +13,10 @@ clean_data(captures, surveys, translocations = NA,
 columns include `pit_tag_id` and `survey_date`.}
 
 \item{surveys}{Data frame containing survey data. Necessary columns include
-`survey_date`, `primary_period`, and `secondary_period`.}
+`survey_date`, `primary_period`, and `secondary_period`. Secondary periods
+for which individuals are added or removed from a population should be set
+to zero, and must occur on their own primary period (because of the
+assumption that individuals cannot change states within primary periods).}
 
 \item{translocations}{Optional data frame with translocation data. Necessary
 columns include `pit_tag_id` and `release_date`. If nothing is provided

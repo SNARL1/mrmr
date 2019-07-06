@@ -7,7 +7,10 @@
 #' @param captures Data frame containing capture-recapture data. Necessary
 #' columns include `pit_tag_id` and `survey_date`.
 #' @param surveys Data frame containing survey data. Necessary columns include
-#' `survey_date`, `primary_period`, and `secondary_period`.
+#' `survey_date`, `primary_period`, and `secondary_period`. Secondary periods
+#' for which individuals are added or removed from a population should be set
+#' to zero, and must occur on their own primary period (because of the
+#' assumption that individuals cannot change states within primary periods).
 #' @param translocations Optional data frame with translocation data. Necessary
 #' columns include `pit_tag_id` and `release_date`. If nothing is provided
 #' to this argument, the `clean_data` function assumes that there are no
@@ -114,9 +117,7 @@ clean_data <- function(captures, surveys,
   surveys$survey_date <- parse_as_date(surveys$survey_date)
   captures$survey_date <- parse_as_date(captures$survey_date)
   surveys <- surveys %>%
-    mutate(secondary_period = ifelse(.data$people == 0,
-                                     0, .data$secondary_period),
-           primary_period = .data$primary_period + 1) %>%
+    mutate(primary_period = .data$primary_period + 1) %>%
     group_by(.data$primary_period, .data$secondary_period) %>%
     summarize(survey_date = min(.data$survey_date)) %>%
     ungroup %>%
