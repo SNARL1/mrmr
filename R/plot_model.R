@@ -103,7 +103,8 @@ plot_model <- function(model, what) {
       ylab('Fraction surviving') +
       xlab('Date') +
       scale_color_brewer('Introduction date', type = 'qual') +
-      scale_fill_brewer('Introduction date', type = 'qual')
+      scale_fill_brewer('Introduction date', type = 'qual') +
+      scale_x_date(date_breaks = "1 year")
   }
 
   return(p)
