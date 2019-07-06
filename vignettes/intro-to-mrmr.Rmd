@@ -157,10 +157,30 @@ We assume that individuals that are in the "not recruited" or "dead" states are 
 To fit a mark-recapture model, use `mrmr::fit_model()`. 
 This model accounts for known introductions into the population, and has 
 random effects to account for variation in survival and recruitment through time. 
+The example below uses two chains and relatively few iterations for speed, but 
+it is a good idea to run 3+ chains, and at least 1000 iterations.
 
 ```{r fit-model}
 mod <- fit_model(data, cores = parallel::detectCores(), 
-                 chains = 2, iter = 400)
+                 chains = 2, iter = 500)
+```
+
+To diagnose potential non-convergence of the MCMC algorithm, inspect traceplots:
+
+```{r plot-traceplots}
+pars_to_plot <- c('alpha_lambda', 
+                  'sigma_lambda', 
+                  'beta_phi', 
+                  'sigma_phi', 
+                  'beta_detect')
+traceplot(mod$m_fit, pars = pars_to_plot)
+```
+
+It is also a good idea to look at Rhat estimates to see whether they 
+indicate of a lack of convergence (Rhat values $\geq$ 1.01):
+
+```{r print-model}
+print(mod$m_fit, pars = pars_to_plot)
 ```
 
 ## Built-in visualizations
