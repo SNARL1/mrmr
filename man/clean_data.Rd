@@ -4,7 +4,7 @@
 \alias{clean_data}
 \title{Load a mark-recapture data set}
 \usage{
-clean_data(captures, surveys, translocations = NA,
+clean_data(captures, surveys, translocations = NA, removals = NA,
   capture_formula = ~1, survival_formula = ~1,
   survival_fill_value = NA)
 }
@@ -22,6 +22,12 @@ assumption that individuals cannot change states within primary periods).}
 columns include `pit_tag_id` and `release_date`. If nothing is provided
 to this argument, the `clean_data` function assumes that there are no
 translocations of individuals into the population.}
+
+\item{removals}{Optional data frame with removal data. Necessary columns
+include `pit_tag_id` and `removal_date`. If nothing provided, `clean_data`
+assumes there are no removals from the population. This can be used to
+account for individuals being pulled out of a population (e.g., for
+translocation), and for tagged indivuals whose carcasses are found.}
 
 \item{capture_formula}{An optional formula specifying the structure of
 survey-level capture probability covariates. Any variables in this formula
@@ -70,6 +76,7 @@ surveys <- system.file('extdata', 'survey-example.csv', package = 'mrmr') \%>\%
 
 # read and clean the data using defaults
 data <- clean_data(captures, surveys, translocations)
+
 
 \dontrun{
 # (optional) specify a formula for detection probabilities, assuming

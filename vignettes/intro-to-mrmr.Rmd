@@ -220,3 +220,34 @@ argument to `clean_data()` can be omitted:
 data_no_trans <- clean_data(captures, surveys)
 mod_no_trans <- fit_model(data_no_trans)
 ```
+
+## Cases with known removals
+
+When individuals are removed from a population, e.g., for translocation, these
+known removals can be included as data to increase the precision of abundance
+estimates. 
+An example dataset fitting this case is included at an imaginary site
+called "Equid". 
+Note below that we filter out dead animals -- any dead animals encountered on 
+surveys should be in the `removals` data, and not in the `captures` data frame, 
+which should only contain live animals (those that might survive to the next
+primary period).
+
+```{r removals, message = FALSE, eval = FALSE}
+captures <- system.file("extdata", 
+                        "equid-captures.csv", 
+                         package = "mrmr") %>%
+  read_csv %>%
+  filter(capture_animal_state != 'dead')
+surveys <- system.file("extdata", 
+                       "equid-surveys.csv", 
+                       package = "mrmr") %>%
+  read_csv
+removals <- system.file("extdata", 
+                        "equid-removals.csv", 
+                         package = "mrmr") %>%
+  read_csv
+
+d <- clean_data(captures, surveys, removals = removals)
+m <- fit_model(d, cores = 2, chains = 2)
+```
