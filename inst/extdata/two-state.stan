@@ -11,6 +11,8 @@ data {
   int<lower = 0, upper = 2> Y[M, T, maxJ];
   int<lower = 0, upper = 1> introduced[M]; // indicator for whether introduced
   int<lower = 0, upper = T> t_intro[M]; // when individuals introduced
+  int<lower = 0, upper = 1> removed[M];
+  int<lower = 0, upper = T> t_remove[M];
 
   // index order of surveys (0: NA)
   int<lower = 0, upper = Jtot> j_idx[T, maxJ];
@@ -117,6 +119,11 @@ transformed parameters {
           ps[1, t, 2] = lambda[t];
           ps[1, t, 3] = 0;
         }
+      }
+
+      if (removed[i]) {
+        ps[2, t_remove[i], 2] = 0;
+        ps[2, t_remove[i], 3] = 1;
       }
 
       // observation probabilities
@@ -236,6 +243,12 @@ generated quantities {
           ps[1, t, 3] = 0;
         }
       }
+
+      if (removed[i]) {
+        ps[2, t_remove[i], 2] = 0;
+        ps[2, t_remove[i], 3] = 1;
+      }
+
 
     // simulate discrete state values
     s[i, 1] = 1;

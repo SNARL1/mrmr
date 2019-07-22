@@ -15,6 +15,11 @@
 #' columns include `pit_tag_id` and `release_date`. If nothing is provided
 #' to this argument, the `clean_data` function assumes that there are no
 #' translocations of individuals into the population.
+#' @param removals Optional data frame with removal data. Necessary columns
+#' include `pit_tag_id` and `removal_date`. If nothing provided, `clean_data`
+#' assumes there are no removals from the population. This can be used to
+#' account for individuals being pulled out of a population (e.g., for
+#' translocation), and for tagged indivuals whose carcasses are found.
 #' @param capture_formula An optional formula specifying the structure of
 #' survey-level capture probability covariates. Any variables in this formula
 #' must be columns in the `surveys` data frame. The formula must start with
@@ -53,6 +58,7 @@
 #' # read and clean the data using defaults
 #' data <- clean_data(captures, surveys, translocations)
 #'
+#'
 #'\dontrun{
 #' # (optional) specify a formula for detection probabilities, assuming
 #' there is a column called "person_hours"
@@ -72,11 +78,13 @@
 
 clean_data <- function(captures, surveys,
                        translocations = NA,
+                       removals = NA,
                        capture_formula = ~ 1,
                        survival_formula = ~ 1,
                        survival_fill_value = NA) {
 
   any_translocations <- 'data.frame' %in% class(translocations)
+  any_removals <- 'data.frame' %in% class(removals)
 
   survival_formula_specified <- !identical(survival_formula, ~1)
   survival_fill_named <- !is.null(names(survival_fill_value))
@@ -113,6 +121,19 @@ clean_data <- function(captures, surveys,
     }
   }
 
+  # Check to make sure there aren't any "dead" animals in capture records
+  dead_captures <- apply(captures, 2, function(x) {
+    any(tolower(as.character(x)) == 'dead')
+  })
+  if (any(na.omit(dead_captures))) {
+    stop(paste("Some entries in the capture data appear to contain 'dead'",
+               "animals. These records should be filtered out prior to use.",
+               "Known removals (including dead animals encountered on surveys)",
+               "can be accounted for with the 'removals' argument to",
+               "mrmr::clean_data()."))
+  }
+
+
   # check that date columns can be parsed as Date objects
   surveys$survey_date <- parse_as_date(surveys$survey_date)
   captures$survey_date <- parse_as_date(captures$survey_date)
@@ -147,6 +168,18 @@ clean_data <- function(captures, surveys,
   } else {
     transloc_tags <- c()
   }
+
+  if (any_removals) {
+    removals$removal_date <- parse_as_date(removals$removal_date)
+    removals <- removals %>%
+      mutate(pit_tag_id = as.character(.data$pit_tag_id),
+             survey_date = as.Date(.data$removal_date)) %>%
+      left_join(surveys)
+    removal_tags <- removals$pit_tag_id
+  } else {
+    removal_tags <- c()
+  }
+
 
   # find M, the superpopulation size
   n_obs <- length(unique(c(transloc_tags, captures$pit_tag_id)))
@@ -298,6 +331,18 @@ clean_data <- function(captures, surveys,
   }
   stopifnot(mean(t_intro > 0) == mean(introduced))
 
+  # Process data for removals -----------------------------------------------
+  n_removed <- length(unique(removal_tags))
+  stopifnot(all(removal_tags %in% dimnames(Y)[[1]]))
+  removed <- dimnames(Y)[[1]] %in% removal_tags
+  t_remove <- rep(0, M)
+  for (i in 1:M) {
+    if (removed[i]) {
+      remove_df_row <- which(removal_tags == dimnames(Y)[[1]][i])
+      t_remove[i] <- removals$primary_period[remove_df_row]
+    }
+  }
+
   # Deal with detection data ------------------------------------------------
   Jtot <- sum(J)
 
@@ -348,6 +393,8 @@ clean_data <- function(captures, surveys,
                  Y = Y,
                  introduced = introduced,
                  t_intro = t_intro,
+                 removed = removed,
+                 t_remove = t_remove,
                  X_detect = X_detect,
                  m_detect = ncol(X_detect),
                  j_idx = j_idx,
@@ -359,7 +406,8 @@ clean_data <- function(captures, surveys,
   list(stan_d = stan_d,
        captures = captures,
        translocations = translocations,
-       surveys = surveys)
+       surveys = surveys,
+       removals = removals)
 }
 
 

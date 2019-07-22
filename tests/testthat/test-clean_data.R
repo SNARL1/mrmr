@@ -104,3 +104,27 @@ test_that("surivival formulas create correct design matrices", {
   X_surv <- data$stan_d$X_surv
   expect_true("treatmentwild-caught" %in% colnames(X_surv))
 })
+
+test_that("dead captures raise errors", {
+  captures <- system.file("extdata",
+                          "equid-captures.csv",
+                          package = "mrmr") %>%
+    read_csv
+  surveys <- system.file("extdata",
+                         "equid-surveys.csv",
+                         package = "mrmr") %>%
+    read_csv
+  removals <- system.file("extdata",
+                          "equid-removals.csv",
+                          package = "mrmr") %>%
+    read_csv
+
+  expect_error(clean_data(captures, surveys, removals = removals),
+               regexp = "including dead animals encountered on surveys")
+
+  # check case sensitivity
+  capitalized_captures <- captures %>%
+    mutate(capture_animal_state = tools::toTitleCase(capture_animal_state))
+  expect_error(clean_data(capitalized_captures, surveys, removals = removals),
+               regexp = "including dead animals encountered on surveys")
+})
