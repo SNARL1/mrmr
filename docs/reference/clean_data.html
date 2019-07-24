@@ -121,7 +121,7 @@ translocation data.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='kw'>translocations</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+    <pre class="usage"><span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='kw'>translocations</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>removals</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>capture_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>survival_formula</span> <span class='kw'>=</span> ~<span class='fl'>1</span>,
   <span class='kw'>survival_fill_value</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
@@ -147,6 +147,14 @@ assumption that individuals cannot change states within primary periods).</p></t
 columns include `pit_tag_id` and `release_date`. If nothing is provided
 to this argument, the `clean_data` function assumes that there are no
 translocations of individuals into the population.</p></td>
+    </tr>
+    <tr>
+      <th>removals</th>
+      <td><p>Optional data frame with removal data. Necessary columns
+include `pit_tag_id` and `removal_date`. If nothing provided, `clean_data`
+assumes there are no removals from the population. This can be used to
+account for individuals being pulled out of a population (e.g., for
+translocation), and for tagged indivuals whose carcasses are found.</p></td>
     </tr>
     <tr>
       <th>capture_formula</th>
@@ -250,6 +258,7 @@ use in a mark recapture model (with name 'stan_d').</p>
 #&gt; <span class='message'>)</span></div><div class='input'>
 <span class='co'># read and clean the data using defaults</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>clean_data</span>(<span class='no'>captures</span>, <span class='no'>surveys</span>, <span class='no'>translocations</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "survey_date", "year", "is_overwinter")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("pit_tag_id", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "survey_date"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_period", "y")</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = c("primary_period", "secondary_idx")</span></div><div class='input'>
+
 </div></span># NOT RUN {
 # (optional) specify a formula for detection probabilities, assuming
 there is a column called "person_hours"
