@@ -162,7 +162,7 @@ it is a good idea to run 3+ chains, and at least 1000 iterations.
 
 ```{r fit-model}
 mod <- fit_model(data, cores = parallel::detectCores(), 
-                 chains = 2, iter = 500)
+                 chains = 2, iter = 200)
 ```
 
 To diagnose potential non-convergence of the MCMC algorithm, inspect traceplots:

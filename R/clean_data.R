@@ -75,6 +75,7 @@
 #' @importFrom rlang .data
 #' @importFrom lubridate year
 #' @importFrom stats model.matrix
+#' @importFrom stats na.omit
 
 clean_data <- function(captures, surveys,
                        translocations = NA,
