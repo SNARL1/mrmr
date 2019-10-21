@@ -135,6 +135,14 @@ clean_data <- function(captures, surveys,
   }
 
 
+  # Check for duplicate rows in the capture data
+  if (any(duplicated(captures))) {
+    stop(paste("Duplicate entries were found in the capture data. Please",
+               "check the data to ensure there are no duplicate capture",
+               "entries. Duplicates were found on rows:",
+               paste(which(duplicated(captures)), collapse = ", ")))
+  }
+
   # check that date columns can be parsed as Date objects
   surveys$survey_date <- parse_as_date(surveys$survey_date)
   captures$survey_date <- parse_as_date(captures$survey_date)

@@ -128,3 +128,19 @@ test_that("dead captures raise errors", {
   expect_error(clean_data(capitalized_captures, surveys, removals = removals),
                regexp = "including dead animals encountered on surveys")
 })
+
+test_that("duplicate captures raise errors", {
+  captures <- system.file("extdata",
+                          "capture-example.csv",
+                          package = "mrmr") %>%
+    read_csv
+  surveys <- system.file("extdata",
+                         "survey-example.csv",
+                         package = "mrmr") %>%
+    read_csv
+
+  captures <- rbind(captures[1, ], captures)
+
+  expect_error(clean_data(captures, surveys),
+               regexp = "Duplicate entries")
+})
