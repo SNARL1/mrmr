@@ -101,19 +101,8 @@ clean_data <- function(captures, surveys,
            "e.g., survival_fill_value = c(treatment = 'control').")
     }
     for (n in names(survival_fill_value)) {
-
       name_in_captures <- n %in% names(captures)
-      if (name_in_captures) {
-        captures[[n]] <- ifelse(is.na(captures[[n]]),
-                                survival_fill_value[n], captures[[n]])
-      }
-
       name_in_translocations <- any_translocations & n %in% names(translocations)
-      if (name_in_translocations) {
-        translocations[[n]] <- ifelse(is.na(translocations[[n]]),
-                                      survival_fill_value[n], translocations[[n]])
-      }
-
       if (!name_in_captures & !name_in_translocations) {
         stop(paste("Named elements in the survival_fill_value argument",
                    "must also be columns in the capture and/or translocation",
@@ -277,26 +266,52 @@ clean_data <- function(captures, surveys,
     arrange(.data$pit_tag_id, .data$primary_period, .data$secondary_period) %>%
     filter(!is.na(.data$pit_tag_id))
 
+
+
+
+  # Merge survival covariates into one tibble -------------------------------
+  survival_covariate_df <- y_df %>%
+    dplyr::distinct(.data$pit_tag_id) %>%
+    dplyr::arrange(.data$pit_tag_id)
+
   if (survival_formula_specified) {
-    join_cols <- c('pit_tag_id', names(survival_fill_value))
-    y_df <- y_df %>%
-      left_join(distinct(captures[, join_cols]))
+    survival_covariate_columns <- names(survival_fill_value)
+    join_cols <- c("pit_tag_id", survival_covariate_columns)
+
+    not_na <- function(x) !is.na(x)
+
+    if (any(survival_covariate_columns %in% names(captures))) {
+      survival_covariate_df <- survival_covariate_df %>%
+        dplyr::full_join(dplyr::distinct(captures[, join_cols])) %>%
+        dplyr::filter_at(survival_covariate_columns, not_na)
+    }
 
     if (any_translocations) {
-      y_df <- y_df %>%
-        left_join(distinct(translocations[, join_cols]))
+      # read in covariate data from translocations
+      survival_covariate_df <- survival_covariate_df %>%
+        dplyr::full_join(dplyr::distinct(translocations[, join_cols])) %>%
+        dplyr::filter_at(survival_covariate_columns, not_na)
     }
+    stopifnot(all(survival_covariate_columns %in% names(survival_covariate_df)))
+
+    # then ensure that all tags are present
+    # and sort by tag to ensure same order as Y observation matrix
+    survival_covariate_df <- survival_covariate_df %>%
+      dplyr::full_join(distinct(y_df, .data$pit_tag_id)) %>%
+      dplyr::arrange(.data$pit_tag_id)
 
     # for each survival covariate, fill in missing values
     for (i in seq_along(survival_fill_value)) {
       nam <- names(survival_fill_value)[i]
-      y_df[[nam]] <- ifelse(is.na(y_df[[nam]]),
-                                  survival_fill_value[i],
-                                  y_df[[nam]])
+      survival_covariate_df[[nam]] <- ifelse(
+        is.na(survival_covariate_df[[nam]]),
+        survival_fill_value[i],
+        survival_covariate_df[[nam]]
+      )
       # make sure there are no NA values after filling
-      stopifnot(!any(is.na(y_df[[nam]])))
+      stopifnot(!any(is.na(survival_covariate_df[[nam]])))
       # make sure each individual gets just one unique value
-      i_counts <- y_df %>%
+      i_counts <- survival_covariate_df %>%
         group_by(.data$pit_tag_id) %>%
         summarize(nt = length(unique(!!nam)))
       stopifnot(all(i_counts$nt == 1))
@@ -384,11 +399,11 @@ clean_data <- function(captures, surveys,
                            data = filter(surveys, .data$secondary_period > 0))
   stopifnot(nrow(X_detect) == Jtot)
 
-  X_surv_df <- y_df[, c('pit_tag_id', names(survival_fill_value))] %>%
-    distinct %>%
-    arrange(.data$pit_tag_id)
-  X_surv <- model.matrix(survival_formula, data = X_surv_df)
+  X_surv <- model.matrix(survival_formula, data = survival_covariate_df)
   stopifnot(nrow(X_surv) == M)
+
+  # ensure  tag order in survival_covariate_df is identical to the order in Y
+  stopifnot(all(survival_covariate_df$pit_tag_id == dimnames(Y)[[1]]))
 
   # verify that the primary periods with no surveys have all zeros in j_idx
   stopifnot(identical(names(which(rowSums(j_idx) == 0)),
@@ -416,7 +431,8 @@ clean_data <- function(captures, surveys,
        captures = captures,
        translocations = translocations,
        surveys = surveys,
-       removals = removals)
+       removals = removals,
+       survival_covariate_df = survival_covariate_df)
 }
 
 

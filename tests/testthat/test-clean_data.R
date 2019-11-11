@@ -66,11 +66,22 @@ test_that("survival_fill_value fills values in the capture columns", {
                                    package = "mrmr"))
   surveys <- read_csv(system.file("extdata", "survey-example.csv",
                                   package = "mrmr"))
-  d <- clean_data(captures, surveys, survival_formula = ~ treatment,
+  d <- clean_data(captures, surveys,
+                  survival_formula = ~ treatment,
                   survival_fill_value = c(treatment = "filled_value"))
-  pr_na <- mean(is.na(captures$treatment))
-  pr_filled <- mean(d$captures$treatment == "filled_value")
-  expect_identical(pr_na, pr_filled)
+  pr_na_in_data <- captures %>%
+    distinct(pit_tag_id, treatment) %>%
+    summarize(mean(is.na(treatment))) %>%
+    unlist %>%
+    as.numeric
+
+  pr_filled_in_cleaned_data <- d$survival_covariate_df %>%
+    filter(pit_tag_id %in% captures$pit_tag_id) %>%
+    summarize(mean(treatment == "filled_value")) %>%
+    unlist %>%
+    as.numeric
+
+  expect_identical(pr_na_in_data, pr_filled_in_cleaned_data)
 })
 
 
@@ -85,9 +96,24 @@ test_that("survival_fill_value fills values in the translocation columns", {
   d <- clean_data(captures, surveys, translocations,
                   survival_formula = ~ treatment,
                   survival_fill_value = c(treatment = "filled_value"))
-  pr_na <- mean(is.na(translocations$treatment))
-  pr_filled <- mean(d$translocations$treatment == "filled_value")
-  expect_identical(pr_na, pr_filled)
+
+  individuals <- translocations %>%
+    distinct(pit_tag_id, treatment) %>%
+    full_join(distinct(captures, pit_tag_id, treatment))
+
+  # be sure that each individual is only assigned one treatment
+  expect_identical(length(unique(individuals$pit_tag_id)),
+                   nrow(individuals))
+  # Then check that the fraction of filled values is the same
+  pr_na_in_data <- mean(is.na(individuals$treatment))
+
+  pr_filled_in_cleaned_data <- d$survival_covariate_df %>%
+    filter(!grepl("^aug", pit_tag_id)) %>%
+    summarize(mean(treatment == "filled_value")) %>%
+    unlist %>%
+    as.numeric
+
+  expect_identical(pr_na_in_data, pr_filled_in_cleaned_data)
 })
 
 test_that("surivival formulas create correct design matrices", {
