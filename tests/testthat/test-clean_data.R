@@ -170,3 +170,17 @@ test_that("duplicate captures raise errors", {
   expect_error(clean_data(captures, surveys),
                regexp = "Duplicate entries")
 })
+
+test_that("recruitment warning is printed when no natural recruits", {
+  surveys <- read_csv(system.file("extdata", "survey-example.csv",
+                                  package = "mrmr"))
+  translocations <- read_csv(system.file("extdata", "translocation-example.csv",
+                                         package = "mrmr"))
+  captures <- read_csv(system.file("extdata", "capture-example.csv",
+                                   package = "mrmr")) %>%
+    filter(pit_tag_id %in% translocations$pit_tag_id)
+
+  expect_warning(d <- clean_data(captures, surveys, translocations),
+               regexp = "natural recruitment")
+  expect_equal(d$stan_d$any_recruitment, 0)
+})

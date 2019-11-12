@@ -23,6 +23,8 @@ data {
   matrix[Jtot, m_detect] X_detect;
   int<lower = 1> m_surv;
   matrix[M, m_surv] X_surv;
+
+  int<lower = 0, upper = 1> any_recruitment;
 }
 
 transformed data {
@@ -47,18 +49,18 @@ parameters {
 transformed parameters {
   vector[Jtot] logit_detect;
   vector<lower = 0, upper = 1>[Tm1] lambda;
-  matrix<lower = 0, upper = 1>[M, T] phi;
+  matrix<lower = 0, upper = 1>[M, Tm1] phi;
   vector[M] log_lik;
 
   {
     vector[M] phi_fixef = X_surv * beta_phi;
-    for (t in 1:T) {
+    for (t in 1:Tm1) {
       phi[, t] = inv_logit(phi_fixef + eps_phi[t] * sigma_phi);
     }
   }
 
   // probability of entering population
-  lambda = inv_logit(alpha_lambda + eps_lambda * sigma_lambda);
+  lambda = any_recruitment*inv_logit(alpha_lambda + eps_lambda * sigma_lambda);
 
   // probability of detection
   logit_detect = X_detect * beta_detect;

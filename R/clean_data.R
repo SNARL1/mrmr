@@ -409,6 +409,21 @@ clean_data <- function(captures, surveys,
   stopifnot(identical(names(which(rowSums(j_idx) == 0)),
                         which(J == 0) %>% as.character))
 
+  # Check whether there is any natural (non-translocation) recruitment
+  any_recruitment <- TRUE
+  if (any_translocations) {
+    if (all(captures$pit_tag_id %in% translocations$pit_tag_id)) {
+      any_recruitment <- FALSE
+      warning(paste("All captured individuals appear to have been introduced",
+                    "(that is, they are in the translocation data).",
+                    "For computational reasons, the model will not include",
+                    "a natural recruitment component. If this is consistent",
+                    "with your understanding, proceed without concern. But",
+                    "if there are naturally recruited individuals that have",
+                    "been captured, please check the data."))
+    }
+  }
+
   stan_d <- list(M = M,
                  T = max(surveys$primary_period),
                  maxJ = max(J),
@@ -425,7 +440,8 @@ clean_data <- function(captures, surveys,
                  any_surveys = ifelse(J > 0, 1, 0),
                  prim_idx = rep(1:max(surveys$primary_period), J),
                  m_surv = ncol(X_surv),
-                 X_surv = X_surv)
+                 X_surv = X_surv,
+                 any_recruitment = as.numeric(any_recruitment))
 
   list(stan_d = stan_d,
        captures = captures,
