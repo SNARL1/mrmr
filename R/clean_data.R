@@ -168,6 +168,13 @@ clean_data <- function(captures, surveys,
   }
 
   if (any_removals) {
+    expected_cols <- c("removal_date", "pit_tag_id")
+    for (col in seq_along(expected_cols)) {
+      if (!col %in% names(removals)) {
+        stop(paste0("A column named '", expected_cols[col],
+                    "' was not found in the removal data."))
+      }
+    }
     removals$removal_date <- parse_as_date(removals$removal_date)
     removals <- removals %>%
       mutate(pit_tag_id = as.character(.data$pit_tag_id),

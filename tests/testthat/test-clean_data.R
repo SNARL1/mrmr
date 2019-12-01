@@ -1,4 +1,5 @@
 library(readr)
+library(dplyr)
 
 test_that("clean_data returns the right elements", {
   captures <- read_csv(system.file("extdata", "capture-example.csv",
@@ -183,4 +184,44 @@ test_that("recruitment warning is printed when no natural recruits", {
   expect_warning(d <- clean_data(captures, surveys, translocations),
                regexp = "natural recruitment")
   expect_equal(d$stan_d$any_recruitment, 0)
+})
+
+test_that("Misnamed removal date columns raise errors", {
+  captures <- system.file("extdata",
+                          "equid-captures.csv",
+                          package = "mrmr") %>%
+    read_csv %>%
+    filter(capture_animal_state != "dead")
+  surveys <- system.file("extdata",
+                         "equid-surveys.csv",
+                         package = "mrmr") %>%
+    read_csv
+  removals <- system.file("extdata",
+                          "equid-removals.csv",
+                          package = "mrmr") %>%
+    read_csv %>%
+    rename(remove_date = removal_date)
+
+  expect_error(clean_data(captures, surveys, removals = removals),
+               regexp = "was not found in the removal data")
+})
+
+test_that("Misnamed tag id columns raise errors", {
+  captures <- system.file("extdata",
+                          "equid-captures.csv",
+                          package = "mrmr") %>%
+    read_csv %>%
+    filter(capture_animal_state != "dead")
+  surveys <- system.file("extdata",
+                         "equid-surveys.csv",
+                         package = "mrmr") %>%
+    read_csv
+  removals <- system.file("extdata",
+                          "equid-removals.csv",
+                          package = "mrmr") %>%
+    read_csv %>%
+    rename(pit_tag_ref = pit_tag_id)
+
+  expect_error(clean_data(captures, surveys, removals = removals),
+               regexp = "was not found in the removal data")
 })
