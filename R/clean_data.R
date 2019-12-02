@@ -170,7 +170,7 @@ clean_data <- function(captures, surveys,
   if (any_removals) {
     expected_cols <- c("removal_date", "pit_tag_id")
     for (col in seq_along(expected_cols)) {
-      if (!col %in% names(removals)) {
+      if (!expected_cols[col] %in% names(removals)) {
         stop(paste0("A column named '", expected_cols[col],
                     "' was not found in the removal data."))
       }
