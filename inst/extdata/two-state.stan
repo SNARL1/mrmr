@@ -124,8 +124,13 @@ transformed parameters {
       }
 
       if (removed[i]) {
-        ps[2, t_remove[i], 2] = 0;
-        ps[2, t_remove[i], 3] = 1;
+        if (t_remove[i] < T) {
+          // animals removed on the last primary period
+          // cannot contribute to the likelihood, since
+          // we have no observations after their removal
+          ps[2, t_remove[i], 2] = 0;
+          ps[2, t_remove[i], 3] = 1;
+        }
       }
 
       // observation probabilities
@@ -247,10 +252,14 @@ generated quantities {
       }
 
       if (removed[i]) {
-        ps[2, t_remove[i], 2] = 0;
-        ps[2, t_remove[i], 3] = 1;
+        if (t_remove[i] < T) {
+          // animals removed on the last primary period
+          // cannot contribute to the likelihood, since
+          // we have no observations after their removal
+          ps[2, t_remove[i], 2] = 0;
+          ps[2, t_remove[i], 3] = 1;
+        }
       }
-
 
     // simulate discrete state values
     s[i, 1] = 1;

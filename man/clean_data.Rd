@@ -4,9 +4,15 @@
 \alias{clean_data}
 \title{Load a mark-recapture data set}
 \usage{
-clean_data(captures, surveys, translocations = NA, removals = NA,
-  capture_formula = ~1, survival_formula = ~1,
-  survival_fill_value = NA)
+clean_data(
+  captures,
+  surveys,
+  translocations = NA,
+  removals = NA,
+  capture_formula = ~1,
+  survival_formula = ~1,
+  survival_fill_value = NA
+)
 }
 \arguments{
 \item{captures}{Data frame containing capture-recapture data. Necessary

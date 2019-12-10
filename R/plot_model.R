@@ -38,6 +38,7 @@ plot_model <- function(model, what) {
       left_join(model$data$surveys) %>%
       ggplot(aes(.data$survey_date, .data$med)) +
       geom_line() +
+      geom_point() +
       geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
       xlab('Date') +
       ylab('Population size') +
@@ -56,6 +57,7 @@ plot_model <- function(model, what) {
       left_join(model$data$surveys) %>%
       ggplot(aes(.data$survey_date, .data$med)) +
       geom_line() +
+      geom_point() +
       geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
       xlab('Date') +
       ylab('Recruitment') +
@@ -99,6 +101,7 @@ plot_model <- function(model, what) {
                  fill = as.factor(.data$release_date))) +
       geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi),
                   alpha = .5, color = NA) +
+      geom_point() +
       geom_line() +
       ylab('Fraction surviving') +
       xlab('Date') +
