@@ -29,7 +29,8 @@
 #' deviation = 1).
 #' @param survival_formula An optional formula specifying the structure of
 #' individual-level survival covariates. Any variables in this formula
-#' must be columns in the `translocations` and/or `captures` data frames.
+#' must be columns in the `captures` data.frame, and if there are translocations,
+#' these variables must also exist as columns in the `translocations` data.frame.
 #' The formula must start with `~` and can be provided unquoted.
 #' It is advisable to ensure that any continuous covariates provided in this
 #' formula are appropriately scaled (ideally, with mean = 0, and standard

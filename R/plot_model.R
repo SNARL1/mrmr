@@ -17,7 +17,7 @@
 #' @export
 #' @importFrom dplyr group_by summarize left_join ungroup filter distinct
 #' @importFrom ggplot2 ggplot geom_line geom_ribbon xlab ylab facet_wrap theme
-#' scale_color_brewer aes element_text scale_fill_brewer scale_x_date
+#' scale_color_brewer aes element_text scale_fill_brewer scale_x_date geom_point
 #' @importFrom reshape2 melt
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
