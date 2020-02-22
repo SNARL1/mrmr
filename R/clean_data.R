@@ -133,6 +133,15 @@ clean_data <- function(captures, surveys,
                paste(which(duplicated(captures)), collapse = ", ")))
   }
 
+  # Check for duplicate dates in survey data
+  if (any(duplicated(surveys$survey_date))) {
+    stop(paste("Some dates are duplicated in the survey data. Each date should",
+               "only occur once at most in the survey data.frame. The",
+               "following date(s) were duplicated:",
+               paste(surveys$survey_date[duplicated(surveys$survey_date)],
+                     collapse = ", ")))
+  }
+
   # check that date columns can be parsed as Date objects
   surveys$survey_date <- parse_as_date(surveys$survey_date)
   captures$survey_date <- parse_as_date(captures$survey_date)

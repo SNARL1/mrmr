@@ -1,13 +1,15 @@
 library(readr)
 library(dplyr)
 
-test_that("clean_data returns the right elements", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  translocations <- read_csv(system.file("extdata", "translocation-example.csv",
+captures <- read_csv(system.file("extdata", "capture-example.csv",
+                                 package = "mrmr"))
+translocations <- read_csv(system.file("extdata", "translocation-example.csv",
+                                       package = "mrmr"))
+surveys <- read_csv(system.file("extdata", "survey-example.csv",
                                 package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
+
+
+test_that("clean_data returns the right elements", {
   out <- clean_data(captures, surveys, translocations)
   expected_elements <- c("stan_d", "captures", "translocations", "surveys")
   expect_true(all(expected_elements %in% names(out)))
@@ -15,10 +17,6 @@ test_that("clean_data returns the right elements", {
 
 
 test_that("formula specification results in the correct design matrix", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
   out <- clean_data(captures, surveys,
                     capture_formula = ~ primary_period)
   expected_names <- c('(Intercept)', 'primary_period')
@@ -26,12 +24,6 @@ test_that("formula specification results in the correct design matrix", {
 })
 
 test_that("invalid date formats raise errors", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
-  translocations <- read_csv(system.file("extdata", "translocation-example.csv",
-                                         package = "mrmr"))
   # check for translocation and surveys
   translocations$release_date <- as.integer(translocations$release_date)
   expect_error(clean_data(captures, surveys, translocations), regexp = 'coerce')
@@ -53,20 +45,12 @@ test_that("providing survival_fill_value argument only works with formula", {
 })
 
 test_that("providing a name in survival_fill_value w/out column match error", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
   expect_error(clean_data(captures, surveys, survival_formula = ~treatment,
                           survival_fill_value = c(foobar = "control")),
                regexp = "must also be columns")
 })
 
 test_that("survival_fill_value fills values in the capture columns", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
   d <- clean_data(captures, surveys,
                   survival_formula = ~ treatment,
                   survival_fill_value = c(treatment = "filled_value"))
@@ -87,13 +71,6 @@ test_that("survival_fill_value fills values in the capture columns", {
 
 
 test_that("survival_fill_value fills values in the translocation columns", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
-  translocations <- read_csv(system.file("extdata", "translocation-example.csv",
-                                         package = "mrmr"))
-
   d <- clean_data(captures, surveys, translocations,
                   survival_formula = ~ treatment,
                   survival_fill_value = c(treatment = "filled_value"))
@@ -118,13 +95,6 @@ test_that("survival_fill_value fills values in the translocation columns", {
 })
 
 test_that("surivival formulas create correct design matrices", {
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr"))
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
-  translocations <- read_csv(system.file("extdata", "translocation-example.csv",
-                                         package = "mrmr"))
-
   data <- clean_data(captures, surveys, translocations,
                      survival_formula = ~ treatment,
                      survival_fill_value = c(treatment = "wild-caught"))
@@ -157,15 +127,6 @@ test_that("dead captures raise errors", {
 })
 
 test_that("duplicate captures raise errors", {
-  captures <- system.file("extdata",
-                          "capture-example.csv",
-                          package = "mrmr") %>%
-    read_csv
-  surveys <- system.file("extdata",
-                         "survey-example.csv",
-                         package = "mrmr") %>%
-    read_csv
-
   captures <- rbind(captures[1, ], captures)
 
   expect_error(clean_data(captures, surveys),
@@ -173,12 +134,7 @@ test_that("duplicate captures raise errors", {
 })
 
 test_that("recruitment warning is printed when no natural recruits", {
-  surveys <- read_csv(system.file("extdata", "survey-example.csv",
-                                  package = "mrmr"))
-  translocations <- read_csv(system.file("extdata", "translocation-example.csv",
-                                         package = "mrmr"))
-  captures <- read_csv(system.file("extdata", "capture-example.csv",
-                                   package = "mrmr")) %>%
+  captures <- captures %>%
     filter(pit_tag_id %in% translocations$pit_tag_id)
 
   expect_warning(d <- clean_data(captures, surveys, translocations),
@@ -224,4 +180,10 @@ test_that("Misnamed tag id columns raise errors", {
 
   expect_error(clean_data(captures, surveys, removals = removals),
                regexp = "was not found in the removal data")
+})
+
+test_that("Duplicate survey dates raise errors", {
+  surveys$survey_date[2] <- surveys$survey_date[1]
+  expect_error(clean_data(captures, surveys),
+               regexp = "dates are duplicated")
 })
