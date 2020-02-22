@@ -26,44 +26,6 @@
 plot_model <- function(model, what) {
   valid_plots <- c("abundance", "recruitment", "survival")
   stopifnot(what %in% valid_plots)
-  if (what == "abundance") {
-    p <- model$post$N %>%
-      melt(varnames = c('iter', 'primary_period')) %>%
-      as_tibble %>%
-      mutate(primary_period = .data$primary_period + 1) %>%
-      group_by(.data$primary_period) %>%
-      summarize(lo = quantile(.data$value, .025),
-                med = median(.data$value),
-                hi = quantile(.data$value, .975)) %>%
-      left_join(model$data$surveys) %>%
-      ggplot(aes(.data$survey_date, .data$med)) +
-      geom_line() +
-      geom_point() +
-      geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
-      xlab('Date') +
-      ylab('Population size') +
-      facet_wrap(~.data$year, nrow = 1, scales = 'free_x') +
-      theme(axis.text.x = element_text(angle = 90))
-  }
-
-  if (what == "recruitment") {
-    p <- model$post$B %>%
-      melt(varnames = c('iter', 'primary_period')) %>%
-      as_tibble %>%
-      group_by(.data$primary_period) %>%
-      summarize(lo = quantile(.data$value, .025),
-                med = median(.data$value),
-                hi = quantile(.data$value, .975)) %>%
-      left_join(model$data$surveys) %>%
-      ggplot(aes(.data$survey_date, .data$med)) +
-      geom_line() +
-      geom_point() +
-      geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
-      xlab('Date') +
-      ylab('Recruitment') +
-      facet_wrap(~.data$year, nrow = 1, scales = 'free_x') +
-      theme(axis.text.x = element_text(angle = 90))
-  }
 
   if (what == "survival") {
     any_translocations <- 'data.frame' %in% class(model$data$translocations)
@@ -108,6 +70,53 @@ plot_model <- function(model, what) {
       scale_color_brewer('Introduction date', type = 'qual') +
       scale_fill_brewer('Introduction date', type = 'qual') +
       scale_x_date(date_breaks = "1 year")
+  } else {
+    survey_prim_periods <- model$data$surveys %>%
+      group_by(.data$primary_period) %>%
+      filter(.data$secondary_period == min(.data$secondary_period)) %>%
+      ungroup(.data)
+
+    if (what == "abundance") {
+      p <- model$post$N %>%
+        melt(varnames = c('iter', 'primary_period')) %>%
+        as_tibble %>%
+        mutate(primary_period = .data$primary_period + 1) %>%
+        group_by(.data$primary_period) %>%
+        summarize(lo = quantile(.data$value, .025),
+                  med = median(.data$value),
+                  hi = quantile(.data$value, .975)) %>%
+        left_join(survey_prim_periods) %>%
+        ggplot(aes(.data$survey_date, .data$med)) +
+        geom_line() +
+        geom_point() +
+        geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
+        xlab('Date') +
+        ylab('Population size') +
+        facet_wrap(~.data$year, nrow = 1, scales = 'free_x') +
+        theme(axis.text.x = element_text(angle = 90))
+    }
+
+    if (what == "recruitment") {
+      p <- model$post$B %>%
+        melt(varnames = c('iter', 'primary_period')) %>%
+        as_tibble %>%
+        mutate(primary_period = .data$primary_period + 1) %>%
+        group_by(.data$primary_period) %>%
+        summarize(lo = quantile(.data$value, .025),
+                  med = median(.data$value),
+                  hi = quantile(.data$value, .975)) %>%
+        left_join(survey_prim_periods) %>%
+        ungroup(.data) %>%
+        ggplot(aes(.data$survey_date, .data$med)) +
+        geom_line() +
+        geom_point() +
+        geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
+        geom_linerange(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
+        xlab('Date') +
+        ylab('Recruitment') +
+        facet_wrap(~.data$year, nrow = 1, scales = 'free_x') +
+        theme(axis.text.x = element_text(angle = 90))
+    }
   }
 
   return(p)
