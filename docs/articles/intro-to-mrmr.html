@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>An introduction to mrmr • mrmr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="An introduction to mrmr">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -67,6 +68,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -98,7 +100,7 @@
 <a href="#data-specifications" class="anchor"></a>Data specifications</h2>
 <p>The package comes with example data that illustrate the expected format. Three files are needed.</p>
 <p>The first file specifies capture data:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
 <a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
@@ -107,9 +109,9 @@
 <a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
 <a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tibble)</a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rstan)</a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(readr)</a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tibble)</a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rstan)</a>
 <a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt; Loading required package: StanHeaders</span></a>
 <a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt; Loading required package: ggplot2</span></a>
 <a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt; rstan (Version 2.19.2, GitRev: 2e1f913d3ca3)</span></a>
@@ -117,8 +119,8 @@
 <a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt; options(mc.cores = parallel::detectCores()).</span></a>
 <a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt; To avoid recompilation of unchanged Stan programs, we recommend calling</span></a>
 <a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; rstan_options(auto_write = TRUE)</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mrmr)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">captures &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mrmr)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">captures &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb2-2" title="2">                                <span class="st">"capture-example.csv"</span>, </a>
 <a class="sourceLine" id="cb2-3" title="3">                                <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span>read_csv</a>
@@ -148,28 +150,28 @@
 <a class="sourceLine" id="cb2-28" title="28"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(captures)</a>
 <a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt; Observations: 466</span></a>
 <a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt; Variables: 19</span></a>
-<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt; $ swab_id             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt; $ pit_tag_id          &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.000…</span></a>
-<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt; $ site_id             &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70…</span></a>
-<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt; $ survey_date         &lt;date&gt; 2014-08-07, 2015-08-16, 2014-07-11, 2015-08…</span></a>
-<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt; $ surveyor1           &lt;chr&gt; "Killion", "Killion", "Demaranville", "Linda…</span></a>
-<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt; $ pit_tag_status      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt; $ frog_sex            &lt;chr&gt; "M", "F", "M", "M", "F", "F", "M", "M", "F",…</span></a>
-<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; $ frog_state          &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", …</span></a>
-<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt; $ frog_weight         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt; $ frog_svl            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt; $ swabber_name        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; $ treatment           &lt;chr&gt; "unexposed", "exposed", "unexposed", "unexpo…</span></a>
-<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; $ collection_date     &lt;date&gt; 2014-06-27, 2014-06-23, 2014-06-27, 2014-06…</span></a>
-<a class="sourceLine" id="cb2-44" title="44"><span class="co">#&gt; $ collection_location &lt;dbl&gt; 72996, 72996, 72996, 72996, 72996, 72996, 72…</span></a>
-<a class="sourceLine" id="cb2-45" title="45"><span class="co">#&gt; $ release_location    &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70…</span></a>
-<a class="sourceLine" id="cb2-46" title="46"><span class="co">#&gt; $ release_date        &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06…</span></a>
-<a class="sourceLine" id="cb2-47" title="47"><span class="co">#&gt; $ standard_type       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-48" title="48"><span class="co">#&gt; $ load                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></a>
-<a class="sourceLine" id="cb2-49" title="49"><span class="co">#&gt; $ category            &lt;chr&gt; "translocated", "translocated", "translocate…</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt; $ swab_id             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt; $ pit_tag_id          &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+1…</span></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt; $ site_id             &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449, …</span></a>
+<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt; $ survey_date         &lt;date&gt; 2014-08-07, 2015-08-16, 2014-07-11, 2015-08-15, …</span></a>
+<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt; $ surveyor1           &lt;chr&gt; "Killion", "Killion", "Demaranville", "Lindauer",…</span></a>
+<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt; $ pit_tag_status      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt; $ frog_sex            &lt;chr&gt; "M", "F", "M", "M", "F", "F", "M", "M", "F", "F",…</span></a>
+<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; $ frog_state          &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Heal…</span></a>
+<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt; $ frog_weight         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt; $ frog_svl            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt; $ swabber_name        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; $ treatment           &lt;chr&gt; "unexposed", "exposed", "unexposed", "unexposed",…</span></a>
+<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; $ collection_date     &lt;date&gt; 2014-06-27, 2014-06-23, 2014-06-27, 2014-06-27, …</span></a>
+<a class="sourceLine" id="cb2-44" title="44"><span class="co">#&gt; $ collection_location &lt;dbl&gt; 72996, 72996, 72996, 72996, 72996, 72996, 72996, …</span></a>
+<a class="sourceLine" id="cb2-45" title="45"><span class="co">#&gt; $ release_location    &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449, …</span></a>
+<a class="sourceLine" id="cb2-46" title="46"><span class="co">#&gt; $ release_date        &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, …</span></a>
+<a class="sourceLine" id="cb2-47" title="47"><span class="co">#&gt; $ standard_type       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-48" title="48"><span class="co">#&gt; $ load                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></a>
+<a class="sourceLine" id="cb2-49" title="49"><span class="co">#&gt; $ category            &lt;chr&gt; "translocated", "translocated", "translocated", "…</span></a></code></pre></div>
 <p>Note that the <code>system.file</code> function generates a path to the <code>capture-example.csv</code> file, but in a real application, you would likely use a path to a local file (real data, not the example data included in the package). The files must be formatted with the same columns and conventions uesd in the example data. Each row in this file represents a capture or recapture event.</p>
 <p>The second file specifies translocation data:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">translocations &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">translocations &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb3-2" title="2">                                      <span class="st">"translocation-example.csv"</span>, </a>
 <a class="sourceLine" id="cb3-3" title="3">                                      <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span>read_csv</a>
@@ -197,46 +199,44 @@
 <a class="sourceLine" id="cb3-26" title="26"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(translocations)</a>
 <a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt; Observations: 80</span></a>
 <a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt; Variables: 17</span></a>
-<a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt; $ swab_id        &lt;chr&gt; "RKS16752", "RKS16755", "RKS16756", "RKS16757", "…</span></a>
-<a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt; $ pit_tag_id     &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+1…</span></a>
-<a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; $ treatment      &lt;chr&gt; "exposed", "exposed", "exposed", "exposed", "expo…</span></a>
-<a class="sourceLine" id="cb3-32" title="32"><span class="co">#&gt; $ release_date   &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, …</span></a>
-<a class="sourceLine" id="cb3-33" title="33"><span class="co">#&gt; $ swabbing_date  &lt;date&gt; 2014-06-23, 2014-06-23, 2014-06-23, 2014-06-23, …</span></a>
-<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; $ pit_tag_status &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y",…</span></a>
-<a class="sourceLine" id="cb3-35" title="35"><span class="co">#&gt; $ frog_sex       &lt;chr&gt; "F", "F", "M", "M", "M", "F", "F", "F", "M", "F",…</span></a>
-<a class="sourceLine" id="cb3-36" title="36"><span class="co">#&gt; $ frog_state     &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Heal…</span></a>
-<a class="sourceLine" id="cb3-37" title="37"><span class="co">#&gt; $ frog_location  &lt;chr&gt; "in lake", "in lake", "in lake", "in lake", "in l…</span></a>
-<a class="sourceLine" id="cb3-38" title="38"><span class="co">#&gt; $ frog_weight    &lt;dbl&gt; 11, 13, 12, 10, 10, 10, 11, 13, 13, 11, 10, 11, 1…</span></a>
-<a class="sourceLine" id="cb3-39" title="39"><span class="co">#&gt; $ frog_svl       &lt;dbl&gt; 46, 51, 44, 42, 44, 40, 45, 48, 49, 47, 48, 47, 4…</span></a>
-<a class="sourceLine" id="cb3-40" title="40"><span class="co">#&gt; $ swabber_name   &lt;chr&gt; "Kauffman", "Kauffman", "Kauffman", "Kauffman", "…</span></a>
-<a class="sourceLine" id="cb3-41" title="41"><span class="co">#&gt; $ frog_comments  &lt;chr&gt; "Treated, for translocation to 70449.", "Treated,…</span></a>
-<a class="sourceLine" id="cb3-42" title="42"><span class="co">#&gt; $ quant_cycle    &lt;dbl&gt; 35.72, 26.40, 28.51, 34.27, 36.12, 28.55, 31.44, …</span></a>
-<a class="sourceLine" id="cb3-43" title="43"><span class="co">#&gt; $ start_quant    &lt;dbl&gt; 0.09, 51.65, 12.33, 0.25, 0.07, 12.03, 1.68, 26.7…</span></a>
-<a class="sourceLine" id="cb3-44" title="44"><span class="co">#&gt; $ standard_type  &lt;chr&gt; "genomic", "genomic", "genomic", "genomic", "geno…</span></a>
-<a class="sourceLine" id="cb3-45" title="45"><span class="co">#&gt; $ load           &lt;dbl&gt; 432, 247920, 59184, 1200, 336, 57744, 8064, 12835…</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt; $ swab_id        &lt;chr&gt; "RKS16752", "RKS16755", "RKS16756", "RKS16757", "RKS16…</span></a>
+<a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt; $ pit_tag_id     &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.…</span></a>
+<a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; $ treatment      &lt;chr&gt; "exposed", "exposed", "exposed", "exposed", "exposed",…</span></a>
+<a class="sourceLine" id="cb3-32" title="32"><span class="co">#&gt; $ release_date   &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, 2014-…</span></a>
+<a class="sourceLine" id="cb3-33" title="33"><span class="co">#&gt; $ swabbing_date  &lt;date&gt; 2014-06-23, 2014-06-23, 2014-06-23, 2014-06-23, 2014-…</span></a>
+<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; $ pit_tag_status &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y",…</span></a>
+<a class="sourceLine" id="cb3-35" title="35"><span class="co">#&gt; $ frog_sex       &lt;chr&gt; "F", "F", "M", "M", "M", "F", "F", "F", "M", "F", "F",…</span></a>
+<a class="sourceLine" id="cb3-36" title="36"><span class="co">#&gt; $ frog_state     &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Healthy",…</span></a>
+<a class="sourceLine" id="cb3-37" title="37"><span class="co">#&gt; $ frog_location  &lt;chr&gt; "in lake", "in lake", "in lake", "in lake", "in lake",…</span></a>
+<a class="sourceLine" id="cb3-38" title="38"><span class="co">#&gt; $ frog_weight    &lt;dbl&gt; 11, 13, 12, 10, 10, 10, 11, 13, 13, 11, 10, 11, 11, 10…</span></a>
+<a class="sourceLine" id="cb3-39" title="39"><span class="co">#&gt; $ frog_svl       &lt;dbl&gt; 46, 51, 44, 42, 44, 40, 45, 48, 49, 47, 48, 47, 46, 44…</span></a>
+<a class="sourceLine" id="cb3-40" title="40"><span class="co">#&gt; $ swabber_name   &lt;chr&gt; "Kauffman", "Kauffman", "Kauffman", "Kauffman", "Kauff…</span></a>
+<a class="sourceLine" id="cb3-41" title="41"><span class="co">#&gt; $ frog_comments  &lt;chr&gt; "Treated, for translocation to 70449.", "Treated, for …</span></a>
+<a class="sourceLine" id="cb3-42" title="42"><span class="co">#&gt; $ quant_cycle    &lt;dbl&gt; 35.72, 26.40, 28.51, 34.27, 36.12, 28.55, 31.44, 27.37…</span></a>
+<a class="sourceLine" id="cb3-43" title="43"><span class="co">#&gt; $ start_quant    &lt;dbl&gt; 0.09, 51.65, 12.33, 0.25, 0.07, 12.03, 1.68, 26.74, 0.…</span></a>
+<a class="sourceLine" id="cb3-44" title="44"><span class="co">#&gt; $ standard_type  &lt;chr&gt; "genomic", "genomic", "genomic", "genomic", "genomic",…</span></a>
+<a class="sourceLine" id="cb3-45" title="45"><span class="co">#&gt; $ load           &lt;dbl&gt; 432, 247920, 59184, 1200, 336, 57744, 8064, 128352, 19…</span></a></code></pre></div>
 <p>Each row corresponds to a translocation event of one unique individual.</p>
 <p>The third file specifies survey-level data:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">surveys &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">surveys &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb4-2" title="2">                               <span class="st">"survey-example.csv"</span>, </a>
 <a class="sourceLine" id="cb4-3" title="3">                                <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span>read_csv</a>
 <a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; Parsed with column specification:</span></a>
 <a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; cols(</span></a>
 <a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;   survey_date = col_date(format = ""),</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;   site_id = col_double(),</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;   survey_duration = col_double(),</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;   primary_period = col_double(),</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;   secondary_period = col_double()</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; )</span></a>
-<a class="sourceLine" id="cb4-13" title="13"></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(surveys)</a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; Observations: 63</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; Variables: 5</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; $ survey_date      &lt;date&gt; 2014-06-28, 2014-07-10, 2014-07-11, 2014-07-12…</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; $ site_id          &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449…</span></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; $ survey_duration  &lt;dbl&gt; NA, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7…</span></a>
-<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; $ primary_period   &lt;dbl&gt; 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6,…</span></a>
-<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; $ secondary_period &lt;dbl&gt; 0, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 1, 2, 3, 1, 2,…</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;   primary_period = col_double(),</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;   secondary_period = col_double(),</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;   survey_duration = col_double()</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb4-12" title="12"></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(surveys)</a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; Observations: 51</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; Variables: 4</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; $ survey_date      &lt;date&gt; 2014-06-28, 2014-07-10, 2014-07-11, 2014-07-12, 201…</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; $ primary_period   &lt;dbl&gt; 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7…</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; $ secondary_period &lt;dbl&gt; 0, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2…</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; $ survey_duration  &lt;dbl&gt; 0.00, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7.85…</span></a></code></pre></div>
 <p>Here, each row is a unique survey.</p>
 </div>
 <div id="data-processing" class="section level2">
@@ -252,7 +252,7 @@
 <p>Assuming we wanted to include a covariate for detection like <code>person_hours</code>, we can do so as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># center and scale the covariate</span></a>
 <a class="sourceLine" id="cb6-2" title="2">captures &lt;-<span class="st"> </span>captures <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">c_person_hours =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/scale">scale</a></span>(person_hours)))</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">c_person_hours =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(person_hours)))</a>
 <a class="sourceLine" id="cb6-4" title="4"></a>
 <a class="sourceLine" id="cb6-5" title="5"><span class="co"># specify the formula</span></a>
 <a class="sourceLine" id="cb6-6" title="6">data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(captures, surveys, translocations,</a>
@@ -265,7 +265,7 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># specify the formula</span></a>
 <a class="sourceLine" id="cb7-2" title="2">data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clean_data.html">clean_data</a></span>(captures, surveys, translocations,</a>
 <a class="sourceLine" id="cb7-3" title="3">                   <span class="dt">survival_formula =</span> <span class="op">~</span><span class="st"> </span>treatment, </a>
-<a class="sourceLine" id="cb7-4" title="4">                   <span class="dt">survival_fill_value =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">treatment =</span> <span class="st">"wild-caught"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb7-4" title="4">                   <span class="dt">survival_fill_value =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">treatment =</span> <span class="st">"wild-caught"</span>))</a></code></pre></div>
 </div>
 </div>
 <div id="model-structure" class="section level2">
@@ -278,8 +278,8 @@
 <h2 class="hasAnchor">
 <a href="#model-fitting" class="anchor"></a>Model fitting</h2>
 <p>To fit a mark-recapture model, use <code><a href="../reference/fit_model.html">mrmr::fit_model()</a></code>. This model accounts for known introductions into the population, and has random effects to account for variation in survival and recruitment through time. The example below uses two chains and relatively few iterations for speed, but it is a good idea to run 3+ chains, and at least 1000 iterations.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data, <span class="dt">cores =</span> parallel<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/parallel/topics/detectCores">detectCores</a></span>(), </a>
-<a class="sourceLine" id="cb8-2" title="2">                 <span class="dt">chains =</span> <span class="dv">2</span>, <span class="dt">iter =</span> <span class="dv">500</span>)</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_model.html">fit_model</a></span>(data, <span class="dt">cores =</span> parallel<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span>(), </a>
+<a class="sourceLine" id="cb8-2" title="2">                 <span class="dt">chains =</span> <span class="dv">2</span>, <span class="dt">iter =</span> <span class="dv">200</span>)</a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; Compiling Stan model...</span></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></a>
 <a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
@@ -288,27 +288,27 @@
 <a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
 <a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#tail-ess</span></a></code></pre></div>
 <p>To diagnose potential non-convergence of the MCMC algorithm, inspect traceplots:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">pars_to_plot &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'alpha_lambda'</span>, </a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">pars_to_plot &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'alpha_lambda'</span>, </a>
 <a class="sourceLine" id="cb9-2" title="2">                  <span class="st">'sigma_lambda'</span>, </a>
 <a class="sourceLine" id="cb9-3" title="3">                  <span class="st">'beta_phi'</span>, </a>
 <a class="sourceLine" id="cb9-4" title="4">                  <span class="st">'sigma_phi'</span>, </a>
 <a class="sourceLine" id="cb9-5" title="5">                  <span class="st">'beta_detect'</span>)</a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> pars_to_plot)</a></code></pre></div>
+<a class="sourceLine" id="cb9-6" title="6"><span class="kw"><a href="https://rdrr.io/pkg/rstan/man/stanfit-method-traceplot.html">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> pars_to_plot)</a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/plot-traceplots-1.png" width="672"></p>
 <p>It is also a good idea to look at Rhat estimates to see whether they indicate of a lack of convergence (Rhat values <span class="math inline">\(\geq\)</span> 1.01):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> pars_to_plot)</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> pars_to_plot)</a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Inference for Stan model: two-state.</span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; 2 chains, each with iter=500; warmup=250; thin=1; </span></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; post-warmup draws per chain=250, total post-warmup draws=500.</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; 2 chains, each with iter=200; warmup=100; thin=1; </span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; post-warmup draws per chain=100, total post-warmup draws=200.</span></a>
 <a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt;                 mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat</span></a>
-<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; alpha_lambda   -4.74    0.04 0.59 -5.75 -5.13 -4.79 -4.47 -3.37   193 1.00</span></a>
-<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt; sigma_lambda    1.97    0.04 0.59  1.10  1.52  1.89  2.35  3.39   226 1.00</span></a>
-<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt; beta_phi[1]     1.78    0.03 0.37  1.05  1.54  1.78  2.00  2.52   199 1.00</span></a>
-<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt; sigma_phi       1.20    0.04 0.43  0.48  0.90  1.15  1.43  2.19   129 1.01</span></a>
-<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; beta_detect[1] -0.39    0.00 0.06 -0.52 -0.43 -0.39 -0.35 -0.28  1031 1.00</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; alpha_lambda   -4.65    0.05 0.56 -5.66 -5.05 -4.69 -4.29 -3.46   121 1.01</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt; sigma_lambda    2.07    0.06 0.58  1.14  1.65  2.00  2.41  3.26   105 1.02</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt; beta_phi[1]     1.79    0.03 0.35  1.05  1.57  1.77  1.98  2.56   138 1.00</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt; sigma_phi       1.25    0.04 0.43  0.60  0.95  1.15  1.46  2.39   114 1.00</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; beta_detect[1] -0.39    0.00 0.06 -0.49 -0.44 -0.40 -0.35 -0.28   188 1.00</span></a>
 <a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb10-13" title="13"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Jul 24 07:12:37 2019.</span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Tue Mar 10 10:49:07 2020.</span></a>
 <a class="sourceLine" id="cb10-14" title="14"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
 <a class="sourceLine" id="cb10-15" title="15"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
 <a class="sourceLine" id="cb10-16" title="16"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
@@ -332,7 +332,7 @@
 <h2 class="hasAnchor">
 <a href="#custom-visualizations" class="anchor"></a>Custom visualizations</h2>
 <p>Any of the plotting functionality that you would expect from a <code>stanfit</code> model is available as well, by accessing the <code>m_fit</code> list element from a model object. For example, we could assess the posterior for the superpopulation size:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/rstan/topics/stanfit-method-traceplot">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> <span class="st">"Nsuper"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://rdrr.io/pkg/rstan/man/stanfit-method-traceplot.html">traceplot</a></span>(mod<span class="op">$</span>m_fit, <span class="dt">pars =</span> <span class="st">"Nsuper"</span>)</a></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="cases-with-no-translocations" class="section level2">
@@ -346,16 +346,16 @@
 <h2 class="hasAnchor">
 <a href="#cases-with-known-removals" class="anchor"></a>Cases with known removals</h2>
 <p>When individuals are removed from a population, e.g., for translocation, these known removals can be included as data to increase the precision of abundance estimates. An example dataset fitting this case is included at an imaginary site called “Equid”. Note below that we filter out dead animals – any dead animals encountered on surveys should be in the <code>removals</code> data, and not in the <code>captures</code> data frame, which should only contain live animals (those that might survive to the next primary period).</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">captures &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">captures &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb16-2" title="2">                        <span class="st">"equid-captures.csv"</span>, </a>
 <a class="sourceLine" id="cb16-3" title="3">                         <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb16-4" title="4"><span class="st">  </span>read_csv <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb16-5" title="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(capture_animal_state <span class="op">!=</span><span class="st"> 'dead'</span>)</a>
-<a class="sourceLine" id="cb16-6" title="6">surveys &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<a class="sourceLine" id="cb16-6" title="6">surveys &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb16-7" title="7">                       <span class="st">"equid-surveys.csv"</span>, </a>
 <a class="sourceLine" id="cb16-8" title="8">                       <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb16-9" title="9"><span class="st">  </span>read_csv</a>
-<a class="sourceLine" id="cb16-10" title="10">removals &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
+<a class="sourceLine" id="cb16-10" title="10">removals &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb16-11" title="11">                        <span class="st">"equid-removals.csv"</span>, </a>
 <a class="sourceLine" id="cb16-12" title="12">                         <span class="dt">package =</span> <span class="st">"mrmr"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb16-13" title="13"><span class="st">  </span>read_csv</a>
@@ -367,6 +367,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -390,17 +391,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Max Joseph.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

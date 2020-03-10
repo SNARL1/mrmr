@@ -18,6 +18,7 @@
 #' @importFrom dplyr group_by summarize left_join ungroup filter distinct
 #' @importFrom ggplot2 ggplot geom_line geom_ribbon xlab ylab facet_wrap theme
 #' scale_color_brewer aes element_text scale_fill_brewer scale_x_date geom_point
+#' geom_vline geom_text geom_linerange
 #' @importFrom reshape2 melt
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
@@ -26,9 +27,9 @@
 plot_model <- function(model, what) {
   valid_plots <- c("abundance", "recruitment", "survival")
   stopifnot(what %in% valid_plots)
+  any_translocations <- 'data.frame' %in% class(model$data$translocations)
 
   if (what == "survival") {
-    any_translocations <- 'data.frame' %in% class(model$data$translocations)
     if (!any_translocations) {
       stop(paste("No translocation data are present, so a cohort survival",
                  "plot cannot be generated. Using what='survival' requires",
@@ -90,6 +91,7 @@ plot_model <- function(model, what) {
         geom_line() +
         geom_point() +
         geom_ribbon(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
+        geom_linerange(aes(ymin = .data$lo, ymax = .data$hi), alpha = .4) +
         xlab('Date') +
         ylab('Population size') +
         facet_wrap(~.data$year, nrow = 1, scales = 'free_x') +
@@ -117,6 +119,24 @@ plot_model <- function(model, what) {
         facet_wrap(~.data$year, nrow = 1, scales = 'free_x') +
         theme(axis.text.x = element_text(angle = 90))
     }
+
+    if (any_translocations) {
+      transloc_sums <- model$data$translocations %>%
+        group_by(.data$release_date) %>%
+        summarize(n = length(unique(.data$pit_tag_id))) %>%
+        mutate(year = lubridate::year(.data$release_date))
+      p <- p +
+        geom_vline(aes(xintercept = .data$release_date),
+                   linetype = "dashed",
+                   data = transloc_sums) +
+        geom_text(aes(x = .data$release_date,
+                      y = -Inf,
+                      label = paste0(" +", .data$n)),
+                  data = transloc_sums,
+                  vjust = -1,
+                  hjust = 0)
+    }
+
   }
 
   return(p)
