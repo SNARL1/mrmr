@@ -70,7 +70,6 @@ translocation data.
 \examples{
 library(mrmr)
 library(readr)
-library(dplyr)
 
 captures <- system.file('extdata', 'capture-example.csv',
     package = 'mrmr') \%>\%

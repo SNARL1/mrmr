@@ -14,17 +14,18 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
 Imports: 
-  dplyr,
-  ggplot2,
-  lubridate,
-  Rcpp,
-  readr,
-  reshape2,
-  rlang,
-  rstan,
-  tibble,
-  tidyr,
-  stats
+    dplyr,
+    ggplot2,
+    lubridate,
+    Rcpp,
+    readr,
+    reshape2,
+    rlang,
+    rstan,
+    tibble,
+    tidyr,
+    stats,
+    magrittr
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
