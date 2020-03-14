@@ -160,7 +160,7 @@ random effects to account for variation in survival and recruitment through time
 The example below uses two chains and relatively few iterations for speed, but 
 it is a good idea to run 3+ chains, and at least 1000 iterations.
 
-```{r fit-model}
+```{r fit-model, message=FALSE, warning=FALSE, results='hide'}
 mod <- fit_model(data, cores = parallel::detectCores(), 
                  chains = 2, iter = 200)
 ```
@@ -198,6 +198,15 @@ plot_model(mod, what = 'recruitment')
 
 ```{r plot-survival}
 plot_model(mod, what = 'survival')
+```
+
+### Translocation survival tables
+
+If individuals have been translocated into sites, you can generate a table of
+estimated survival through time as a function of years since introduction:
+
+```{r survival-table}
+survival_table(mod)
 ```
 
 ## Custom visualizations
