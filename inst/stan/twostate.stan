@@ -49,15 +49,7 @@ parameters {
 transformed parameters {
   vector[Jtot] logit_detect;
   vector<lower = 0, upper = 1>[Tm1] lambda;
-  matrix<lower = 0, upper = 1>[M, Tm1] phi;
   vector[M] log_lik;
-
-  {
-    vector[M] phi_fixef = X_surv * beta_phi;
-    for (t in 1:Tm1) {
-      phi[, t] = inv_logit(phi_fixef + eps_phi[t] * sigma_phi);
-    }
-  }
 
   // probability of entering population
   lambda = any_recruitment*inv_logit(alpha_lambda + eps_lambda * sigma_lambda);
@@ -69,6 +61,7 @@ transformed parameters {
   {
     real acc[3];
     vector[3] gam[T];
+    vector[Tm1] phi;
     real ps[3, Tm1, 3];
     real po[3, Jtot, 3];
     real p;
@@ -84,11 +77,12 @@ transformed parameters {
     for (i in 1:M) {
       // fill in shared values
       for (t in 1:Tm1) {
+        phi[t] = inv_logit(X_surv[i, ] * beta_phi + eps_phi[t] * sigma_phi);
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
         ps[3, t, 1] = 0;
-        ps[2, t, 2] = phi[i, t];     // survive
-        ps[2, t, 3] = 1 - phi[i, t]; // death
+        ps[2, t, 2] = phi[t];     // survive
+        ps[2, t, 3] = 1 - phi[t]; // death
         ps[3, t, 2] = 0; // cannot un-die
         ps[3, t, 3] = 1; // dead stay dead
       }
@@ -201,6 +195,7 @@ generated quantities {
 
   {
     real ps[3, Tm1, 3];
+    vector[Tm1] phi;
     // s = 1 :: not recruited
     // s = 2 :: alive
     // s = 3 :: dead
@@ -212,11 +207,12 @@ generated quantities {
     // fourth index: S(t + 1)
     for (i in 1:M) {
       for (t in 1:Tm1) {
+        phi[t] = inv_logit(X_surv[i, ] * beta_phi + eps_phi[t] * sigma_phi);
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
         ps[3, t, 1] = 0;
-        ps[2, t, 2] = phi[i, t];     // survive
-        ps[2, t, 3] = 1 - phi[i, t]; // death
+        ps[2, t, 2] = phi[t];     // survive
+        ps[2, t, 3] = 1 - phi[t]; // death
         ps[3, t, 2] = 0; // cannot un-die
         ps[3, t, 3] = 1; // dead stay dead
       }
