@@ -15,14 +15,9 @@
 #' fit_model(out, chains = 1, iter = 10)
 #' }
 #' @export
-#' @import rstan
-#' @importFrom Rcpp cpp_object_initializer
 
 fit_model <- function(data, ...) {
-  stanfile <- system.file("extdata", "two-state.stan", package = "mrmr")
-  message("Compiling Stan model...")
-  m_init <- rstan::stan_model(stanfile)
-  m_fit <- rstan::sampling(m_init, data = data$stan_d, ...)
+  m_fit <- rstan::sampling(stanmodels$twostate, data = data$stan_d, ...)
   post <- rstan::extract(m_fit)
   list(m_fit = m_fit, post = post, data = data)
 }
