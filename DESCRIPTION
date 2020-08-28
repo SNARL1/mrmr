@@ -12,7 +12,7 @@ Description: Automates some data processing steps for mark recapture analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports: 
     dplyr,
     ggplot2,

@@ -39,8 +39,7 @@ plot_model <- function(model, what) {
     primary_period_dates <- model$data$surveys %>%
       group_by(.data$primary_period) %>%
       summarize(date = min(.data$survey_date),
-                year = min(.data$year)) %>%
-      ungroup
+                year = min(.data$year))
 
     p <- model$post$s %>%
       melt(varnames = c('iter', 'i', 'primary_period')) %>%
@@ -74,12 +73,13 @@ plot_model <- function(model, what) {
   } else {
     survey_prim_periods <- model$data$surveys %>%
       group_by(.data$primary_period) %>%
-      filter(.data$secondary_period == min(.data$secondary_period)) %>%
-      ungroup(.data)
+      filter(.data$secondary_period == min(.data$secondary_period))
+
+    survey_prim_periods <- ungroup(survey_prim_periods)
 
     if (what == "abundance") {
       p <- model$post$N %>%
-        melt(varnames = c('iter', 'primary_period')) %>%
+        reshape2::melt(varnames = c('iter', 'primary_period')) %>%
         as_tibble %>%
         mutate(primary_period = .data$primary_period + 1) %>%
         group_by(.data$primary_period) %>%
@@ -100,7 +100,7 @@ plot_model <- function(model, what) {
 
     if (what == "recruitment") {
       p <- model$post$B %>%
-        melt(varnames = c('iter', 'primary_period')) %>%
+        reshape2::melt(varnames = c('iter', 'primary_period')) %>%
         as_tibble %>%
         mutate(primary_period = .data$primary_period + 1) %>%
         group_by(.data$primary_period) %>%
@@ -108,7 +108,6 @@ plot_model <- function(model, what) {
                   med = median(.data$value),
                   hi = quantile(.data$value, .975)) %>%
         left_join(survey_prim_periods) %>%
-        ungroup(.data) %>%
         ggplot(aes(.data$survey_date, .data$med)) +
         geom_line() +
         geom_point() +
