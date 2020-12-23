@@ -29,13 +29,14 @@ data {
 
 transformed data {
   int Tm1 = T - 1; // # primary periods - 1
+  vector[3] gam_init = [1, 0, 0]';
 }
 
 parameters {
   // recruitment
   real alpha_lambda;
   real<lower = 0> sigma_lambda;
-  vector[T - 1] eps_lambda;
+  vector[T] eps_lambda;
 
   // survival
   vector[m_surv] beta_phi;
@@ -48,11 +49,12 @@ parameters {
 
 transformed parameters {
   vector[Jtot] logit_detect;
-  vector<lower = 0, upper = 1>[Tm1] lambda;
+  vector<lower = 0, upper = 1>[T] lambda;
   vector[M] log_lik;
+  matrix[T, 3] forward[M];
 
   // probability of entering population
-  lambda = any_recruitment*inv_logit(alpha_lambda + eps_lambda * sigma_lambda);
+  lambda = any_recruitment * inv_logit(alpha_lambda + eps_lambda * sigma_lambda);
 
   // probability of detection
   logit_detect = X_detect * beta_detect;
@@ -61,8 +63,8 @@ transformed parameters {
   {
     real acc[3];
     vector[3] gam[T];
-    vector[Tm1] phi;
-    real ps[3, Tm1, 3];
+    vector[T] phi;
+    real ps[3, T, 3];
     real po[3, Jtot, 3];
     real p;
     // s = 1 :: not recruited
@@ -76,7 +78,7 @@ transformed parameters {
     // fourth index: S(t + 1)
     for (i in 1:M) {
       // fill in shared values
-      for (t in 1:Tm1) {
+      for (t in 1:T) {
         phi[t] = inv_logit(X_surv[i, ] * beta_phi + eps_phi[t] * sigma_phi);
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
@@ -89,28 +91,28 @@ transformed parameters {
 
       if (introduced[i]) {
         // individual has been introduced
-        // zero probability of recruiting through t_intro - 2
-        for (t in 1:(t_intro[i] - 2)) {
+        // zero probability of recruiting through t_intro - 1
+        for (t in 1:(t_intro[i] - 1)) {
           ps[1, t, 1] = 1;
           ps[1, t, 2] = 0;
           ps[1, t, 3] = 0;
         }
 
-        // timestep before introduction has Pr(recruiting) = 1
-        ps[1, t_intro[i] - 1, 1] = 0;
-        ps[1, t_intro[i] - 1, 2] = 1;
-        ps[1, t_intro[i] - 1, 3] = 0;
+        // timestep of introduction has Pr(recruiting) = 1
+        ps[1, t_intro[i], 1] = 0;
+        ps[1, t_intro[i], 2] = 1;
+        ps[1, t_intro[i], 3] = 0;
 
         // to avoid NA values, fill in remaining recruitment probs (though they
         // are irrelevant for the likelihood)
-        for (t in t_intro[i]:Tm1) {
+        for (t in (t_intro[i] + 1):T) {
           ps[1, t, 1] = 1;
           ps[1, t, 2] = 0;
           ps[1, t, 3] = 0;
         }
 
       } else {
-        for (t in 1:Tm1) {
+        for (t in 1:T) {
           ps[1, t, 1] = 1 - lambda[t];
           ps[1, t, 2] = lambda[t];
           ps[1, t, 3] = 0;
@@ -119,11 +121,8 @@ transformed parameters {
 
       if (removed[i]) {
         if (t_remove[i] < T) {
-          // animals removed on the last primary period
-          // cannot contribute to the likelihood, since
-          // we have no observations after their removal
-          ps[2, t_remove[i], 2] = 0;
-          ps[2, t_remove[i], 3] = 1;
+          ps[2, t_remove[i] + 1, 2] = 0;
+          ps[2, t_remove[i] + 1, 3] = 1;
         }
       }
 
@@ -143,31 +142,31 @@ transformed parameters {
           po[2, j, 1] = 1 - p;
           po[2, j, 2] = p;
         }
+
         po[3, j, 1] = 1;
         po[3, j, 2] = 0;
       }
 
-      // all individuals are in state 1 in first primary period
-      gam[1, 1] = 1;
-      gam[1, 2] = 0;
-      gam[1, 3] = 0;
-
-      for (t in 2:T) { // primary periods
-        for (k in 1:3) { // state
-          for (kk in 1:3) { // previous state
-            acc[kk] = gam[t - 1, kk] * ps[kk, t - 1, k];
+      for (t in 1:T) {
+        for (k in 1:3) {
+          for (kk in 1:3) {
+            if (t == 1) {
+              acc[kk] = gam_init[kk];
+            } else {
+              acc[kk] = gam[t-1, kk];
+            }
+            acc[kk] *= ps[kk, t, k];
             if (any_surveys[t]) {
-              // only increment the log probability with the likelihood
-              // if surveys happened
-              // (we could equivalently multiply by 1, implying that if there
-              //  is no survey, then we cannot make any observation)
               for (j in 1:J[t]) {
-                acc[kk] = acc[kk] * po[k, j_idx[t, j], Y[i, t, j]];
+                // only increment the log probability with the likelihood
+                // if surveys happened
+                acc[kk] *= po[k, j_idx[t, j], Y[i, t, j]];
               }
             }
           }
           gam[t, k] = sum(acc);
         }
+        forward[i, t, ] = gam[t, ]';
       }
       log_lik[i] = log(sum(gam[T]));
     } // end loop over individuals
@@ -194,8 +193,9 @@ generated quantities {
   int<lower=0> B[Tm1];                // Number of entries
 
   {
-    real ps[3, Tm1, 3];
-    vector[Tm1] phi;
+    real ps[3, T, 3];
+    vector[T] phi;
+    vector[3] tmp;
     // s = 1 :: not recruited
     // s = 2 :: alive
     // s = 3 :: dead
@@ -206,7 +206,8 @@ generated quantities {
     // third index: t
     // fourth index: S(t + 1)
     for (i in 1:M) {
-      for (t in 1:Tm1) {
+      // fill in shared values
+      for (t in 1:T) {
         phi[t] = inv_logit(X_surv[i, ] * beta_phi + eps_phi[t] * sigma_phi);
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
@@ -219,28 +220,28 @@ generated quantities {
 
       if (introduced[i]) {
         // individual has been introduced
-        // zero probability of recruiting through t_intro - 2
-        for (t in 1:(t_intro[i] - 2)) {
+        // zero probability of recruiting through t_intro - 1
+        for (t in 1:(t_intro[i] - 1)) {
           ps[1, t, 1] = 1;
           ps[1, t, 2] = 0;
           ps[1, t, 3] = 0;
         }
 
-        // timestep before introduction has Pr(recruiting) = 1
-        ps[1, t_intro[i] - 1, 1] = 0;
-        ps[1, t_intro[i] - 1, 2] = 1;
-        ps[1, t_intro[i] - 1, 3] = 0;
+        // timestep of introduction has Pr(recruiting) = 1
+        ps[1, t_intro[i], 1] = 0;
+        ps[1, t_intro[i], 2] = 1;
+        ps[1, t_intro[i], 3] = 0;
 
         // to avoid NA values, fill in remaining recruitment probs (though they
         // are irrelevant for the likelihood)
-        for (t in t_intro[i]:Tm1) {
-          ps[1, t, 1] = 1 - lambda[t];
-          ps[1, t, 2] = lambda[t];
+        for (t in (t_intro[i] + 1):T) {
+          ps[1, t, 1] = 1;
+          ps[1, t, 2] = 0;
           ps[1, t, 3] = 0;
         }
 
       } else {
-        for (t in 1:Tm1) {
+        for (t in 1:T) {
           ps[1, t, 1] = 1 - lambda[t];
           ps[1, t, 2] = lambda[t];
           ps[1, t, 3] = 0;
@@ -249,22 +250,23 @@ generated quantities {
 
       if (removed[i]) {
         if (t_remove[i] < T) {
-          // animals removed on the last primary period
-          // cannot contribute to the likelihood, since
-          // we have no observations after their removal
-          ps[2, t_remove[i], 2] = 0;
-          ps[2, t_remove[i], 3] = 1;
+          ps[2, t_remove[i] + 1, 2] = 0;
+          ps[2, t_remove[i] + 1, 3] = 1;
         }
       }
 
-    // simulate discrete state values
-    s[i, 1] = 1;
-      for (t in 2:T) {
-        s[i, t] = categorical_rng(to_vector(ps[s[i, t - 1], t - 1, ]));
+      // backward sampling
+      s[i, T] = categorical_rng(forward[i, T, ]' / sum(forward[i, T]));
+
+      for(t_rev in 1:(Tm1)) {
+        int t = T - t_rev;
+        int tp1 = t + 1;
+
+        tmp = forward[i, t,]' .* to_vector(ps[, tp1, s[i, tp1]]);
+        s[i, t] = categorical_rng(tmp / sum(tmp));
       }
     } // end loop over individuals
   } // end temporary scope
-
 
   {
     int al[M, Tm1];
@@ -289,4 +291,5 @@ generated quantities {
       w[i] = 1 - !alive[i];
     Nsuper = sum(w);
   }
+
 }
