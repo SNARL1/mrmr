@@ -1,6 +1,9 @@
 
 # mrmr: mark recapture miscellany in R
 
+![example branch
+parameter](https://github.com/SNARL1/mrmr/workflows/R-CMD-check/badge.svg)
+
 This package automates common data processing steps for mark recapture
 data, with an emphasis on data collected by folks at the Sierra Nevada
 Aquatic Research Lab (SNARL). Many of the assumptions made in the data
