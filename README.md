@@ -1,9 +1,6 @@
 
 # mrmr: mark recapture miscellany in R
 
-[![Build
-Status](https://travis-ci.org/SNARL1/mrmr.svg?branch=master)](https://travis-ci.org/SNARL1/mrmr)
-
 This package automates common data processing steps for mark recapture
 data, with an emphasis on data collected by folks at the Sierra Nevada
 Aquatic Research Lab (SNARL). Many of the assumptions made in the data
