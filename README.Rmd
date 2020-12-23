@@ -12,6 +12,8 @@ knitr::opts_chunk$set(
 
 # mrmr: mark recapture miscellany in R
 
+![build status](https://github.com/SNARL1/mrmr/workflows/R-CMD-check/badge.svg)
+
 This package automates common data processing steps for mark recapture data, 
 with an emphasis on data collected by folks at the Sierra Nevada Aquatic 
 Research Lab (SNARL). 
