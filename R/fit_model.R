@@ -14,6 +14,7 @@
 #' out <- clean_data(captures, translocations, surveys)
 #' fit_model(out, chains = 1, iter = 10)
 #' }
+#' @import StanHeaders
 #' @export
 
 fit_model <- function(data, ...) {

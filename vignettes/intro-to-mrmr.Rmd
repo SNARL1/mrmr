@@ -203,7 +203,8 @@ plot_model(mod, what = 'survival')
 ### Translocation survival tables
 
 If individuals have been translocated into sites, you can generate a table of
-estimated survival through time as a function of years since introduction:
+estimated survival through time for each cohort (release date) as a function 
+of years since introduction:
 
 ```{r survival-table}
 survival_table(mod)
