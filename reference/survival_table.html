@@ -132,7 +132,7 @@ among sites with one or multiple introduced cohorts, and
 a variable number of primary periods per year.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>survival_table</span><span class='op'>(</span><span class='va'>model</span>, by_cohort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>survival_table</span><span class='op'>(</span><span class='va'>model</span>, by_cohort <span class='op'>=</span> <span class='cn'>TRUE</span>, by_individual <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,6 +145,10 @@ a variable number of primary periods per year.</p>
       <th>by_cohort</th>
       <td><p>(bool) Whether to summarize survival separately by cohort.</p></td>
     </tr>
+    <tr>
+      <th>by_individual</th>
+      <td><p>(bool) Whether to summarize survival separately by frog.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -152,7 +156,7 @@ a variable number of primary periods per year.</p>
     <p>A data.frame with columns year_since_introduction,
 lo_survival, med_survival, and hi_survival,
 where lo, med, and hi represent the 2.5<!-- %, 50%, and 97.5% posterior quantiles -->
-for survival in the years follwing introduction.</p>
+for survival in the years following introduction.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

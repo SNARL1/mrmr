@@ -126,52 +126,38 @@
                                 <span class="st">"capture-example.csv"</span>, 
                                 package <span class="op">=</span> <span class="st">"mrmr"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="va">read_csv</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; Rows: 466 Columns: 19</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   swab_id = col_character(),</span>
-<span class="co">#&gt;   pit_tag_id = col_double(),</span>
-<span class="co">#&gt;   site_id = col_double(),</span>
-<span class="co">#&gt;   survey_date = col_date(format = ""),</span>
-<span class="co">#&gt;   surveyor1 = col_character(),</span>
-<span class="co">#&gt;   pit_tag_status = col_character(),</span>
-<span class="co">#&gt;   frog_sex = col_character(),</span>
-<span class="co">#&gt;   frog_state = col_character(),</span>
-<span class="co">#&gt;   frog_weight = col_double(),</span>
-<span class="co">#&gt;   frog_svl = col_double(),</span>
-<span class="co">#&gt;   swabber_name = col_character(),</span>
-<span class="co">#&gt;   treatment = col_character(),</span>
-<span class="co">#&gt;   collection_date = col_date(format = ""),</span>
-<span class="co">#&gt;   collection_location = col_double(),</span>
-<span class="co">#&gt;   release_location = col_double(),</span>
-<span class="co">#&gt;   release_date = col_date(format = ""),</span>
-<span class="co">#&gt;   standard_type = col_character(),</span>
-<span class="co">#&gt;   load = col_double(),</span>
-<span class="co">#&gt;   category = col_character()</span>
-<span class="co">#&gt; )</span>
+<span class="co">#&gt; Delimiter: ","</span>
+<span class="co">#&gt; chr  (9): swab_id, surveyor1, pit_tag_status, frog_sex, frog_state, swabber_...</span>
+<span class="co">#&gt; dbl  (7): pit_tag_id, site_id, frog_weight, frog_svl, collection_location, r...</span>
+<span class="co">#&gt; date (3): survey_date, collection_date, release_date</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">captures</span><span class="op">)</span>
+<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">captures</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 466</span>
 <span class="co">#&gt; Columns: 19</span>
-<span class="co">#&gt; $ swab_id             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ pit_tag_id          &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+1…</span>
-<span class="co">#&gt; $ site_id             &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449, …</span>
-<span class="co">#&gt; $ survey_date         &lt;date&gt; 2014-08-07, 2015-08-16, 2014-07-11, 2015-08-15, …</span>
-<span class="co">#&gt; $ surveyor1           &lt;chr&gt; "Killion", "Killion", "Demaranville", "Lindauer",…</span>
-<span class="co">#&gt; $ pit_tag_status      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ frog_sex            &lt;chr&gt; "M", "F", "M", "M", "F", "F", "M", "M", "F", "F",…</span>
-<span class="co">#&gt; $ frog_state          &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Heal…</span>
-<span class="co">#&gt; $ frog_weight         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ frog_svl            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ swabber_name        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ treatment           &lt;chr&gt; "unexposed", "exposed", "unexposed", "unexposed",…</span>
-<span class="co">#&gt; $ collection_date     &lt;date&gt; 2014-06-27, 2014-06-23, 2014-06-27, 2014-06-27, …</span>
-<span class="co">#&gt; $ collection_location &lt;dbl&gt; 72996, 72996, 72996, 72996, 72996, 72996, 72996, …</span>
-<span class="co">#&gt; $ release_location    &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449, …</span>
-<span class="co">#&gt; $ release_date        &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, …</span>
-<span class="co">#&gt; $ standard_type       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ load                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span>
-<span class="co">#&gt; $ category            &lt;chr&gt; "translocated", "translocated", "translocated", "…</span></code></pre></div>
+<span class="co">#&gt; $ swab_id             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ pit_tag_id          &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+14…</span>
+<span class="co">#&gt; $ site_id             &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449, 7…</span>
+<span class="co">#&gt; $ survey_date         &lt;date&gt; 2014-08-07, 2015-08-16, 2014-07-11, 2015-08-15, 2…</span>
+<span class="co">#&gt; $ surveyor1           &lt;chr&gt; "Killion", "Killion", "Demaranville", "Lindauer", …</span>
+<span class="co">#&gt; $ pit_tag_status      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ frog_sex            &lt;chr&gt; "M", "F", "M", "M", "F", "F", "M", "M", "F", "F", …</span>
+<span class="co">#&gt; $ frog_state          &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Healt…</span>
+<span class="co">#&gt; $ frog_weight         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ frog_svl            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ swabber_name        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ treatment           &lt;chr&gt; "unexposed", "exposed", "unexposed", "unexposed", …</span>
+<span class="co">#&gt; $ collection_date     &lt;date&gt; 2014-06-27, 2014-06-23, 2014-06-27, 2014-06-27, 2…</span>
+<span class="co">#&gt; $ collection_location &lt;dbl&gt; 72996, 72996, 72996, 72996, 72996, 72996, 72996, 7…</span>
+<span class="co">#&gt; $ release_location    &lt;dbl&gt; 70449, 70449, 70449, 70449, 70449, 70449, 70449, 7…</span>
+<span class="co">#&gt; $ release_date        &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, 2…</span>
+<span class="co">#&gt; $ standard_type       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ load                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span>
+<span class="co">#&gt; $ category            &lt;chr&gt; "translocated", "translocated", "translocated", "t…</span></code></pre></div>
 <p>Note that the <code>system.file</code> function generates a path to the <code>capture-example.csv</code> file, but in a real application, you would likely use a path to a local file (real data, not the example data included in the package). The files must be formatted with the same columns and conventions uesd in the example data. Each row in this file represents a capture or recapture event.</p>
 <p>The second file specifies translocation data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -179,48 +165,36 @@
                                       <span class="st">"translocation-example.csv"</span>, 
                                       package <span class="op">=</span> <span class="st">"mrmr"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="va">read_csv</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; Rows: 80 Columns: 17</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   swab_id = col_character(),</span>
-<span class="co">#&gt;   pit_tag_id = col_double(),</span>
-<span class="co">#&gt;   treatment = col_character(),</span>
-<span class="co">#&gt;   release_date = col_date(format = ""),</span>
-<span class="co">#&gt;   swabbing_date = col_date(format = ""),</span>
-<span class="co">#&gt;   pit_tag_status = col_character(),</span>
-<span class="co">#&gt;   frog_sex = col_character(),</span>
-<span class="co">#&gt;   frog_state = col_character(),</span>
-<span class="co">#&gt;   frog_location = col_character(),</span>
-<span class="co">#&gt;   frog_weight = col_double(),</span>
-<span class="co">#&gt;   frog_svl = col_double(),</span>
-<span class="co">#&gt;   swabber_name = col_character(),</span>
-<span class="co">#&gt;   frog_comments = col_character(),</span>
-<span class="co">#&gt;   quant_cycle = col_double(),</span>
-<span class="co">#&gt;   start_quant = col_double(),</span>
-<span class="co">#&gt;   standard_type = col_character(),</span>
-<span class="co">#&gt;   load = col_double()</span>
-<span class="co">#&gt; )</span>
+<span class="co">#&gt; Delimiter: ","</span>
+<span class="co">#&gt; chr  (9): swab_id, treatment, pit_tag_status, frog_sex, frog_state, frog_loc...</span>
+<span class="co">#&gt; dbl  (6): pit_tag_id, frog_weight, frog_svl, quant_cycle, start_quant, load</span>
+<span class="co">#&gt; date (2): release_date, swabbing_date</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">translocations</span><span class="op">)</span>
+<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">translocations</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 80</span>
 <span class="co">#&gt; Columns: 17</span>
-<span class="co">#&gt; $ swab_id        &lt;chr&gt; "RKS16752", "RKS16755", "RKS16756", "RKS16757", "RKS16…</span>
-<span class="co">#&gt; $ pit_tag_id     &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.…</span>
-<span class="co">#&gt; $ treatment      &lt;chr&gt; "exposed", "exposed", "exposed", "exposed", "exposed",…</span>
-<span class="co">#&gt; $ release_date   &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, 2014-…</span>
-<span class="co">#&gt; $ swabbing_date  &lt;date&gt; 2014-06-23, 2014-06-23, 2014-06-23, 2014-06-23, 2014-…</span>
-<span class="co">#&gt; $ pit_tag_status &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y",…</span>
-<span class="co">#&gt; $ frog_sex       &lt;chr&gt; "F", "F", "M", "M", "M", "F", "F", "F", "M", "F", "F",…</span>
-<span class="co">#&gt; $ frog_state     &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Healthy",…</span>
-<span class="co">#&gt; $ frog_location  &lt;chr&gt; "in lake", "in lake", "in lake", "in lake", "in lake",…</span>
-<span class="co">#&gt; $ frog_weight    &lt;dbl&gt; 11, 13, 12, 10, 10, 10, 11, 13, 13, 11, 10, 11, 11, 10…</span>
-<span class="co">#&gt; $ frog_svl       &lt;dbl&gt; 46, 51, 44, 42, 44, 40, 45, 48, 49, 47, 48, 47, 46, 44…</span>
-<span class="co">#&gt; $ swabber_name   &lt;chr&gt; "Kauffman", "Kauffman", "Kauffman", "Kauffman", "Kauff…</span>
-<span class="co">#&gt; $ frog_comments  &lt;chr&gt; "Treated, for translocation to 70449.", "Treated, for …</span>
-<span class="co">#&gt; $ quant_cycle    &lt;dbl&gt; 35.72, 26.40, 28.51, 34.27, 36.12, 28.55, 31.44, 27.37…</span>
-<span class="co">#&gt; $ start_quant    &lt;dbl&gt; 0.09, 51.65, 12.33, 0.25, 0.07, 12.03, 1.68, 26.74, 0.…</span>
-<span class="co">#&gt; $ standard_type  &lt;chr&gt; "genomic", "genomic", "genomic", "genomic", "genomic",…</span>
-<span class="co">#&gt; $ load           &lt;dbl&gt; 432, 247920, 59184, 1200, 336, 57744, 8064, 128352, 19…</span></code></pre></div>
+<span class="co">#&gt; $ swab_id        &lt;chr&gt; "RKS16752", "RKS16755", "RKS16756", "RKS16757", "RKS167…</span>
+<span class="co">#&gt; $ pit_tag_id     &lt;dbl&gt; 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.00043e+14, 9.0…</span>
+<span class="co">#&gt; $ treatment      &lt;chr&gt; "exposed", "exposed", "exposed", "exposed", "exposed", …</span>
+<span class="co">#&gt; $ release_date   &lt;date&gt; 2014-06-28, 2014-06-28, 2014-06-28, 2014-06-28, 2014-0…</span>
+<span class="co">#&gt; $ swabbing_date  &lt;date&gt; 2014-06-23, 2014-06-23, 2014-06-23, 2014-06-23, 2014-0…</span>
+<span class="co">#&gt; $ pit_tag_status &lt;chr&gt; "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", …</span>
+<span class="co">#&gt; $ frog_sex       &lt;chr&gt; "F", "F", "M", "M", "M", "F", "F", "F", "M", "F", "F", …</span>
+<span class="co">#&gt; $ frog_state     &lt;chr&gt; "Healthy", "Healthy", "Healthy", "Healthy", "Healthy", …</span>
+<span class="co">#&gt; $ frog_location  &lt;chr&gt; "in lake", "in lake", "in lake", "in lake", "in lake", …</span>
+<span class="co">#&gt; $ frog_weight    &lt;dbl&gt; 11, 13, 12, 10, 10, 10, 11, 13, 13, 11, 10, 11, 11, 10,…</span>
+<span class="co">#&gt; $ frog_svl       &lt;dbl&gt; 46, 51, 44, 42, 44, 40, 45, 48, 49, 47, 48, 47, 46, 44,…</span>
+<span class="co">#&gt; $ swabber_name   &lt;chr&gt; "Kauffman", "Kauffman", "Kauffman", "Kauffman", "Kauffm…</span>
+<span class="co">#&gt; $ frog_comments  &lt;chr&gt; "Treated, for translocation to 70449.", "Treated, for t…</span>
+<span class="co">#&gt; $ quant_cycle    &lt;dbl&gt; 35.72, 26.40, 28.51, 34.27, 36.12, 28.55, 31.44, 27.37,…</span>
+<span class="co">#&gt; $ start_quant    &lt;dbl&gt; 0.09, 51.65, 12.33, 0.25, 0.07, 12.03, 1.68, 26.74, 0.4…</span>
+<span class="co">#&gt; $ standard_type  &lt;chr&gt; "genomic", "genomic", "genomic", "genomic", "genomic", …</span>
+<span class="co">#&gt; $ load           &lt;dbl&gt; 432, 247920, 59184, 1200, 336, 57744, 8064, 128352, 196…</span></code></pre></div>
 <p>Each row corresponds to a translocation event of one unique individual.</p>
 <p>The third file specifies survey-level data:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -228,22 +202,22 @@
                                <span class="st">"survey-example.csv"</span>, 
                                 package <span class="op">=</span> <span class="st">"mrmr"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="va">read_csv</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; Rows: 51 Columns: 4</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   survey_date = col_date(format = ""),</span>
-<span class="co">#&gt;   primary_period = col_double(),</span>
-<span class="co">#&gt;   secondary_period = col_double(),</span>
-<span class="co">#&gt;   survey_duration = col_double()</span>
-<span class="co">#&gt; )</span>
+<span class="co">#&gt; Delimiter: ","</span>
+<span class="co">#&gt; dbl  (3): primary_period, secondary_period, survey_duration</span>
+<span class="co">#&gt; date (1): survey_date</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">surveys</span><span class="op">)</span>
+<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">surveys</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 51</span>
 <span class="co">#&gt; Columns: 4</span>
-<span class="co">#&gt; $ survey_date      &lt;date&gt; 2014-06-28, 2014-07-10, 2014-07-11, 2014-07-12, 201…</span>
-<span class="co">#&gt; $ primary_period   &lt;dbl&gt; 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7…</span>
-<span class="co">#&gt; $ secondary_period &lt;dbl&gt; 0, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2…</span>
-<span class="co">#&gt; $ survey_duration  &lt;dbl&gt; 0.00, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7.85…</span></code></pre></div>
+<span class="co">#&gt; $ survey_date      &lt;date&gt; 2014-06-28, 2014-07-10, 2014-07-11, 2014-07-12, 2014…</span>
+<span class="co">#&gt; $ primary_period   &lt;dbl&gt; 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7,…</span>
+<span class="co">#&gt; $ secondary_period &lt;dbl&gt; 0, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2,…</span>
+<span class="co">#&gt; $ survey_duration  &lt;dbl&gt; 0.00, 7.61, 7.00, 5.35, 7.33, 7.58, 8.16, 7.58, 7.85,…</span></code></pre></div>
 <p>Here, each row is a unique survey.</p>
 </div>
 <div id="data-processing" class="section level2">
@@ -308,13 +282,13 @@
 <span class="co">#&gt; post-warmup draws per chain=100, total post-warmup draws=200.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;                 mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat</span>
-<span class="co">#&gt; alpha_lambda   -4.87    0.08 0.64 -6.00 -5.33 -4.97 -4.48 -3.49    60 1.03</span>
-<span class="co">#&gt; sigma_lambda    1.98    0.09 0.63  1.01  1.56  1.85  2.41  3.29    48 1.02</span>
-<span class="co">#&gt; beta_phi[1]     1.84    0.03 0.38  1.06  1.60  1.86  2.07  2.54   153 1.01</span>
-<span class="co">#&gt; sigma_phi       1.29    0.06 0.34  0.73  1.06  1.25  1.51  1.95    36 1.03</span>
-<span class="co">#&gt; beta_detect[1] -0.40    0.00 0.06 -0.49 -0.44 -0.40 -0.36 -0.28   171 1.00</span>
+<span class="co">#&gt; alpha_lambda   -4.89    0.06 0.56 -5.81 -5.26 -4.96 -4.56 -3.79   100 0.99</span>
+<span class="co">#&gt; sigma_lambda    1.98    0.05 0.58  1.14  1.55  1.87  2.35  3.26   135 1.01</span>
+<span class="co">#&gt; beta_phi[1]     1.72    0.03 0.35  0.98  1.52  1.72  1.95  2.43   106 1.01</span>
+<span class="co">#&gt; sigma_phi       1.17    0.05 0.42  0.55  0.86  1.13  1.42  2.02    83 1.01</span>
+<span class="co">#&gt; beta_detect[1] -0.39    0.00 0.07 -0.52 -0.43 -0.40 -0.35 -0.26   222 1.00</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mon Feb  1 17:49:20 2021.</span>
+<span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Tue Aug 17 21:21:23 2021.</span>
 <span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span>
 <span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span>
 <span class="co">#&gt; convergence, Rhat=1).</span></code></pre></div>
@@ -344,24 +318,56 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/survival_table.html">survival_table</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "pit_tag_id"</span>
 <span class="co">#&gt; Joining, by = "primary_period"</span>
-<span class="co">#&gt; # A tibble: 7 x 5</span>
-<span class="co">#&gt; # Groups:   years_since_introduction [5]</span>
+<span class="co">#&gt; # A tibble: 7 × 5</span>
 <span class="co">#&gt;   years_since_introduction release_date lo_survival median_survival hi_survival</span>
 <span class="co">#&gt;                      &lt;dbl&gt; &lt;date&gt;             &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1                        0 2014-06-28        0.6             0.627        0.660</span>
-<span class="co">#&gt; 2                        0 2017-08-09        0.867           0.933        1    </span>
-<span class="co">#&gt; 3                        1 2014-06-28        0.347           0.353        0.38 </span>
-<span class="co">#&gt; 4                        1 2017-08-09        0.5             0.567        0.683</span>
-<span class="co">#&gt; 5                        2 2014-06-28        0.17            0.175        0.19 </span>
-<span class="co">#&gt; 6                        3 2014-06-28        0.0867          0.0933       0.113</span>
-<span class="co">#&gt; 7                        4 2014-06-28        0.07            0.08         0.1</span></code></pre></div>
+<span class="co">#&gt; 1                        0 2014-06-28        0.6             0.627       0.673 </span>
+<span class="co">#&gt; 2                        0 2017-08-09        0.867           0.933       1     </span>
+<span class="co">#&gt; 3                        1 2014-06-28        0.347           0.353       0.374 </span>
+<span class="co">#&gt; 4                        1 2017-08-09        0.500           0.55        0.667 </span>
+<span class="co">#&gt; 5                        2 2014-06-28        0.17            0.175       0.19  </span>
+<span class="co">#&gt; 6                        3 2014-06-28        0.0867          0.0933      0.113 </span>
+<span class="co">#&gt; 7                        4 2014-06-28        0.07            0.08        0.0903</span></code></pre></div>
+<p>You can also get estimates of survival through time by individual or cohort:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/survival_table.html">survival_table</a></span><span class="op">(</span><span class="va">mod</span>, by_cohort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Joining, by = "pit_tag_id"</span>
+<span class="co">#&gt; Joining, by = "primary_period"</span>
+<span class="co">#&gt; # A tibble: 7 × 5</span>
+<span class="co">#&gt;   years_since_introduction release_date lo_survival median_survival hi_survival</span>
+<span class="co">#&gt;                      &lt;dbl&gt; &lt;date&gt;             &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1                        0 2014-06-28        0.6             0.627       0.673 </span>
+<span class="co">#&gt; 2                        0 2017-08-09        0.867           0.933       1     </span>
+<span class="co">#&gt; 3                        1 2014-06-28        0.347           0.353       0.374 </span>
+<span class="co">#&gt; 4                        1 2017-08-09        0.500           0.55        0.667 </span>
+<span class="co">#&gt; 5                        2 2014-06-28        0.17            0.175       0.19  </span>
+<span class="co">#&gt; 6                        3 2014-06-28        0.0867          0.0933      0.113 </span>
+<span class="co">#&gt; 7                        4 2014-06-28        0.07            0.08        0.0903</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/survival_table.html">survival_table</a></span><span class="op">(</span><span class="va">mod</span>, by_individual <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Joining, by = "pit_tag_id"</span>
+<span class="co">#&gt; Joining, by = "primary_period"</span>
+<span class="co">#&gt; # A tibble: 310 × 6</span>
+<span class="co">#&gt;    years_since_introduction release_date pit_tag_id      lo_survival median_survival</span>
+<span class="co">#&gt;                       &lt;dbl&gt; &lt;date&gt;       &lt;chr&gt;                 &lt;dbl&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1                        0 2014-06-28   900043000104502       1               1    </span>
+<span class="co">#&gt;  2                        0 2014-06-28   900043000104505       1               1    </span>
+<span class="co">#&gt;  3                        0 2014-06-28   900043000104510       1               1    </span>
+<span class="co">#&gt;  4                        0 2014-06-28   900043000104512       0.333           0.333</span>
+<span class="co">#&gt;  5                        0 2014-06-28   900043000104513       0               0    </span>
+<span class="co">#&gt;  6                        0 2014-06-28   900043000104516       0.333           0.333</span>
+<span class="co">#&gt;  7                        0 2014-06-28   900043000104520       0               0    </span>
+<span class="co">#&gt;  8                        0 2014-06-28   900043000104521       0.333           0.333</span>
+<span class="co">#&gt;  9                        0 2014-06-28   900043000104522       1               1    </span>
+<span class="co">#&gt; 10                        0 2014-06-28   900043000104524       1               1    </span>
+<span class="co">#&gt; # … with 300 more rows, and 1 more variable: hi_survival &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="custom-visualizations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-visualizations" class="anchor"></a>Custom visualizations</h2>
 <p>Any of the plotting functionality that you would expect from a <code>stanfit</code> model is available as well, by accessing the <code>m_fit</code> list element from a model object. For example, we could assess the posterior for the superpopulation size:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">m_fit</span>, pars <span class="op">=</span> <span class="st">"Nsuper"</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-mrmr_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
@@ -369,7 +375,7 @@
 <h2 class="hasAnchor">
 <a href="#cases-with-no-translocations" class="anchor"></a>Cases with no translocations</h2>
 <p>In some cases, there may not be any introductions of animals into a population. The only difference in implementation in such cases is that the <code>translocations</code> argument to <code><a href="../reference/clean_data.html">clean_data()</a></code> can be omitted:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_no_trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean_data.html">clean_data</a></span><span class="op">(</span><span class="va">captures</span>, <span class="va">surveys</span><span class="op">)</span>
 <span class="va">mod_no_trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span><span class="op">(</span><span class="va">data_no_trans</span><span class="op">)</span></code></pre></div>
 </div>
@@ -377,7 +383,7 @@
 <h2 class="hasAnchor">
 <a href="#cases-with-known-removals" class="anchor"></a>Cases with known removals</h2>
 <p>When individuals are removed from a population, e.g., for translocation, these known removals can be included as data to increase the precision of abundance estimates. An example dataset fitting this case is included at an imaginary site called “Equid”. Note below that we filter out dead animals – any dead animals encountered on surveys should be in the <code>removals</code> data, and not in the <code>captures</code> data frame, which should only contain live animals (those that might survive to the next primary period).</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">captures</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, 
                         <span class="st">"equid-captures.csv"</span>, 
                          package <span class="op">=</span> <span class="st">"mrmr"</span><span class="op">)</span> <span class="op">%&gt;%</span>
