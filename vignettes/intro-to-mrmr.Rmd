@@ -210,6 +210,18 @@ of years since introduction:
 survival_table(mod)
 ```
 
+You can also get estimates of survival through time by individual or cohort: 
+
+
+```{r survival-table-cohort}
+survival_table(mod, by_cohort = TRUE)
+```
+
+```{r survival-table-ind}
+survival_table(mod, by_individual = TRUE)
+```
+
+
 ## Custom visualizations
 
 Any of the plotting functionality that you would expect from a `stanfit` model
