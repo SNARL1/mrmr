@@ -457,7 +457,8 @@ clean_data <- function(captures, surveys,
                  prim_idx = rep(1:max(surveys$primary_period), J),
                  m_surv = ncol(X_surv),
                  X_surv = X_surv,
-                 any_recruitment = as.numeric(any_recruitment))
+                 any_recruitment = as.numeric(any_recruitment),
+                 grainsize = 1)
 
   list(stan_d = stan_d,
        captures = captures,

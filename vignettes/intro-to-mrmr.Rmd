@@ -40,7 +40,6 @@ The first file specifies capture data:
 library(dplyr)
 library(readr)
 library(tibble)
-library(rstan)
 library(mrmr)
 ```
 
@@ -157,12 +156,23 @@ We assume that individuals that are in the "not recruited" or "dead" states are 
 To fit a mark-recapture model, use `mrmr::fit_model()`. 
 This model accounts for known introductions into the population, and has 
 random effects to account for variation in survival and recruitment through time. 
-The example below uses two chains and relatively few iterations for speed, but 
-it is a good idea to run 3+ chains, and at least 1000 iterations.
+The example below uses few iterations for speed, but 
+it is a good idea to run 4 chains, and 1000 warmup and 1000 sampling iterations.
+
+To use within-chain parallelization, you must provide the following arguments: 
+
+- `cpp_options = list(stan_threads = TRUE)` which compiles the model with threading support
+- `threads_per_chain` set to some integer value > 1. I usually try to set this to a value that ensures that all physical cores are being used. For example, on a machine with 8 physical cores, I would run 4 chains, with 2 threads per chain. On a machine with 16 physical cores, you could run 4 chains with 4 threads per chain. 
 
 ```{r fit-model, message=FALSE, warning=FALSE, results='hide'}
-mod <- fit_model(data, cores = parallel::detectCores(), 
-                 chains = 2, iter = 200)
+mod <- fit_model(
+  data = data, 
+  parallel_chains = parallel::detectCores(), 
+  iter_warmup = 10, 
+  iter_sampling = 10, 
+  threads_per_chain = 1, 
+  cpp_options = list(stan_threads = TRUE)
+)
 ```
 
 To diagnose potential non-convergence of the MCMC algorithm, inspect traceplots:
@@ -173,14 +183,14 @@ pars_to_plot <- c('alpha_lambda',
                   'beta_phi', 
                   'sigma_phi', 
                   'beta_detect')
-traceplot(mod$m_fit, pars = pars_to_plot)
+bayesplot::mcmc_trace(mod$m_fit$draws(pars_to_plot))
 ```
 
 It is also a good idea to look at Rhat estimates to see whether they 
 indicate of a lack of convergence (Rhat values $\geq$ 1.01):
 
 ```{r print-model}
-print(mod$m_fit, pars = pars_to_plot)
+mod$m_fit$summary(pars_to_plot)
 ```
 
 ## Built-in visualizations
@@ -229,7 +239,7 @@ is available as well, by accessing the `m_fit` list element from a model object.
 For example, we could assess the posterior for the superpopulation size:
 
 ```{r}
-traceplot(mod$m_fit, pars = "Nsuper")
+bayesplot::mcmc_trace(mod$m_fit$draws("Nsuper"))
 ```
 
 ## Cases with no translocations
@@ -271,5 +281,5 @@ removals <- system.file("extdata",
   read_csv
 
 d <- clean_data(captures, surveys, removals = removals)
-m <- fit_model(d, cores = 2, chains = 2)
+m <- fit_model(d, parallel_chains = 2, chains = 2)
 ```

@@ -45,21 +45,29 @@ survival_table <- function(model, by_cohort = TRUE, by_individual = FALSE) {
               year = min(.data$year)) %>%
     ungroup
 
-  survival_summary <- model$post$s %>%
-    melt(varnames = c('iter', 'i', 'primary_period')) %>%
-    as_tibble %>%
-    mutate(pit_tag_id = dimnames(model$data$stan_d$Y)[[1]][.data$i]) %>%
+  survival_summary <- model$m_fit$draws("s", format = "draws_df") %>%
+    tidyr::pivot_longer(tidyselect::starts_with("s")) %>%
+    suppressWarnings() %>%
+    mutate(
+      get_numeric_indices(.data$name),
+      primary_period = .data$index_2,
+      pit_tag_id = dimnames(model$data$stan_d$Y)[[1]][.data$index_1]
+    ) %>%
     filter(.data$pit_tag_id %in% as.character(model$data$translocations$pit_tag_id)) %>%
     left_join(distinct(model$data$translocations,
                        .data$pit_tag_id, .data$release_date)) %>%
     left_join(primary_period_dates) %>%
     filter(.data$date > .data$release_date) %>%
-    mutate(years_since_introduction = lubridate::year(.data$date) -
-             lubridate::year(.data$release_date))
+    dplyr::transmute(
+      .data$.draw, .data$value, .data$primary_period, .data$pit_tag_id,
+      .data$release_date, .data$date, .data$year,
+      years_since_introduction = lubridate::year(.data$date) -
+        lubridate::year(.data$release_date)
+    )
 
 
   survival_summary <- survival_summary %>%
-    group_by(.data$years_since_introduction, .data$iter)
+    group_by(.data$years_since_introduction, .data$.draw)
 
   if (by_cohort) {
     survival_summary <- survival_summary %>%

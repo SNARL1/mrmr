@@ -16,6 +16,7 @@
 #' }
 #' @export
 #' @importFrom dplyr group_by summarize left_join ungroup filter distinct
+#' rename
 #' @importFrom ggplot2 ggplot geom_line geom_ribbon xlab ylab facet_wrap theme
 #' scale_color_brewer aes element_text scale_fill_brewer scale_x_date geom_point
 #' geom_vline geom_text geom_linerange
@@ -41,23 +42,32 @@ plot_model <- function(model, what) {
       summarize(date = min(.data$survey_date),
                 year = min(.data$year))
 
-    p <- model$post$s %>%
-      melt(varnames = c('iter', 'i', 'primary_period')) %>%
-      as_tibble %>%
-      mutate(pit_tag_id = dimnames(model$data$stan_d$Y)[[1]][.data$i]) %>%
+    transloc_dates <- distinct(
+      model$data$translocations,
+      .data$pit_tag_id,
+      .data$release_date
+    )
+
+    p <- model$m_fit$draws('s', format = "draws_df") %>%
+      tidyr::pivot_longer(tidyselect::starts_with('s')) %>%
+      suppressWarnings() %>%
+      mutate(get_numeric_indices(.data$name)) %>%
+      rename(
+        primary_period = .data$index_2
+      ) %>%
+      mutate(pit_tag_id = dimnames(model$data$stan_d$Y)[[1]][.data$index_1]) %>%
       filter(.data$pit_tag_id %in% as.character(model$data$translocations$pit_tag_id)) %>%
-      left_join(distinct(model$data$translocations,
-                         .data$pit_tag_id, .data$release_date)) %>%
-      group_by(.data$release_date, .data$primary_period, .data$iter) %>%
-      summarize(fraction_alive = mean(.data$value == 2)) %>%
-      ungroup %>%
+      left_join(transloc_dates, by = "pit_tag_id") %>%
+      group_by(.data$release_date, .data$primary_period, .data$.draw) %>%
+      summarize(fraction_alive = mean(.data$value == 2), .groups = "drop") %>%
       filter(.data$primary_period > 1) %>%
       left_join(primary_period_dates) %>%
       filter(.data$date >= .data$release_date) %>%
       group_by(.data$release_date, .data$date) %>%
       summarize(lo = quantile(.data$fraction_alive, .025),
                 med = median(.data$fraction_alive),
-                hi = quantile(.data$fraction_alive, .975)) %>%
+                hi = quantile(.data$fraction_alive, .975),
+                .groups = "drop") %>%
       ggplot(aes(.data$date, .data$med,
                  color = as.factor(.data$release_date),
                  fill = as.factor(.data$release_date))) +
@@ -78,15 +88,19 @@ plot_model <- function(model, what) {
     survey_prim_periods <- ungroup(survey_prim_periods)
 
     if (what == "abundance") {
-      p <- model$post$N %>%
-        reshape2::melt(varnames = c('iter', 'primary_period')) %>%
-        as_tibble %>%
-        mutate(primary_period = .data$primary_period + 1) %>%
+      p <- model$m_fit$draws("N", format = "draws_df") %>%
+        tidyr::pivot_longer(tidyselect::starts_with("N")) %>%
+        suppressWarnings() %>%
+        mutate(
+          get_numeric_indices(.data$name),
+          primary_period = .data$index_1 + 1
+        ) %>%
         group_by(.data$primary_period) %>%
         summarize(lo = quantile(.data$value, .025),
                   med = median(.data$value),
-                  hi = quantile(.data$value, .975)) %>%
-        left_join(survey_prim_periods) %>%
+                  hi = quantile(.data$value, .975),
+                  .groups = "drop") %>%
+        left_join(survey_prim_periods, by = "primary_period") %>%
         ggplot(aes(.data$survey_date, .data$med)) +
         geom_line() +
         geom_point() +
@@ -99,15 +113,19 @@ plot_model <- function(model, what) {
     }
 
     if (what == "recruitment") {
-      p <- model$post$B %>%
-        reshape2::melt(varnames = c('iter', 'primary_period')) %>%
-        as_tibble %>%
-        mutate(primary_period = .data$primary_period + 1) %>%
+      p <- model$m_fit$draws("B", format = "draws_df") %>%
+        tidyr::pivot_longer(tidyselect::starts_with("B")) %>%
+        suppressWarnings() %>%
+        mutate(
+          get_numeric_indices(.data$name),
+          primary_period = .data$index_1 + 1
+        ) %>%
         group_by(.data$primary_period) %>%
         summarize(lo = quantile(.data$value, .025),
                   med = median(.data$value),
-                  hi = quantile(.data$value, .975)) %>%
-        left_join(survey_prim_periods) %>%
+                  hi = quantile(.data$value, .975),
+                  .groups = "drop") %>%
+        left_join(survey_prim_periods, by = "primary_period") %>%
         ggplot(aes(.data$survey_date, .data$med)) +
         geom_line() +
         geom_point() +
@@ -139,4 +157,12 @@ plot_model <- function(model, what) {
   }
 
   return(p)
+}
+
+
+get_numeric_indices <- function(string) {
+  idx_mat <- stringr::str_extract_all(string, "[0-9]+", simplify = TRUE)
+  colnames(idx_mat) <- paste0("index_", seq_len(ncol(idx_mat)))
+  tibble::as_tibble(idx_mat) %>%
+    dplyr::mutate_all(readr::parse_integer)
 }
