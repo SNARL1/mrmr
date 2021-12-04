@@ -51,7 +51,7 @@ survival_table <- function(
 
   survival_summary <- model$m_fit$draws("s", format = "draws_df") %>%
     posterior::thin_draws(thin) %>%
-    pivot_longer(tidyselect::starts_with("s")) %>%
+    tidyr::pivot_longer(tidyselect::starts_with("s")) %>%
     suppressWarnings() %>%
     mutate(
       get_numeric_indices(.data$name),
