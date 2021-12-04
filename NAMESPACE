@@ -3,6 +3,7 @@
 export("%>%")
 export(clean_data)
 export(fit_model)
+export(get_numeric_indices)
 export(plot_model)
 export(survival_table)
 import(methods)

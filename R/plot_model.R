@@ -159,7 +159,10 @@ plot_model <- function(model, what) {
   return(p)
 }
 
-
+#' Get numeric indices from a string representation
+#' @param string input string
+#'
+#' @export
 get_numeric_indices <- function(string) {
   idx_mat <- stringr::str_extract_all(string, "[0-9]+", simplify = TRUE)
   colnames(idx_mat) <- paste0("index_", seq_len(ncol(idx_mat)))
