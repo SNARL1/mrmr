@@ -278,7 +278,7 @@ generated quantities {
     for (i in 1:M) {
       // fill in shared values
       for (t in 1:T) {
-        phi[t] = inv_logit(X_surv[i, ] * beta_phi + eps_phi[t] * sigma_phi);
+        phi[t] = inv_logit(X_surv[i, ] * beta_phi + eps_phi[t]);
         ps[1, t, 3] = 0;       // can't die before being alive
         ps[2, t, 1] = 0;       // can't unenter population
         ps[3, t, 1] = 0;
