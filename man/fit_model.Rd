@@ -33,7 +33,6 @@ fit_model(
   term_buffer = NULL,
   window = NULL,
   fixed_param = FALSE,
-  validate_csv = TRUE,
   show_messages = TRUE,
   compile = TRUE,
   ...
@@ -88,7 +87,7 @@ written to CSV is controlled by the user's CmdStan installation and not
 CmdStanR (for some algorithms no content may be written). The default
 is \code{FALSE}, which is appropriate for almost every use case. To save the
 temporary files created when \code{save_latent_dynamics=TRUE} see the
-\code{\link[cmdstanr:fit-method-save_output_files]{$save_latent_dynamics_files()}}
+\code{\link[cmdstanr:fit-method-save_latent_dynamics_files]{$save_latent_dynamics_files()}}
 method.}
 
 \item{output_dir}{(string) A path to a directory where CmdStan should write
@@ -217,18 +216,10 @@ quantities block. If the parameters block is empty then using
 \code{fixed_param=TRUE} is mandatory. When \code{fixed_param=TRUE} the \code{chains} and
 \code{parallel_chains} arguments will be set to \code{1}.}
 
-\item{validate_csv}{(logical) When \code{TRUE} (the default), validate the
-sampling results in the csv files. Disable if you wish to manually read in
-the sampling results and validate them yourself, for example using
-\code{\link[cmdstanr:read_cmdstan_csv]{read_cmdstan_csv()}}.}
-
 \item{show_messages}{(logical) When \code{TRUE} (the default), prints all
-informational messages, for example rejection of the current proposal.
-Disable if you wish to silence these messages, but this is not usually
-recommended unless you are very confident that the model is correct up to
-numerical error. If the messages are silenced then the
-\code{\link[cmdstanr:fit-method-output]{$output()}} method of the resulting fit object can be
-used to display all the silenced messages.}
+output during the sampling process, such as iteration numbers and elapsed times.
+If the output is silenced then the \code{\link[cmdstanr:fit-method-output]{$output()}} method of
+the resulting fit object can be used to display the silenced messages.}
 
 \item{compile}{(logical) Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
