@@ -67,7 +67,6 @@ fit_model <- function(
   term_buffer = NULL,
   window = NULL,
   fixed_param = FALSE,
-  validate_csv = TRUE,
   show_messages = TRUE,
   compile = TRUE,
   ...
@@ -108,7 +107,6 @@ fit_model <- function(
     term_buffer = term_buffer,
     window = window,
     fixed_param = fixed_param,
-    validate_csv = validate_csv,
     show_messages = show_messages
   )
 

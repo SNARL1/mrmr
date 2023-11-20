@@ -204,7 +204,7 @@ clean_data <- function(captures, surveys,
   J <- surveys %>%
     group_by(.data$primary_period) %>%
     summarize(n_sec_periods = max(.data$secondary_period)) %>%
-    select(.data$n_sec_periods) %>%
+    select("n_sec_periods") %>%
     unlist
 
   ever_detected <- transloc_tags %in% captures$pit_tag_id
@@ -218,10 +218,8 @@ clean_data <- function(captures, surveys,
   y_df <- captures %>%
     mutate(y = 2) %>%
     left_join(surveys) %>%
-    select(.data$pit_tag_id, .data$primary_period, .data$secondary_period,
-           .data$y) %>%
-    unite("survey_id", .data$primary_period, .data$secondary_period,
-          sep = '_') %>%
+    select(c("pit_tag_id", "primary_period", "secondary_period", "y")) %>%
+    unite("survey_id", c("primary_period", "secondary_period"), sep = '_') %>%
     # fill in implicit 'not detected' values y = 1
     complete(.data$pit_tag_id, .data$survey_id, fill = list(y = 1)) %>%
     separate(.data$survey_id,
@@ -233,8 +231,7 @@ clean_data <- function(captures, surveys,
 
   # augment y_df with new individuals
   y_df <- y_df %>%
-    unite("survey_identifier", .data$primary_period,
-          .data$secondary_period) %>%
+    unite("survey_identifier", c("primary_period", "secondary_period")) %>%
     full_join(y_aug) %>%
     complete(.data$pit_tag_id, .data$survey_identifier, fill = list(y = 1)) %>%
     filter(!is.na(.data$survey_identifier)) %>%
@@ -264,16 +261,14 @@ clean_data <- function(captures, surveys,
 
   y_df <- y_df %>%
     full_join(no_survey_df) %>%
-    unite("survey_id", .data$primary_period, .data$secondary_period,
-          sep = "_") %>%
+    unite("survey_id", c("primary_period", "secondary_period"), sep = "_") %>%
     complete(.data$pit_tag_id, .data$survey_id, fill = list(y = 0)) %>%
     separate(.data$survey_id,
              into = c('primary_period', 'secondary_period')) %>%
     mutate(primary_period = parse_number(.data$primary_period),
            secondary_period = parse_number(.data$secondary_period)) %>%
     full_join(surveys_with_no_captures) %>%
-    unite("survey_id", .data$primary_period, .data$secondary_period,
-          sep = "_") %>%
+    unite("survey_id", c("primary_period", "secondary_period"), sep = "_") %>%
     complete(.data$pit_tag_id, .data$survey_id, fill = list(y = 1)) %>%
     separate(.data$survey_id,
              into = c('primary_period', 'secondary_period')) %>%
@@ -403,7 +398,7 @@ clean_data <- function(captures, surveys,
     mutate(j_idx = 1:n())
 
   j_idx <- survey_number_df %>%
-    dplyr::select(.data$primary_period, .data$secondary_idx) %>%
+    dplyr::select(c("primary_period", "secondary_idx")) %>%
     full_join(p_df) %>%
     acast(primary_period ~ secondary_idx,
           fill = 0,

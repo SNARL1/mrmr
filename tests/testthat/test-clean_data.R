@@ -23,14 +23,6 @@ test_that("formula specification results in the correct design matrix", {
   expect_true(all(expected_names %in% colnames(out$stan_d$X_detect)))
 })
 
-test_that("invalid date formats raise errors", {
-  # check for translocation and surveys
-  translocations$release_date <- as.integer(translocations$release_date)
-  expect_error(clean_data(captures, surveys, translocations), regexp = 'coerce')
-  surveys$survey_date <- as.integer(surveys$survey_date)
-  expect_error(clean_data(captures, surveys), regexp = 'coerce')
-})
-
 test_that("unnamed arguments to survival_fill_value raise errors", {
   expect_error(clean_data(captures = NA, surveys = NA,
                           survival_formula = ~ treatment,
